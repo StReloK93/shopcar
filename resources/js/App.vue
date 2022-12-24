@@ -1,10 +1,8 @@
 <template>
-    <section class="w-80 bg-red-400 text-white">
-        hello moto
-        <HomePage></HomePage>
-    </section>
+    <Categories></Categories>
+    
 </template>
 
-<script setup>
-import HomePage from './pages/homePage.vue'
+<script setup lang="ts">
+import Categories from './pages/Categories.vue'
 </script>

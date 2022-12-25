@@ -1,4 +1,6 @@
 Mahsulot turlari
+
+
 Mahsulot razmerlari
 Mahsulotлар
 
@@ -10,9 +12,15 @@ Mahsulot turlari
 --Kuylak
 --Kurtka
 
+Razmer nomi
+id
+user_id
+name
 
-Mahsulot razmerlari
---29-30-31-32-33
+razmerlar
+razmer_id
+name --29-30-31-32-33
+
 --S,M,L,XL,XXL,XXXL
 --39-40-41-42-43-44-45-46
 
@@ -25,7 +33,7 @@ Mahsulot nomi
 
 
 Mahsulotлар
--Mahsulot ID
+-Mahsulot nomi ID
 -Mahsulot razmeri --Nullable
 -Mahsulot Miqdori
 

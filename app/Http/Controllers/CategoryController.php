@@ -13,8 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::whereNull('category_id')
-        ->where('user_id' , 1)
+        return Category::whereNull('category_id')->where('user_id' , 1)
         ->with('childrenCategories')
         ->get();
     }
@@ -32,7 +31,7 @@ class CategoryController extends Controller
             'user_id' => 1,
             'name' => $request->name
         ]);
-        return $category;
+        return Category::with('childrenCategories')->find($category->id);
     }
 
 
@@ -45,18 +44,7 @@ class CategoryController extends Controller
             'category_id' => $request->id,
         ]);
 
-        return $category;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return Category::with('childrenCategories')->find($category->id);
     }
 
     /**

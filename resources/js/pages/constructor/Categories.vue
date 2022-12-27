@@ -1,14 +1,16 @@
 <template>
     <section>
-        <h2 class="flex justify-between mb-3">
-            <span>
-                Categories
-            </span>
-        </h2>
-        <form @submit.prevent="createCategory" class="flex mb-3">
-            <input v-model="categories.name" class="border-b outline-none flex-grow p-2" required>
-            <button type="submit" class="bg-gray-200 px-2">+ Add</button>
-        </form>
+        <main class="w-96">
+            <h2 class="flex justify-between mb-3">
+                <span>
+                    Categories
+                </span>
+            </h2>
+            <form @submit.prevent="createCategory" class="flex mb-3">
+                <input v-model="categories.name" class="border-b outline-none flex-grow p-2" required>
+                <button type="submit" class="bg-gray-200 px-2">+ Add</button>
+            </form>
+        </main>
         <ul v-if="categories.children_categories.length">
             <TreeItem v-for="category in categories.children_categories" :key="category.id" :category="category" @delete="deleteCategory"></TreeItem>
         </ul>

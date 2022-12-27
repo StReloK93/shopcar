@@ -5,6 +5,9 @@ module.exports = {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
+  safelist: [
+    'router-link-active',
+  ],
   theme: {
     extend: {},
   },

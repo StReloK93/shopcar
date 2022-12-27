@@ -1,7 +1,7 @@
 <template>
     <section>
         <HeaderVue></HeaderVue>
-        <router-view class=""></router-view>
+        <router-view></router-view>
     </section>
 </template>
 

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('size_names', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('name')->default('size');
+            $table->string('name')->default('size name');
             $table->timestamps();
         });
     }

@@ -13,4 +13,10 @@ class SizeName extends Model
         'user_id',
         'name'
     ];
+
+
+    public function sizes()
+    {
+        return $this->hasMany(Size::class);
+    }
 }

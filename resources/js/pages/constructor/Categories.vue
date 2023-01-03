@@ -6,14 +6,15 @@
                     Categories
                 </span>
             </h2>
-            <form @submit.prevent="createCategory" class="flex mb-3">
-                <input v-model="categories.name" class="border-b outline-none flex-grow p-2" required>
-                <button type="submit" class="bg-gray-200 px-2">+ Add</button>
-            </form>
         </main>
         <ul v-if="categories.children_categories.length">
             <TreeItem v-for="category in categories.children_categories" :key="category.id" :category="category" @delete="deleteCategory"></TreeItem>
         </ul>
+        <form @submit.prevent="createCategory">
+            <button class="px-2 py-1 bg-gray-200 shadow rounded active:bg-gray-300 active:shadow-sm">
+                <i class="fal fa-plus-circle"></i>
+            </button>
+        </form>
     </section>
 </template>
 
@@ -23,16 +24,13 @@ import TreeItem from '@/components/TreeItem.vue';
 import axios from '../../modules/axios'
 
 const categories = reactive({
-    name: '',
     children_categories: []
 })
 
 function createCategory(){
-    axios.post('/categories', {name: categories.name}).then(res => {
+    axios.post('/categories', {name: 'category'}).then(res => {
         categories.children_categories.push(res.data)
     })
-
-    categories.name = ""
 }
 
 function deleteCategory(category){

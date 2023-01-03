@@ -15,11 +15,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-
-        $category = Category::create([
-            'user_id' => 1,
-            'name' => $request->name
-        ]);
+        $category = Category::create(['user_id' => 1,'name' => $request->name]);
         return Category::with('childrenCategories')->find($category->id);
     }
 

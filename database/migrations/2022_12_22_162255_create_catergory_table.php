@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('name')->default('product');
+            $table->string('name')->default('category');
             $table->bigInteger('category_id')->nullable();
             $table->timestamps();
         });

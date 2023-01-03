@@ -26,7 +26,7 @@ export default [
 			{
 				path: 'sizes',
 				name: 'sizes',
-				component: () => import('@/pages/constructor/Sizes.vue')
+				component: () => import('@/pages/constructor/SizeNames.vue')
 			},
 		]
 	},

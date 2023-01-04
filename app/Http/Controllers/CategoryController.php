@@ -8,9 +8,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Category::whereNull('category_id')->where('user_id' , 1)
-        ->with('childrenCategories')
-        ->get();
+        return Category::whereNull('category_id')->where('user_id' , 1)->with('childrenCategories')->get();
     }
 
     public function store(Request $request)
@@ -34,9 +32,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        Category::find($id)->update([
-            'name' => $request->name
-        ]);
+        Category::find($id)->update(['name' => $request->name]);
     }
 
     public function destroy($id)

@@ -1,14 +1,12 @@
 <template>
     <section>
-        <h3>
-            Sizes
-        </h3>
+        <h3>Sizes</h3>
         <main v-if="SizeNames.length">
-            <SizesVue v-for="size in SizeNames" :key="size.id" :SizeNames="size" @delete="deleteSizeName"></SizesVue>
+            <SizesVue v-for="size in SizeNames" :key="size.id" :SizeNames="size" @deleted="deleteSizeName"></SizesVue>
         </main>
         <form @submit.prevent="addSize">
-            <button class="px-2 py-1 bg-gray-200 shadow rounded active:bg-gray-300 active:shadow-sm">
-                <i class="fal fa-plus-circle"></i>
+            <button class="px-2 py-1 bg-gray-200 shadow rounded active:bg-gray-300 active:shadow-sm flex items-center">
+                New Size <i class="fal fa-plus-circle ml-3 relative top-[2px]"></i>
             </button>
         </form>
     </section>

@@ -3,8 +3,11 @@
         <div class="mb-2">
             <router-link class="underline" :to="{name: 'home'}">Home</router-link>
         </div>
-        <div>
-            <router-link class="underline" :to="{name: 'constructor'}">constructor</router-link>
+        <div class="mb-2">
+            <router-link class="underline" :to="{name: 'constructor'}">Constructor</router-link>
+        </div>
+        <div class="mb-2">
+            <router-link class="underline" :to="{name: 'introduction'}">Introduction</router-link>
         </div>
         <!-- <router-link :to="{name: 'reception'}">reception</router-link> -->
     </nav>

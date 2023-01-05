@@ -44,7 +44,7 @@
                     <i v-else class="fal fa-angle-right"></i>
                 </button>
             </div>
-            <button @click="addSize(SizeNames)" class="px-2 py-1 bg-gray-200 border-gray-300 border shadow rounded-sm active:bg-gray-300 active:shadow-sm">
+            <button @click="createSize(SizeNames)" class="px-2 py-1 bg-gray-200 border-gray-300 border shadow rounded-sm active:bg-gray-300 active:shadow-sm">
                 <i class="far fa-plus px-0.5 text-teal-600"></i>
             </button>
         </main>
@@ -87,7 +87,7 @@ function updateSizeName(SizeNames) {
     })
 }
 
-function addSize(SizeNames){
+function createSize(SizeNames){
     axios.post('/sizes', SizeNames).then((res) => {
         SizeNames.sizes.push(res.data)
         isOpen.value = true

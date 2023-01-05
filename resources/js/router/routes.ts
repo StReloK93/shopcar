@@ -1,8 +1,16 @@
 export default [
     {
 		path: '/',
-		component: () => import('@/pages/Home.vue'),
+		component: () => import('@/pages/introduction/Introduction.vue'),
 		name: 'home',
+        meta: {
+			guard: 'auth',
+		},
+	},
+    {
+		path: '/introduction',
+		component: () => import('@/pages/introduction/Introduction.vue'),
+		name: 'introduction',
         meta: {
 			guard: 'auth',
 		},

@@ -15,7 +15,7 @@ id
 user_id
 name
 
-razmerlar
+Razmerlar
 razmer_id
 name --29-30-31-32-33
 
@@ -27,6 +27,7 @@ name --29-30-31-32-33
 Mahsulot nomi
 -Mahsulot nomi
 -Mahsulot turi
+-Razmer nomi
 -Mahsulot tan narxi
 
 

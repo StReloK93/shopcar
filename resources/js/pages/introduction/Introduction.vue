@@ -2,17 +2,30 @@
     <section>
         <form @submit.prevent="createProductName" class="w-60">
             <div>
-                <input type="text" v-model="FormData.name" class="border-b border-gray-200 w-full outline-none py-0.5 px-2" placeholder="name">
+                <input type="text" v-model="FormData.name"
+                    class="border-b border-gray-200 w-full outline-none py-0.5 px-2" placeholder="name">
             </div>
             <div>
                 <ul v-if="PageData.categories.length">
-                    <TreeItemFree v-for="category in PageData.categories" :key="category.id" :Categories="PageData.categories" :category="category" :FormData="FormData"></TreeItemFree>
+                    <TreeItemFree v-for="category in PageData.categories" :key="category.id"
+                        :Categories="PageData.categories" :category="category" :FormData="FormData"></TreeItemFree>
                 </ul>
             </div>
             <div>
-                <v-select :options="PageData.sizeNames" :reduce="sizeNames => sizeNames.id" v-model="FormData.size_names_id" label="name" placeholder="select size"></v-select>
+                <vSelect
+                    class="selects mb-2" 
+                    :options="PageData.sizeNames"
+                    @update:modelValue="update"
+                    :reduce="sizeNames => sizeNames.id"
+                    v-model="FormData.size_names_id" 
+                    label="name" 
+                    placeholder="Select"
+                ></vSelect>
             </div>
-            <button type="submit" class="px-2 py-0.5 bg-gray-200 mt-1 rounded-sm w-full shadow-sm active:bg-gray-300">
+            <main v-if="PageData.sizes.length" class="flex w-screen mb-2">
+                <button v-for="size in PageData.sizes" class="w-16 py-0.5 bg-gray-200 mr-1.5 rounded shadow-sm border-gray-300 border flex items-center justify-center uppercase">{{ size.name }}</button>
+            </main>
+            <button type="submit" class="px-2 py-0.5 bg-gray-200 rounded-sm w-full shadow-sm active:bg-gray-300">
                 Create
             </button>
         </form>
@@ -21,26 +34,24 @@
 
 <script setup lang="ts">
 import TreeItemFree from '../../components/TreeItemFree.vue'
-import vSelect from 'vue-select'
-import { reactive, h } from 'vue'
+import { reactive } from 'vue'
 import axios from '../../modules/axios'
-import 'vue-select/dist/vue-select.css'
 
-
-vSelect.props.components.default = () => ({
-  Deselect: {
-    render: () => h('i', {class: "far fa-times"}, ""),
-  },
-  OpenIndicator: {
-    render: () => h('i', {class: "far fa-angle-down relative top-px right-px"}, ""),
-  },
-});
-
-
-const PageData:any = reactive({
+const PageData: any = reactive({
     categories: [],
-    sizeNames: []
+    sizeNames: [],
+    sizes: []
 })
+
+
+function update(selected){
+    if(selected == null) return PageData.sizes = []
+    const sizeName = PageData.sizeNames.find(sizeName => sizeName.id == selected)
+    PageData.sizes = sizeName.sizes
+}
+
+
+
 
 const FormData = reactive({
     name: '',
@@ -48,22 +59,22 @@ const FormData = reactive({
     size_names_id: null,
 })
 
-function createProductName(){
-    
+function createProductName() {
+
     console.log(FormData);
-    
+
 }
 
 axios.get('categories').then((res) => PageData.categories = res.data)
 axios.get('sizenames').then((res) => PageData.sizeNames = res.data)
-
-
 </script>
 
 <style scoped>
 /* * {-webkit-tap-highlight-color: rgba(0, 0, 0, 0)} */
 
->>> {
+:deep(.selects) {
+
+    
     --vs-colors--lightest: rgba(60, 60, 60, 0.26);
     --vs-colors--light: rgba(60, 60, 60, 0.5);
     --vs-colors--dark: #333;
@@ -72,7 +83,7 @@ axios.get('sizenames').then((res) => PageData.sizeNames = res.data)
     /* Search Input */
     --vs-search-input-color: inherit;
     --vs-search-input-bg: rgb(255, 255, 255);
-    --vs-search-input-placeholder-color: inherit;
+    --vs-search-input-placeholder-color: #aaa;
 
     /* Font */
     --vs-font-size: 1rem;
@@ -111,7 +122,7 @@ axios.get('sizenames').then((res) => PageData.sizeNames = res.data)
     --vs-dropdown-z-index: 1000;
     --vs-dropdown-min-width: 160px;
     --vs-dropdown-max-height: 350px;
-    --vs-dropdown-box-shadow: 0px 3px 6px 0px var(--vs-colors--darkest);
+    --vs-dropdown-box-shadow: 0px 1px 2px 0px var(--vs-colors--darkest);
 
     /* Options */
     --vs-dropdown-option-bg: #000;

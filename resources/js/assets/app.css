@@ -5,6 +5,6 @@
 
 @layer components {
   .router-link-active {
-    @apply text-blue-500;
+    @apply text-pink-500;
   }
 }

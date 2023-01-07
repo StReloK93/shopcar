@@ -1,15 +1,15 @@
 export default [
     {
 		path: '/',
-		component: () => import('@/pages/introduction/Introduction.vue'),
-		name: 'home',
+		component: () => import('@/pages/sale/IndexSale.vue'),
+		name: 'sale',
         meta: {
 			guard: 'auth',
 		},
 	},
     {
 		path: '/introduction',
-		component: () => import('@/pages/introduction/Introduction.vue'),
+		component: () => import('@/pages/introduction/IndexIntroduction.vue'),
 		name: 'introduction',
         meta: {
 			guard: 'auth',
@@ -17,7 +17,7 @@ export default [
 	},
 	{
 		path: '/constructor',
-		component: () => import('@/pages/constructor/Constructor.vue'),
+		component: () => import('@/pages/constructor/IndexConstructor.vue'),
 		name: 'constructor',
         meta: {
 			guard: 'constructor',

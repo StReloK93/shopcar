@@ -2,7 +2,12 @@
     <li class="my-2">
         <form class="flex items-center" @submit.prevent="updateCategory(category)">
             <div @click="toggle" :class="{'cursor-pointer': isFolder && category.disabled}" class="flex items-center justify-between bg-gray-100 w-72">
-                <input :class="{'!border-teal-600 shadow-inner':category.disabled == false , 'cursor-pointer': isFolder && category.disabled }" type="text" v-model="category.name" class="border-b border-transparent outline-none py-0.5 px-2 w-32" :disabled="category.disabled">
+                <input 
+                    :class="{'!border-teal-600 shadow-inner':category.disabled == false , 'cursor-pointer': isFolder && category.disabled }" 
+                    type="text" v-model="category.name" 
+                    class="border-b border-transparent outline-none py-0.5 px-2 w-32" 
+                    :disabled="category.disabled"
+                >
                 <i v-if="isFolder" :class="{'rotate-180': isOpen, 'text-gray-300': category.disabled == false}" class="mx-2 far fa-angle-down"></i>
             </div>
             <main class="ml-3">

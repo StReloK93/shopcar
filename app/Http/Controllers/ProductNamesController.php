@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\ProductNames;
 class ProductNamesController extends Controller
 {
+    //get
+    public function index(){
+        return ProductNames::where('user_id', 1)->with('products')->get();
+    }
+
+
     // create
     public function store(Request $request)
     {
@@ -13,25 +19,22 @@ class ProductNamesController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'size_names_id' => $request->size_names_id,
+            'user_id' => 1,
         ]);
 
-        // return Size::create([
-            
-        //     'name' => 'size',
-        // ])->fresh();
     }
 
     // update
     public function update(Request $request, $id)
     {
 
-        Size::find($id)->update(['name' => $request->name]);
 
     }
 
     // delete
     public function destroy($id)
     {
-        Size::destroy($id);
+
+
     }
 }

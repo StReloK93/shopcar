@@ -71,7 +71,7 @@
                 </label>
                 <Size :FormData="FormData"></Size>
                 <button
-                    :class="{'!bg-gray-200': CategoryIsNull , 'bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
+                    :class="{'!bg-gray-200': CategoryIsNull , '!bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
                     :disabled="CategoryIsNull" 
                     type="submit" 
                     class="px-2 py-0.5 bg-gray-300 rounded-sm w-full shadow active:bg-gray-200">
@@ -81,7 +81,7 @@
                     It is necessary to fill in all the fields!!
                 </div>
             </form>
-            <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview>
+            <!-- <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview> -->
         </main>
     </section>
 </template>
@@ -98,20 +98,28 @@ const needFormComplete = ref(false)
 // Component Variables
 const PageData: any = reactive({categories: [],sizeNames: []})
 // formdata for axios
-const FormData: any = reactive({ name: '', original_price: '', price: '', category_id: null, category_name: null , size_names_id: null, sizes: []})
-// all inputs completed
-const FormComplete = computed(() => FormData.name.trim() != "" && FormData.original_price != "" && FormData.price != "" && FormData.size_names_id != null && sizesCount.value != 0)
-
-const CategoryIsNull = computed(() => FormData.category_id == null)
-const sizesCount = computed(() => {
-    if(FormData.sizes.length == 0) return 0
-    else return FormData.sizes.reduce((current, size) => current + +size.count, 0)
+const FormData: any = reactive({ 
+    name: '',
+    original_price: '', 
+    price: '', 
+    category_id: null, 
+    category_name: null , 
+    size_names_id: null, 
+    sizes: []
 })
 
+
 function createProductName() {
-    console.log(FormData);
     if(FormComplete.value) {
-        // axios.post('/')
+        axios.post('/productnames', FormData).then((res) => {
+            FormData.name = ""
+            FormData.original_price = ""
+            FormData.price = ""
+            FormData.category_id = null
+            FormData.category_name = null
+            FormData.size_names_id = null
+            FormData.sizes = []
+        })
     }
     else{
         needFormComplete.value = true
@@ -120,14 +128,25 @@ function createProductName() {
         }, 3000);
     }
 }
-axios.all([axios.get('categories'), axios.get('sizenames')])
-.then(axios.spread((categories, sizenames) => {
+
+
+axios.all([axios.get('categories'), axios.get('sizenames')]).then(axios.spread((categories, sizenames) => {
     PageData.categories = categories.data
     PageData.sizeNames = sizenames.data
 }));
+
+
+
+
+
+
+// all inputs completed
+const FormComplete = computed(() => FormData.name.trim() != "" && FormData.original_price != "" && FormData.price != "" && FormData.size_names_id != null && sizesCount.value != 0)
+
+const CategoryIsNull = computed(() => FormData.category_id == null)
+const sizesCount = computed(() => {
+    if(FormData.sizes.length == 0) return 0
+    else return FormData.sizes.reduce((current, size) => current + +size.count, 0)
+})
 </script>
-
-
-
-
 <style scoped src="../../modules/selected.css"></style>

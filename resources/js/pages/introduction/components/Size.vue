@@ -27,12 +27,12 @@
         <button type="button" class="text-center py-1 hover:bg-gray-100 rounded-sm mb-1">
             <i class="far fa-angle-up"></i>
         </button>
-        <aside class="bg-gray-200 rounded shadow flex flex-col items-center justify-between uppercase">
+        <aside class="bg-gray-200 rounded shadow flex flex-col items-center justify-between">
             <span class="w-9 text-center py-1">
                 1000
             </span>
             <span class="w-9 text-center py-1 bg-gray-100 text-gray-300">
-                X
+                Кол
             </span>
         </aside>
         <button type="button" class="text-center py-1 hover:bg-gray-100 rounded-sm mt-1">

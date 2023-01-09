@@ -1,14 +1,17 @@
 <template>
-    <section class="h-screen flex flex-col">
-        <main class="p-4 flex-grow flex">
-            <Router-view></Router-view>
-            <HeaderVue></HeaderVue>
-        </main>
+    <section class="h-screen flex p-4">
+        <section v-if="$state.products">
+          {{ $state.products }}
+        </section>
+        <HeaderVue class="w-32"></HeaderVue>
+        <Router-view class="flex-grow"></Router-view>
     </section>
 </template>
 
 <script setup lang="ts">
-import HeaderVue from './Header.vue';
+import HeaderVue from './Header.vue'
+import { useProductsStore } from '../store/ProductPrint';
+const { $state } = useProductsStore()
 </script>
 <style>
 @page {
@@ -19,6 +22,12 @@ import HeaderVue from './Header.vue';
   box-sizing: border-box;
   height: 29.5mm;
   width: 40mm;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 @media print {

@@ -89,11 +89,15 @@
 <script setup lang="ts">
 import { reactive, computed , ref } from 'vue'
 import TreeItemFree from './components/TreeItemFree.vue'
+import { useProductsStore } from '../../store/ProductPrint'
 import Validate from './components/Validate.vue'
 import Select from './components/Select.vue'
 import Preview from './components/PreviewIntro.vue'
 import Size from './components/Size.vue'
 import axios from '../../modules/axios'
+
+const store = useProductsStore()
+
 const needFormComplete = ref(false)
 interface pageData{
     categories: Array<any>,
@@ -114,7 +118,6 @@ const FormData: any = reactive({
 
 
 function createProductName() {
-    console.log(FormData);
     
     if(FormComplete.value) {
         axios.post('/productnames', FormData).then((res) => {
@@ -125,6 +128,11 @@ function createProductName() {
             FormData.category_name = null
             FormData.size_names_id = null
             FormData.sizes = []
+
+            store.$state.products = res.data
+
+            console.log(store.$state.products);
+
         })
     }
     else{

@@ -17,25 +17,25 @@ class ProductNamesObserver
     public function created(ProductNames $productNames)
     {
 
-        $request = request();
-        $array = [];
-        foreach ($request->sizes as $key => $size) {
+        // $request = request();
+        // $array = [];
+        // foreach ($request->sizes as $key => $size) {
 
-            if($size['count'] != 0){
-                $array[] = [
-                    'product_names_id' => $productNames->id,
-                    'size_id' => $size['id'],
-                    'original_price' => $request->original_price,
-                    'price' => $request->price,
-                    'count' => $size['count'],
-                    'created_at' => now(),
-                ];
-            }
+        //     if($size['count'] != 0){
+        //         $array[] = [
+        //             'product_names_id' => $productNames->id,
+        //             'size_id' => $size['id'],
+        //             'original_price' => $request->original_price,
+        //             'price' => $request->price,
+        //             'count' => $size['count'],
+        //             'created_at' => now(),
+        //         ];
+        //     }
 
-        }
+        // }
 
-        //
-        Product::insert($array);
+        // //
+        // Product::insert($array);
     }
 
     /**

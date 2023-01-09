@@ -1,5 +1,5 @@
 <template>
-    <nav class="shadow-sm border-b p-4 flex">
+    <nav class="p-4">
         <div class="mr-4">
             <router-link class="underline" :to="{name: 'sale'}">Sale</router-link>
         </div>

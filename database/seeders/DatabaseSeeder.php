@@ -53,8 +53,12 @@ class DatabaseSeeder extends Seeder
 
         SizeName::insert([
             [
+                'user_id' => null,
+                'name'=>'Quantity',
+            ],
+            [
                 'user_id' => 1,
-                'name'=>'standart',
+                'name'=>'Standart',
             ],
             [
                 'user_id' => 1,
@@ -65,26 +69,34 @@ class DatabaseSeeder extends Seeder
         Size::insert([
             [
                 'size_name_id' => 1,
+                'name'=>'qty',
+            ],
+        ]);
+
+
+        Size::insert([
+            [
+                'size_name_id' => 3,
                 'name'=>'S',
             ],
             [
-                'size_name_id' => 1,
+                'size_name_id' => 3,
                 'name'=>'M',
             ],
             [
-                'size_name_id' => 1,
+                'size_name_id' => 3,
                 'name'=>'L',
             ],
             [
-                'size_name_id' => 1,
+                'size_name_id' => 3,
                 'name'=>'XL',
             ],
             [
-                'size_name_id' => 1,
+                'size_name_id' => 3,
                 'name'=>'2XL',
             ],
             [
-                'size_name_id' => 1,
+                'size_name_id' => 3,
                 'name'=>'3XL',
             ]
         ]);

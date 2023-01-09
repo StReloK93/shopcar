@@ -1,8 +1,8 @@
 <template>
     <section class="h-screen flex flex-col">
-        <HeaderVue></HeaderVue>
-        <main class="p-4 flex-grow">
+        <main class="p-4 flex-grow flex">
             <Router-view></Router-view>
+            <HeaderVue></HeaderVue>
         </main>
     </section>
 </template>

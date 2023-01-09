@@ -10,7 +10,7 @@ class SizeNameController extends Controller
     public function index()
     {
 
-        return SizeName::where(['user_id' => 1])->with('sizes')->get();
+        return SizeName::where(['user_id' => 1])->orWhereNull('user_id')->with('sizes')->get();
         
     }
 

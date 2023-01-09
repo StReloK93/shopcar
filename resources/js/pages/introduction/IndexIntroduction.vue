@@ -95,8 +95,12 @@ import Preview from './components/PreviewIntro.vue'
 import Size from './components/Size.vue'
 import axios from '../../modules/axios'
 const needFormComplete = ref(false)
+interface pageData{
+    categories: Array<any>,
+    sizeNames: Array<any>
+}
 // Component Variables
-const PageData: any = reactive({categories: [],sizeNames: []})
+const PageData: pageData = reactive({categories: [],sizeNames: []})
 // formdata for axios
 const FormData: any = reactive({ 
     name: '',
@@ -110,6 +114,8 @@ const FormData: any = reactive({
 
 
 function createProductName() {
+    console.log(FormData);
+    
     if(FormComplete.value) {
         axios.post('/productnames', FormData).then((res) => {
             FormData.name = ""
@@ -149,4 +155,4 @@ const sizesCount = computed(() => {
     else return FormData.sizes.reduce((current, size) => current + +size.count, 0)
 })
 </script>
-<style scoped src="../../modules/selected.css"></style>
+<style scoped src="../../assets/selected.css"></style>

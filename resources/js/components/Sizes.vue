@@ -10,7 +10,7 @@
                 <i :class="{ 'rotate-180': isOpen, 'text-gray-300': SizeNames.disabled == false }"
                     class="mx-2 far fa-angle-down"></i>
             </div>
-            <main class="ml-2">
+            <main v-if="SizeNames.user_id != null" class="ml-2">
                 <button v-if="SizeNames.disabled" @click="SizeNames.disabled = !SizeNames.disabled" type="button"
                     class="text-teal-500 bg-gray-100 px-2 py-0.5 rounded-sm">
                     <i class="fas fa-pen-nib text-sm"></i>
@@ -28,7 +28,7 @@
                 <input @keydown.enter="editSize(size)" :class="{ '!border-teal-600 shadow-inner': size.disabled == false, 'cursor-pointer': size.disabled }"
                     v-model="size.name" class="border-b border-transparent outline-none py-0.5 px-1 w-10"
                     :disabled="size.disabled">
-                <aside v-if="size.opened">
+                <aside v-if="size.opened && SizeNames.user_id != null">
                     <button v-if="size.disabled" @click="size.disabled = !size.disabled" class="text-teal-500 px-2 rounded-sm">
                         <i class="fas fa-pen-nib text-sm"></i>
                     </button>
@@ -39,12 +39,12 @@
                         <i class="far fa-times"></i>
                     </button>
                 </aside>
-                <button @click="openCurrentCloseOther(SizeNames.sizes, size)" class="px-3">
+                <button v-if="SizeNames.user_id != null" @click="openCurrentCloseOther(SizeNames.sizes, size)" class="px-3">
                     <i v-if="size.opened" class="fal fa-angle-left"></i>
                     <i v-else class="fal fa-angle-right"></i>
                 </button>
             </div>
-            <button @click="createSize(SizeNames)" class="px-2 py-1 bg-gray-200 border-gray-300 border shadow rounded-sm active:bg-gray-300 active:shadow-sm">
+            <button v-if="SizeNames.user_id != null" @click="createSize(SizeNames)" class="px-2 py-1 bg-gray-200 border-gray-300 border shadow rounded-sm active:bg-gray-300 active:shadow-sm">
                 <i class="far fa-plus px-0.5 text-teal-600"></i>
             </button>
         </main>

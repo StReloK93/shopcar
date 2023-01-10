@@ -1,17 +1,18 @@
 <template>
     <div>
-        <JsBarcodeVue
-            class="male bg-gray-100"
-            v-for="product in $state.productName.products" 
-            :product="product" 
-            :productName="$state.productName"
-        ></JsBarcodeVue>
+        <span v-for="product in $state.productName.products" >
+            <JsBarcodeVue v-for="count in product.count"
+                class="male bg-gray-100"
+                :product="product" 
+                :productName="$state.productName"
+            ></JsBarcodeVue>
+        </span>
     </div>
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useProductStore, } from '../store/ProductPrint'
-import JsBarcodeVue from './JsBarcode.vue'
+import { useProductStore, } from '../../store/ProductPrint'
+import JsBarcodeVue from '../JsBarcode.vue'
 const { $state } = useProductStore()
 
 onMounted(() => {

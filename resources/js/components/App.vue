@@ -1,6 +1,6 @@
 <template>
-	<PrintProduct class="print absolute top-0 left-0 w-full z-50 hidden" v-if="$state.productName"></PrintProduct>
-	<RightMenu class="noprint"></RightMenu>
+	<PrintProduct class="print absolute top-0 left-0 hidden z-50" v-if="$state.productName"></PrintProduct>
+	<RightMenu    class="noprint"></RightMenu>
 	<section class="h-screen flex flex-col p-1 pt-0 noprint">
 		<h3 class="text-xl py-2 text-white px-3 capitalize bg-pink-500">{{$route.name}}</h3>
 		<Router-view class="flex-grow bg-zinc-50 p-3 shadow"></Router-view>
@@ -9,7 +9,8 @@
 
 <script setup lang="ts">
 import RightMenu from './RightMenu.vue'
-import PrintProduct from './PrintProduct.vue'
+import PrintProduct from './product/PrintProduct.vue'
 import { useProductStore } from '../store/ProductPrint';
 const { $state } = useProductStore()
+window.onafterprint =  () => {$state.productName = null}
 </script>

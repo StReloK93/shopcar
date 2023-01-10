@@ -47,7 +47,7 @@
                     <span>Sizes</span>
                     <Validate :FormData="FormData" keyname="sizes" :value="sizesCount" :inputType="'array'"></Validate>
                 </label>
-                <Size :FormData="FormData"></Size>
+                <Size :FormData="FormData" :isProduct="false"></Size>
                 <button
                     :class="{ '!bg-gray-200': CategoryIsNull, '!bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
                     :disabled="CategoryIsNull" type="submit"
@@ -65,13 +65,14 @@
 </template>
 
 <script setup lang="ts">
-import Preview from './components/PreviewIntro.vue'
-import { reactive, computed, ref } from 'vue'
-import TreeItemFree from './components/TreeItemFree.vue'
+import ProductsNames from '../../components/Product/ProductsNames.vue'
 import { useProductStore } from '../../store/ProductPrint'
+import { reactive, computed, ref } from 'vue'
+
+import Preview from './components/PreviewIntro.vue'
+import TreeItemFree from './components/TreeItemFree.vue'
 import Validate from './components/Validate.vue'
 import Select from './components/Select.vue'
-import ProductsNames from '../../components/ProductsNames.vue'
 import Size from './components/Size.vue'
 import axios from '../../modules/axios'
 
@@ -84,7 +85,11 @@ interface pageData {
     productNames: Array<any>
 }
 // Component Variables
-const PageData: pageData = reactive({ categories: [], sizeNames: [], productNames: [] })
+const PageData: pageData = reactive({ 
+    categories: [],
+    sizeNames: [],
+    productNames: [] 
+})
 // formdata for axios
 const FormData: any = reactive({
     name: '',
@@ -93,7 +98,7 @@ const FormData: any = reactive({
     category_id: null,
     category_name: null,
     size_names_id: null,
-    sizes: []
+    products: []
 })
 
 
@@ -107,16 +112,16 @@ function createProductName() {
             FormData.category_id = null
             FormData.category_name = null
             FormData.size_names_id = null
-            FormData.sizes = []
+            FormData.products = []
 
-            $state.productName = res.data
+
+            $state.productName = null
+            setTimeout(() => $state.productName = res.data)
         })
     }
     else {
         needFormComplete.value = true
-        setTimeout(() => {
-            needFormComplete.value = false
-        }, 3000);
+        setTimeout(() => needFormComplete.value = false, 3000);
     }
 }
 
@@ -133,8 +138,8 @@ const FormComplete = computed(() => FormData.name.trim() != "" && FormData.origi
 
 const CategoryIsNull = computed(() => FormData.category_id == null)
 const sizesCount = computed(() => {
-    if (FormData.sizes.length == 0) return 0
-    else return FormData.sizes.reduce((current, size) => current + +size.count, 0)
+    if (FormData.products.length == 0) return 0
+    else return FormData.products.reduce((current, size) => current + +size.count, 0)
 })
 </script>
 <style scoped src="../../assets/selected.css">

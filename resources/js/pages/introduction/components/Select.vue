@@ -13,12 +13,12 @@
 <script setup lang="ts">
 const { FormData, PageData} = defineProps(['FormData','PageData'])
 function update(selected){
-    FormData.sizes = []
+    FormData.products = []
     if(selected == null) return 
     const { sizes } = PageData.sizeNames.find(sizeName => sizeName.id == selected)
 
     sizes.forEach((size:any) => {
-        FormData.sizes.push({
+        FormData.products.push({
             id: size.id,
             name: size.name,
             count: 0,

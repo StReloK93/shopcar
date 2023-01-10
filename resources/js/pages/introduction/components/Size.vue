@@ -1,6 +1,7 @@
 <template>
-    <main v-if="FormData.sizes.length != 0" class="flex min-w-min mb-2">
-        <div v-for="size in FormData.sizes" class="flex flex-col mr-1.5">
+    <main v-if="FormData.products.length != 0" 
+        class="flex min-w-min mb-2 relative z-50 -ml-3 pl-1.5 shadow bg-gray-50">
+        <div v-for="size in FormData.products" class="flex flex-col mr-1.5">
             <main @click="size.count++" class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside class="bg-gray-200 rounded-sm shadow flex flex-col items-center justify-between uppercase  overflow-hidden">
                 <span class="w-10 text-center py-1 bg-gray-500 text-gray-100">{{ size.name }}</span>
@@ -20,18 +21,18 @@
             </main>
         </div>
     </main>
-    <main v-else class="flex min-w-min mb-2">
-        <div v-for="rand in 7" class="flex flex-col mr-1.5 text-gray-300">
+    <main v-else class="flex min-w-min mb-2 relative z-50 bg-gray-50 -ml-1.5 pl-1.5 shadow ">
+        <div v-for="rand in 6" class="flex flex-col mr-1.5 text-gray-300">
             <main class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside class="bg-gray-200 rounded shadow flex flex-col items-center justify-between">
-                <span class="w-9 text-center py-1 bg-gray-100 text-gray-300">Кол</span>
-                <span class="w-9 text-center py-1">{{ rand }}</span>
+                <span class="w-10 text-center py-1 bg-gray-100 text-gray-300">Кол</span>
+                <span class="w-10 text-center py-1">{{ rand }}</span>
             </aside>
             <main class="size-button mt-1"><i class="far fa-angle-down"></i></main>
         </div>
     </main>
 </template>
 <script setup lang="ts">
-const { FormData} = defineProps(['FormData'])
+const { FormData , isProduct } = defineProps(['FormData','isProduct'])
 const decrement = (size) => {if(size.count > 0) size.count--}
 </script>

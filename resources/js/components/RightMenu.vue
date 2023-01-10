@@ -1,9 +1,9 @@
 <template>
     <section>
         <Transition name="fade">
-            <div v-if="headerOpen" @click="headerOpen = false"  class="fixed top-0 left-0 w-full h-full bg-black z-20 bg-opacity-30"></div>
+            <div v-if="headerOpen" @click="headerOpen = false"  class="fixed top-0 left-0 w-full h-full bg-black z-[60] bg-opacity-30"></div>
         </Transition>
-        <nav :class="{'!translate-x-0': headerOpen}" class="z-50 px-3 py-2 border-l w-60 border-pink-500 shadow fixed top-0 right-0 translate-x-full h-full bg-white transition-all">
+        <nav :class="{'!translate-x-0': headerOpen}" class="z-[70] px-3 py-2 border-l w-60 border-pink-500 shadow fixed top-0 right-0 translate-x-full h-full bg-white transition-all">
             <button
                 :class="{'opacity-0': headerOpen}"
                 @click="headerOpen = !headerOpen" 

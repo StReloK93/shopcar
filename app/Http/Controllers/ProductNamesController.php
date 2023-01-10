@@ -28,7 +28,7 @@ class ProductNamesController extends Controller
         ]);
 
         $array = [];
-        foreach ($request->sizes as $key => $size) {
+        foreach ($request->products as $key => $size) {
 
             if($size['count'] != 0){
                 $array[] = [

@@ -1,9 +1,9 @@
 <template>
-    <main class="flex-grow ml-3 border-l border-gray-300 px-3">
+    <main class="flex-grow ml-3 border-l border-gray-300 px-3 flex flex-col">
         <h3 class="font-bold text-xl mb-2 text-gray-600">
             Products
         </h3>
-        <section v-if="PageData.productNames.length" class="h-96">
+        <section v-if="PageData.productNames.length" class="flex-grow">
             <AgGridVue
                 class="h-full ag-theme-alpine"
                 :rowData="PageData.productNames"

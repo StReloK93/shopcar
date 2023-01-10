@@ -1,0 +1,23 @@
+<template>
+    <div>
+        <svg :id="svgId" class="w-full"></svg>
+        <p class="px-2 flex justify-between items-center">
+            <span>{{ productName.name }}</span>
+            <span>{{ product.size.name }}</span>
+        </p>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import JsBarcode from 'JsBarcode'
+const { productName, product } = defineProps(['productName','product']) 
+const svgId = ref(`product${product.id}`)
+onMounted(() => {
+    JsBarcode(`#${svgId.value}`, svgId.value, {
+        width: 1,
+        height: 50,
+        displayValue: false
+    });
+})
+</script>

@@ -9,6 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'size'
+    ];
+
     protected $fillable = [
         'product_names_id',
         'size_id',
@@ -16,4 +20,10 @@ class Product extends Model
         'price',
         'count',
     ];
+
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

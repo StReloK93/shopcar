@@ -10,7 +10,7 @@
             </i>
 
         </div>
-        <ul v-show="category.isOpen" class="pl-6" v-if="isFolder">
+        <ul v-show="category.isOpen" class="pr-6" v-if="isFolder">
             <TreeItemFree class="my-2" v-for="categories in category.children_categories" :key="categories.id"
                 :Categories="category.children_categories" :category="categories" :FormData="FormData">
             </TreeItemFree>

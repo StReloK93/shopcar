@@ -1,42 +1,15 @@
 <template>
-    <section class="h-screen flex p-4">
-        <section v-if="$state.products">
-          {{ $state.products }}
-        </section>
-        <HeaderVue class="w-32"></HeaderVue>
-        <Router-view class="flex-grow"></Router-view>
-    </section>
+	<PrintProduct class="print absolute top-0 left-0 w-full z-50 hidden" v-if="$state.productName"></PrintProduct>
+	<RightMenu class="noprint"></RightMenu>
+	<section class="h-screen flex flex-col p-1 pt-0 noprint">
+		<h3 class="text-xl py-2 text-white px-3 capitalize bg-pink-500">{{$route.name}}</h3>
+		<Router-view class="flex-grow bg-zinc-50 p-3 shadow"></Router-view>
+	</section>
 </template>
 
 <script setup lang="ts">
-import HeaderVue from './Header.vue'
-import { useProductsStore } from '../store/ProductPrint';
-const { $state } = useProductsStore()
+import RightMenu from './RightMenu.vue'
+import PrintProduct from './PrintProduct.vue'
+import { useProductStore } from '../store/ProductPrint';
+const { $state } = useProductStore()
 </script>
-<style>
-@page {
-  margin: 0mm 0mm 0mm 0mm;
-}
-
-.male {
-  box-sizing: border-box;
-  height: 29.5mm;
-  width: 40mm;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-@media print {
-  .print{
-    display: block;
-  }
-
-  .noprint{
-    display: none;
-  }
-}
-</style>

@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SizeNameController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductNamesController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,4 +27,5 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('sizenames', SizeNameController::class);
 Route::apiResource('sizes', SizeController::class);
 Route::apiResource('productnames', ProductNamesController::class);
+Route::apiResource('products', ProductController::class);
 Route::post('/categories/sub', [CategoryController::class, 'storeSub']);

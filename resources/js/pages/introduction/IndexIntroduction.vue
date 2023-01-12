@@ -15,7 +15,7 @@
                         <Validate :FormData="FormData" keyname="name" :inputType="'string'"></Validate>
                     </label>
                     <input type="text" v-model="FormData.name"
-                        class="border-b border-gray-200 w-full outline-none py-1 px-2" placeholder="Product name"
+                        class="text-input" placeholder="Product name"
                         :disabled="CategoryIsNull">
                 </div>
                 <div class="mb-2">
@@ -24,7 +24,7 @@
                         <Validate :FormData="FormData" keyname="original_price" :inputType="'number'"></Validate>
                     </label>
                     <input type="number" v-model="FormData.original_price"
-                        class="border-b border-gray-200 w-full outline-none py-1 px-2" placeholder="Original price"
+                        class="text-input" placeholder="Original price"
                         :disabled="CategoryIsNull">
                 </div>
                 <div class="mb-2">
@@ -33,7 +33,7 @@
                         <Validate :FormData="FormData" keyname="price" :inputType="'number'"></Validate>
                     </label>
                     <input type="number" v-model="FormData.price"
-                        class="border-b border-gray-200 w-full outline-none py-1 px-2" placeholder="Price"
+                        class="text-input" placeholder="Price"
                         :disabled="CategoryIsNull">
                 </div>
                 <div class="mb-2">
@@ -47,7 +47,7 @@
                     <span>Sizes</span>
                     <Validate :FormData="FormData" keyname="sizes" :value="sizesCount" :inputType="'array'"></Validate>
                 </label>
-                <Size :FormData="FormData" :isProduct="false"></Size>
+                <Size :FormData="FormData"></Size>
                 <button
                     :class="{ '!bg-gray-200': CategoryIsNull, '!bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
                     :disabled="CategoryIsNull" type="submit"
@@ -60,13 +60,13 @@
             </form>
             <!-- <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview> -->
         </main>
-        <ProductsNames class="flex-grow ml-3 border-l border-gray-300 px-3" :PageData="PageData"></ProductsNames>
+        <ProductsNames @grid-ready="(gridApi) => childGridApi = gridApi" class="flex-grow ml-3 border-l border-gray-300 px-3" :PageData="PageData"></ProductsNames>
     </section>
 </template>
 
 <script setup lang="ts">
 import ProductsNames from '../../components/Product/ProductsNames.vue'
-import { useProductStore } from '../../store/ProductPrint'
+import { useProductStore } from '../../store/useProductStore'
 import { reactive, computed, ref } from 'vue'
 
 import Preview from './components/PreviewIntro.vue'
@@ -76,7 +76,8 @@ import Select from './components/Select.vue'
 import Size from './components/Size.vue'
 import axios from '../../modules/axios'
 
-const { $state } = useProductStore()
+const childGridApi = ref(null)
+const store = useProductStore()
 
 const needFormComplete = ref(false)
 interface pageData {
@@ -90,6 +91,8 @@ const PageData: pageData = reactive({
     sizeNames: [],
     productNames: [] 
 })
+
+
 // formdata for axios
 const FormData: any = reactive({
     name: '',
@@ -103,26 +106,27 @@ const FormData: any = reactive({
 
 
 function createProductName() {
-
-    if (FormComplete.value) {
-        axios.post('/productnames', FormData).then((res) => {
-            FormData.name = ""
-            FormData.original_price = ""
-            FormData.price = ""
-            FormData.category_id = null
-            FormData.category_name = null
-            FormData.size_names_id = null
-            FormData.products = []
-
-
-            $state.productName = null
-            setTimeout(() => $state.productName = res.data)
-        })
-    }
-    else {
+    if (FormComplete.value == false) {
         needFormComplete.value = true
-        setTimeout(() => needFormComplete.value = false, 3000);
+        return setTimeout(() => needFormComplete.value = false, 3000);
     }
+    axios.post('/productnames', FormData).then((res) => {
+        FormData.name = ""
+        FormData.original_price = ""
+        FormData.price = ""
+        FormData.category_id = null
+        FormData.category_name = null
+        FormData.size_names_id = null
+        FormData.products = []
+
+        childGridApi.value.applyTransaction({
+            add: [res.data],
+            addIndex: 0
+        })
+
+        store.productName = null
+        setTimeout(() => store.productName = res.data)
+    })
 }
 
 
@@ -142,6 +146,4 @@ const sizesCount = computed(() => {
     else return FormData.products.reduce((current, size) => current + +size.count, 0)
 })
 </script>
-<style scoped src="../../assets/selected.css">
-
-</style>
+<style scoped src="../../assets/selected.css"></style>

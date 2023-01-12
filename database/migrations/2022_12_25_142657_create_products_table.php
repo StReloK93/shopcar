@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('size_id');
             $table->double('original_price', 10, 3);
             $table->double('price', 10, 3);
-            $table->double('count', 10, 3);
+            $table->double('count', 10, 3)->default(1);
             $table->timestamps();
         });
     }

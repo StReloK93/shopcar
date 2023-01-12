@@ -11,7 +11,7 @@ class ProductNamesController extends Controller
     //get
     public function index(){
 
-        return ProductNames::where('user_id', 1)->with('products')->get();
+        return ProductNames::where('user_id', 1)->with(['products','category'])->latest()->get();
 
     }
 
@@ -27,32 +27,17 @@ class ProductNamesController extends Controller
             'user_id' => 1,
         ]);
 
-        $array = [];
-        foreach ($request->products as $key => $size) {
-
-            if($size['count'] != 0){
-                $array[] = [
-                    'product_names_id' => $productNames->id,
-                    'size_id' => $size['id'],
-                    'original_price' => $request->original_price,
-                    'price' => $request->price,
-                    'count' => $size['count'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }
-
-        }
-        //
-        Product::insert($array);
-
-        return ProductNames::where('id',$productNames->id)->with('products')->first();
+        return ProductNames::with(['products','category'])->find($productNames->id);
     }
 
     // update
     public function update(Request $request, $id)
     {
 
+        ProductNames::find($id)->update([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+        ]);
 
     }
 
@@ -60,6 +45,7 @@ class ProductNamesController extends Controller
     public function destroy($id)
     {
 
+        ProductNames::find($id)->delete();
 
     }
 }

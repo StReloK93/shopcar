@@ -14,8 +14,6 @@ class SizeNameController extends Controller
         
     }
 
-
-
     public function store()
     {
 
@@ -24,6 +22,12 @@ class SizeNameController extends Controller
 
     }
 
+    public function show($id)
+    {
+
+        return SizeName::with('sizes')->find($id);
+
+    }
 
 
     public function update(Request $request, $id)

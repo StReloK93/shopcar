@@ -16,26 +16,24 @@ class ProductNamesObserver
      */
     public function created(ProductNames $productNames)
     {
+        $request = request();
+        $array = [];
+        foreach ($request->products as $key => $product) {
+            if($product['count'] != 0){
+                $array[] = [
+                    'product_names_id' => $productNames->id,
+                    'size_id' => $product['id'],
+                    'original_price' => $request->original_price,
+                    'price' => $request->price,
+                    'count' => $product['count'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
 
-        // $request = request();
-        // $array = [];
-        // foreach ($request->sizes as $key => $size) {
-
-        //     if($size['count'] != 0){
-        //         $array[] = [
-        //             'product_names_id' => $productNames->id,
-        //             'size_id' => $size['id'],
-        //             'original_price' => $request->original_price,
-        //             'price' => $request->price,
-        //             'count' => $size['count'],
-        //             'created_at' => now(),
-        //         ];
-        //     }
-
-        // }
-
-        // //
-        // Product::insert($array);
+        //
+        Product::insert($array);
     }
 
     /**
@@ -57,7 +55,7 @@ class ProductNamesObserver
      */
     public function deleted(ProductNames $productNames)
     {
-        //
+        Product::where('product_names_id', $productNames->id)->delete();
     }
 
     /**

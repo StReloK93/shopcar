@@ -29,6 +29,8 @@
                 :animateRows="true"
                 @cellValueChanged="cellValueChanged"
                 @gridReady="gridReady"
+                :undoRedoCellEditing="true"
+                :undoRedoCellEditingLimit="20"
             ></AgGridVue>
         </section>
         <!-- @rowDoubleClicked="opening" -->

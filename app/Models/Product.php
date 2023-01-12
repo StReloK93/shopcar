@@ -26,4 +26,9 @@ class Product extends Model
     {
         return $this->belongsTo(Size::class);
     }
+
+    public function product_names()
+    {
+        return $this->belongsTo(ProductNames::class);
+    }
 }

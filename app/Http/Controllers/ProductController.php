@@ -23,10 +23,21 @@ class ProductController extends Controller
         return $product->fresh();
     }
 
+    // Show
+    public function show($id)
+    {
+        return Product::with(['product_names','size'])->find($id);
+    }
+
+
     // update
     public function update(Request $request, $id)
     {
-        Product::find($id);
+        Product::find($id)->update([
+            'count' => $request->count,
+            'price' => $request->price,
+            'original_price' => $request->original_price,
+        ]);
     }
 
     // delete

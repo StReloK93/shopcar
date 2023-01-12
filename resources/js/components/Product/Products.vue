@@ -28,6 +28,7 @@
                     @cellValueChanged="cellValueChanged"
                     @gridReady="gridReady"
                     :animateRows="true"
+                    :undoRedoCellEditing="true"
                 ></AgGridVue>
             </aside>
             <div class="mt-3 text-right">
@@ -45,6 +46,8 @@ import { GridApi } from "ag-grid-community"
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref , reactive , computed } from "vue"
 import { useProductStore } from '../../store/useProductStore'
+import cellEditor from './countEditor.vue'
+import numberEditor from './numberEditor.vue'
 import axios from '../../modules/axios'
 const { productName, gridApi } = defineProps({
     productName: Object,
@@ -71,10 +74,18 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 
 
 const columnDefs = ref([
-    { headerName: "Name", field: "size.name" , flex: 1 },
-    { headerName: "Count", field: "count" , editable: true},
-    { headerName: "Original", field: "original_price",  editable: true },
-    { headerName: "Price", field: "price" , editable: true },
+    { headerName: "Size", field: "size.name" , flex: 1  },
+    { headerName: "Original", field: "original_price",  editable: true , width: 130 , cellEditor: numberEditor },
+    { headerName: "Price", field: "price" , editable: true , width: 130, cellEditor: numberEditor },
+    { 
+        cellClass: ['text-center'],
+        headerName: "Count",
+        field: "count",
+        editable: true,
+        width: 125, 
+        // cellRenderer: cellRenderer,
+        cellEditor: cellEditor,
+    },
     { 
         headerName: "",
         width: 65,
@@ -115,6 +126,8 @@ function deleteProduct(selectProduct){
             axios.delete(`products/${selectProduct.id}`).then(() => {
                 productAgGrid.api.applyTransaction({remove: [selectProduct]})
                 productName.products = productName.products.filter((product) => product.id != selectProduct.id)
+
+                refreshBaseTable(productName)
             })
         }
     })
@@ -135,13 +148,24 @@ function createProduct(size){
     axios.post('products', formData).then(({data}) => {
         productName.products.push(data)
         productAgGrid.api.applyTransaction({add: [data]})
+
+
+        refreshBaseTable(productName)
     })
 }
 
-function cellValueChanged(selected) {
-    console.log(selected)
-    
+function cellValueChanged(row) {
+    const selected = row.data
+    axios.put(`products/${selected.id}`, selected).then(() => {
+        refreshBaseTable(productName)
+    })
 }
+
+function refreshBaseTable(productName){
+    const rowNode = gridApi.getRowNode(productName.id)
+    rowNode.setData(productName)
+}
+
 
 const productAgGrid: GridOptions = reactive({
     api: null,

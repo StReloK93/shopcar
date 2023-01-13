@@ -3,4 +3,5 @@
     --ag-borders-row: solid 1px;
     --ag-header-height: 30px;
     --ag-header-background-color: rgb(238, 238, 238);
+    --ag-cell-horizontal-padding: 8px;
 }

@@ -95,23 +95,34 @@ function cellValueChanged(event) {
 
 const columnDefs = ref([
     { 
-        headerName: "Name", field: "name" , flex: 1, editable: true,
+        headerName: "Name", field: "name" , flex: 1, editable: true, 
     },
     { 
-        headerName: "Quantity", field: "products" , width: 90, cellRenderer: params => params.value.reduce((summa, product) => summa + product.count, 0)
+        sortable: true,
+        resizable: true,
+        headerName: "QTY",
+        field: "products",
+        width: 85,
+        cellRenderer: params => params.value.reduce((summa, product) => summa + product.count, 0)
     },
     { 
+        sortable: true,
+        headerName: "Size name", field: "size_names.name" , width: 120 ,
+    },
+    { 
+        sortable: true,
         headerName: "Category", field: "category.name" , width: 120 
     },
     { 
-        headerName: "Created", field: "created_at" , width: 120, cellRenderer: params => {
-            return moment(params.value).fromNow()
-        }
+        sortable: true,
+        headerName: "Created", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
     },
 
     { 
-        headerName: "Barcode",
-        width: 100,
+        suppressMovable: true,
+        pinned: 'right',
+        headerName: "",
+        width: 60,
         cellClass: ['hover:bg-white', 'cursor-pointer' ,'text-center'],
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         onCellClicked: (selected) => {
@@ -120,11 +131,14 @@ const columnDefs = ref([
         }
     },
     { 
-        headerName: "Open",
-        width: 80,
+
+        suppressMovable: true,
+        pinned: 'right',
+        headerName: "",
+        width: 60,
         cellClass: ['hover:bg-white', 'cursor-pointer' ,'text-center'],
         cellRenderer: () => '<i class="fal fa-folder-open text-blue-500"></i>',
-        onCellClicked: (selected) => opening(selected)
+        onCellClicked: (selected) => opening(selected),
     },
 ])
 </script>

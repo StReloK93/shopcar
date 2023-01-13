@@ -14,8 +14,8 @@
             </main>
         </div>
     </main>
-    <main v-else class="flex min-w-min mb-2 relative z-50 bg-gray-50 -ml-1.5 pl-1.5 shadow ">
-        <div v-for="rand in 6" class="flex flex-col mr-1.5 text-gray-300">
+    <main v-else class="flex min-w-min mb-2 relative z-50 bg-gray-50 shadow ">
+        <div v-for="rand in 5" class="flex flex-col mr-1.5 text-gray-300">
             <main class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside class="bg-gray-200 rounded shadow flex flex-col items-center justify-between">
                 <span class="w-10 text-center py-1 bg-gray-100 text-gray-300">Кол</span>

@@ -26,7 +26,11 @@ class ProductNames extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    
+
+    public function size_names()
+    {
+        return $this->belongsTo(SizeName::class);
+    }
 }
 
 // Hayitov Husniddin

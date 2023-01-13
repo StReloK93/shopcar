@@ -1,6 +1,6 @@
 <template>
     <section class="flex">
-        <main class="w-72 flex justify-between">
+        <main class="w-64 flex justify-between">
             <form @submit.prevent="createProductName" class="w-full">
                 <h3 class="font-bold text-xl mb-2 text-gray-600">
                     Category
@@ -65,11 +65,10 @@
 </template>
 
 <script setup lang="ts">
+// import Preview from './components/PreviewIntro.vue'
 import ProductsNames from '../../components/Product/ProductsNames.vue'
 import { useProductStore } from '../../store/useProductStore'
 import { reactive, computed, ref } from 'vue'
-
-import Preview from './components/PreviewIntro.vue'
 import TreeItemFree from './components/TreeItemFree.vue'
 import Validate from './components/Validate.vue'
 import Select from './components/Select.vue'
@@ -80,21 +79,16 @@ const childGridApi = ref(null)
 const store = useProductStore()
 
 const needFormComplete = ref(false)
-interface pageData {
-    categories: Array<any>,
-    sizeNames: Array<any>,
-    productNames: Array<any>
-}
+
 // Component Variables
-const PageData: pageData = reactive({ 
+const PageData = reactive({ 
     categories: [],
     sizeNames: [],
     productNames: [] 
 })
 
 
-// formdata for axios
-const FormData: any = reactive({
+const initialForm = {
     name: '',
     original_price: '',
     price: '',
@@ -102,8 +96,10 @@ const FormData: any = reactive({
     category_name: null,
     size_names_id: null,
     products: []
-})
+}
 
+// formdata for axios
+const FormData = reactive({...initialForm})
 
 function createProductName() {
     if (FormComplete.value == false) {
@@ -111,18 +107,10 @@ function createProductName() {
         return setTimeout(() => needFormComplete.value = false, 3000);
     }
     axios.post('/productnames', FormData).then((res) => {
-        FormData.name = ""
-        FormData.original_price = ""
-        FormData.price = ""
-        FormData.category_id = null
-        FormData.category_name = null
-        FormData.size_names_id = null
-        FormData.products = []
+        // reset
+        Object.assign(FormData, initialForm)
 
-        childGridApi.value.applyTransaction({
-            add: [res.data],
-            addIndex: 0
-        })
+        childGridApi.value.applyTransaction({add: [res.data],addIndex: 0})
 
         store.productName = null
         setTimeout(() => store.productName = res.data)
@@ -130,7 +118,12 @@ function createProductName() {
 }
 
 
-axios.all([axios.get('categories'), axios.get('sizenames'), axios.get('productnames')]).then(axios.spread((categories, sizenames, productnames) => {
+axios.all([
+    axios.get('categories'),
+    axios.get('sizenames'),
+    axios.get('productnames')
+])
+.then(axios.spread((categories, sizenames, productnames) => {
     PageData.categories = categories.data
     PageData.sizeNames = sizenames.data
     PageData.productNames = productnames.data

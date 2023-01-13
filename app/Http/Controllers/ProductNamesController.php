@@ -11,7 +11,7 @@ class ProductNamesController extends Controller
     //get
     public function index(){
 
-        return ProductNames::where('user_id', 1)->with(['products','category'])->latest()->get();
+        return ProductNames::where('user_id', 1)->with(['products','category','size_names'])->latest()->get();
 
     }
 
@@ -27,7 +27,7 @@ class ProductNamesController extends Controller
             'user_id' => 1,
         ]);
 
-        return ProductNames::with(['products','category'])->find($productNames->id);
+        return ProductNames::with(['products','category','size_names'])->find($productNames->id);
     }
 
     // update

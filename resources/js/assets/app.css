@@ -16,10 +16,17 @@
 		@apply flex justify-between items-center;
 	}
 
+  .flex-center{
+		@apply flex justify-center items-center;
+	}
+
 	.text-input{
 		@apply border-b border-gray-200 w-full outline-none py-1 px-2;
 	}
 
+  .full-absolute{
+		@apply flex-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-50;
+	}
   
 }
 
@@ -49,15 +56,15 @@ input::-webkit-inner-spin-button {
 }
 
 
-.ag-body-viewport::-webkit-scrollbar {
+.ag-body-viewport::-webkit-scrollbar , .list-products::-webkit-scrollbar {
   width: 4px;
 }
 
-.ag-body-viewport::-webkit-scrollbar-track {
+.ag-body-viewport::-webkit-scrollbar-track , .list-products::-webkit-scrollbar-track {
   background-color: white;
 }
 
-.ag-body-viewport::-webkit-scrollbar-thumb {
+.ag-body-viewport::-webkit-scrollbar-thumb , .list-products::-webkit-scrollbar-thumb {
   background-color: #ccc;
 }
 @media print {

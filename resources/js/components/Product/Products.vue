@@ -1,6 +1,6 @@
 <template>
-    <section @click="$emit('close')" class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-40 p-8">
-        <main @click.stop class="h-full w-full bg-white flex flex-col justify-between p-2">
+    <section @click="$emit('close')" class="full-absolute z-40 p-8">
+        <main @click.stop class="h-full min-w-[630px] w-[900px] bg-white flex flex-col justify-between p-2">
             <header class="flex-between-center bg-gray-100 border-b -m-2 mb-0">
                 <div class="px-3 font-semibold">
                     {{ productName.name }}
@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 import { tailwindSwal } from '../../modules/swal'
+import moment from "moment"
 import { GridApi } from "ag-grid-community"
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref , reactive , computed } from "vue"
@@ -75,27 +76,26 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 
 const columnDefs = ref([
     { headerName: "Size", field: "size.name" , flex: 1  },
-    { headerName: "Original", field: "original_price",  editable: true , width: 130 , cellEditor: numberEditor },
-    { headerName: "Price", field: "price" , editable: true , width: 130, cellEditor: numberEditor },
+    { headerName: "Original", field: "original_price",  editable: true , width: 125 , cellEditor: numberEditor },
+    { headerName: "Price", field: "price" , editable: true , width: 125, cellEditor: numberEditor },
     { 
-        cellClass: ['text-center'],
         headerName: "Count",
         field: "count",
         editable: true,
-        width: 125, 
-        // cellRenderer: cellRenderer,
+        width: 80, 
         cellEditor: cellEditor,
     },
+    { headerName: "Created", field: "created_at" , editable: true , width: 130, cellRenderer: params => moment(params.value).fromNow() },
     { 
-        headerName: "",
         width: 65,
+        headerName: "",
         onCellClicked: (selected) => printProduct(selected.data),
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
     { 
-        headerName: "",
         width: 65,
+        headerName: "",
         onCellClicked: (selected) => deleteProduct(selected.data),
         cellRenderer: () => '<i class="fal fa-trash text-pink-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']

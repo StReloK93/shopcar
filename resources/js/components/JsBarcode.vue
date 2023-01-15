@@ -4,9 +4,6 @@
         <p class="px-1 flex justify-between items-center text-xs">
             <span>{{ productName.name }}</span> <span>{{ product.size.name }}</span>
         </p>
-        <p class="px-1 text-center text-xs">
-            <span>{{ product.price}} so'm</span>
-        </p>
     </div>
 </template>
 <script setup lang="ts">

@@ -21,6 +21,7 @@ class ProductNamesObserver
         foreach ($request->products as $key => $product) {
             if($product['count'] != 0){
                 $array[] = [
+                    'user_id' => 1,
                     'product_names_id' => $productNames->id,
                     'size_id' => $product['id'],
                     'original_price' => $request->original_price,

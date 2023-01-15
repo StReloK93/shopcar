@@ -40,4 +40,13 @@ export const routes:RouteRecordRaw[] = [
 			},
 		]
 	},
+	{
+		path: '/product/:id',
+		component: () => import('@/pages/general/GeneralProduct.vue'),
+		name: 'product',
+		props: true,
+        meta: {
+			guard: 'general',
+		},
+	}
 ]

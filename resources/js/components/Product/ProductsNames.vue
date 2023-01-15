@@ -1,5 +1,5 @@
 <template>
-    <main class="flex-grow ml-3 border-l border-gray-300 px-3 flex flex-col relative">
+    <main class="flex-grow ml-3 border-l border-gray-300 pl-3 flex flex-col relative">
         <Transition name="fade">
             <Products 
                 v-if="productName" 
@@ -19,8 +19,7 @@
             </div>
         </h3>
 
-
-        <section v-if="PageData.productNames.length" class="flex-grow">
+        <section class="flex-grow">
             <AgGridVue
                 class="h-full ag-theme-alpine"
                 :getRowId="(params) => params.data.id"

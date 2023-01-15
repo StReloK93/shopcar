@@ -10,9 +10,7 @@ class ProductNamesController extends Controller
 {
     //get
     public function index(){
-
         return ProductNames::where('user_id', 1)->with(['products','category','size_names'])->latest()->get();
-
     }
 
 

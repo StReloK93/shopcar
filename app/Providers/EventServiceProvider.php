@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Event;
 use App\Models\ProductNames;
 use App\Observers\ProductNamesObserver;
 
+use App\Models\Sell;
+use App\Observers\SellObserver;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
 
     protected $observers = [
         ProductNames::class => [ProductNamesObserver::class],
+        Sell::class => [SellObserver::class],
     ];
     /**
      * Register any events for your application.

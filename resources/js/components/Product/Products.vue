@@ -76,16 +76,16 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 
 const columnDefs = ref([
     { headerName: "Size", field: "size.name" , flex: 1  },
-    { headerName: "Original", field: "original_price",  editable: true , width: 125 , cellEditor: numberEditor },
-    { headerName: "Price", field: "price" , editable: true , width: 125, cellEditor: numberEditor },
+    { headerName: "Original", field: "original_price",  editable: true , width: 115 , cellEditor: numberEditor },
+    { headerName: "Price", field: "price" , editable: true , width: 115, cellEditor: numberEditor },
     { 
         headerName: "Count",
         field: "count",
         editable: true,
-        width: 80, 
+        width: 120, 
         cellEditor: cellEditor,
     },
-    { headerName: "Created", field: "created_at" , editable: true , width: 130, cellRenderer: params => moment(params.value).fromNow() },
+    { headerName: "Created", field: "created_at" , editable: true , width: 115, cellRenderer: params => moment(params.value).fromNow() },
     { 
         width: 65,
         headerName: "",

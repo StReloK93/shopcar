@@ -7,6 +7,7 @@ use App\Http\Controllers\SizeNameController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductNamesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,9 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::apiResource('categories', CategoryController::class);
+Route::apiResource('categories', CategoryController::class)->except(['show']);
 Route::apiResource('sizenames', SizeNameController::class);
-Route::apiResource('sizes', SizeController::class);
-Route::apiResource('productnames', ProductNamesController::class);
+Route::apiResource('sizes', SizeController::class)->except(['show', 'index']);
+Route::apiResource('productnames', ProductNamesController::class)->except(['show']);
 Route::apiResource('products', ProductController::class);
+
+
+Route::apiResource('sells', SellController::class);
+
+
 Route::post('/categories/sub', [CategoryController::class, 'storeSub']);

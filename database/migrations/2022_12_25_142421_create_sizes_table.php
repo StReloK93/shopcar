@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('size_name_id');
             $table->string('name')->nullable();
+            $table->bigInteger('size_name_id');
             $table->timestamps();
         });
     }

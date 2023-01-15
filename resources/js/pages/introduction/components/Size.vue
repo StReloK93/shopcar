@@ -6,7 +6,7 @@
                 class="bg-gray-200 rounded-sm shadow flex flex-col items-center justify-between uppercase  overflow-hidden">
                 <span class="w-10 text-center py-1 bg-gray-500 text-gray-100">{{ size.name }}</span>
                 <input :class="{ 'bg-pink-500 text-white': size.count != 0 }"
-                    class="w-10 text-center py-1 outline-none px-0" type="number" v-model="size.count">
+                    class="w-10 text-center py-1 outline-none px-0" type="number" step="0.001" v-model="size.count">
             </aside>
             <main :disabled="size.count == 0" @click="decrement(size)" :class="{ 'text-gray-300': size.count == 0 }"
                 class="size-button mt-1">

@@ -1,8 +1,8 @@
 <template>
 	<PrintProduct class="print absolute top-0 left-0 hidden z-50" v-if="store.productName"></PrintProduct>
-	<RightMenu    class="noprint"></RightMenu>
-	<section class="h-screen flex flex-col p-1 pt-0 noprint bg-gray-200">
-		<h3 class="text-xl py-2 text-white px-3 capitalize bg-pink-500">{{$route.name}}</h3>
+	<RightMenu v-if="$route.name != 'product'"   class="noprint"></RightMenu>
+	<section :class="{'pt-0': $route.name != 'product'}" class="h-screen flex flex-col p-1 noprint bg-gray-200">
+		<h3 v-if="$route.name != 'product'" class="text-xl py-2 text-white px-3 capitalize bg-pink-500">{{$route.name}}</h3>
 		<Router-view class="flex-grow bg-zinc-50 p-3 shadow"></Router-view>
 	</section>
 </template>

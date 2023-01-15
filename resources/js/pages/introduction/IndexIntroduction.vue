@@ -60,7 +60,7 @@
             </form>
             <!-- <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview> -->
         </main>
-        <ProductsNames @grid-ready="(gridApi) => childGridApi = gridApi" class="flex-grow ml-3 border-l border-gray-300 px-3" :PageData="PageData"></ProductsNames>
+        <ProductsNames @grid-ready="(gridApi) => childGridApi = gridApi" :PageData="PageData"></ProductsNames>
     </section>
 </template>
 

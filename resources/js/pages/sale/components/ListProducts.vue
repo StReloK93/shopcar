@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('close')" class="full-absolute flex-center py-8">
+    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center py-8 outline-none z-50">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between">
             <header class="text-right bg-gray-100 border-b mb-0">
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
@@ -20,7 +20,9 @@
                     <tr v-for="(product, index) in listProducts" :key="index">
                         <td class="border-y py-3">{{ product.product_names.name }}</td>
                         <td class="border-y py-3">{{ product.size.name }}</td>
-                        <td class="border-y py-3">{{ product.price }}</td>
+                        <td class="border-y py-3 w-32">
+                            <input type="number" class="text-input border py-0 text-center " v-model="product.sold_price">
+                        </td>
                         <td class="border-y py-3 ">
                             <div class="flex items-center justify-center">
                                 <button 
@@ -45,20 +47,21 @@
                             </div>
                         </td>
                         <td class="border-y py-3">{{ product.count }}</td>
-                        <td class="border-y py-3">{{ product.price * product.totalCount }}</td>
+                        <td class="border-y py-3">{{ product.sold_price * product.totalCount }}</td>
                         <td @click="deleteProduct(index)" class="border-y py-3 px-3 text-red-600 cursor-pointer hover:bg-gray-100 active:bg-slate-200">
                             <i class="fal fa-times"></i>
                         </td>
                     </tr>
                     <tr>
-                        <td class="py-5" colspan="5"></td>
+                        <td class="py-5" colspan="4"></td>
+                        <td class="py-3 font-semibold text-[18px]">Total price</td>
                         <td class="py-5">{{ totalPrice }}</td>
                         <td class="py-5"></td>
                     </tr>
                 </table>
             </main>
             <footer class="bg-white p-3 border-t text-right">
-                <button class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
+                <button @click="sendForm" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
                     Sell the product
                 </button>
             </footer>
@@ -67,16 +70,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-const { listProducts } = defineProps(['listProducts', 'setProductId'])
+import axios from 'axios';
+import { tailwindSwal } from '../../../modules/swal'
+import { computed, onMounted } from 'vue';
+const { listProducts } = defineProps(['listProducts'])
+const emit = defineEmits(['close','sold'])
 
 const totalPrice = computed(() => {
-    return listProducts.reduce((summa, product) => summa + product.price * product.totalCount, 0)
+    return listProducts.reduce((summa, product) => summa + product.sold_price * product.totalCount, 0)
 })
 
 function decrement(product){
     if(product.totalCount > 1) product.totalCount--
-    
 }
 
 function increment(product){
@@ -87,4 +92,26 @@ function increment(product){
 function deleteProduct(index){
     listProducts.splice(index,1)
 }
+
+function sendForm(){
+    axios.post('sells', listProducts).then(({data}) => {
+        tailwindSwal.fire({
+            icon: 'success',
+            title: 'Sold',
+            showConfirmButton: false,
+            timer: 1000
+        })
+        
+        emit('sold',data)
+    })
+}
+
+onMounted(() => {
+    const listproductDiv = document.getElementById('ListProducts')
+    listproductDiv.focus()
+    listproductDiv.onkeyup = (event) => {
+        if(event.which == 13 && event.ctrlKey) sendForm()
+        else if(event.which == 27) emit('close')
+    }
+})
 </script>

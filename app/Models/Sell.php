@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Sell extends Model
 {
     use HasFactory;
 
-    protected $with = [
-        'size'
-    ];
 
     protected $fillable = [
         'user_id',
         'product_names_id',
+        'product_id',
         'size_id',
         'original_price',
         'price',
-        'count',
+        'sold_price',
+        'count'
     ];
 
 
@@ -30,6 +29,6 @@ class Product extends Model
 
     public function product_names()
     {
-        return $this->belongsTo(ProductNames::class)->with('products');
+        return $this->belongsTo(ProductNames::class);
     }
 }

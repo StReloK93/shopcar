@@ -1,13 +1,13 @@
 <template>
     <section class="flex">
-        <main class="w-64 flex justify-between">
+        <main class="w-60 flex justify-between">
             <form @submit.prevent="createProductName" class="w-full">
                 <h3 class="font-bold text-xl mb-2 text-gray-600">
                     Category
                 </h3>
-                <TreeItemFree v-for="category in PageData.categories" :Categories="PageData.categories"
+                <!-- <TreeItemFree v-for="category in PageData.categories" :Categories="PageData.categories"
                     :category="category" :FormData="FormData">
-                </TreeItemFree>
+                </TreeItemFree> -->
 
                 <div class="mb-2">
                     <label class="text-gray-400 mb-1 flex justify-between items-center">

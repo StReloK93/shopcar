@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router'
 export const routes:RouteRecordRaw[] = [
     {
 		path: '/',
-		component: () => import('@/pages/sale/IndexSale.vue'),
+		component: () => import('@/pages/commerce/IndexSale.vue'),
 		name: 'sale',
         meta: {
 			guard: 'auth',
@@ -15,12 +15,12 @@ export const routes:RouteRecordRaw[] = [
 			{
 				path: 'soldproducts',
 				name: 'soldproducts',
-				component: () => import('@/pages/sale/pages/SoldProducts.vue')
+				component: () => import('@/pages/commerce/pages/SoldProducts.vue')
 			},
 			{
 				path: 'existproduct',
 				name: 'existproduct',
-				component: () => import('@/pages/sale/pages/ExistProducts.vue')
+				component: () => import('@/pages/commerce/pages/ExistProducts.vue')
 			},
 		]
 	},
@@ -46,18 +46,18 @@ export const routes:RouteRecordRaw[] = [
 			{
 				path: 'categories',
 				name: 'categories',
-				component: () => import('@/pages/constructor/Categories.vue')
+				component: () => import('@/pages/constructor/pages/Categories.vue')
 			},
 			{
 				path: 'sizes',
 				name: 'sizes',
-				component: () => import('@/pages/constructor/SizeNames.vue')
+				component: () => import('@/pages/constructor/pages/SizeNames.vue')
 			},
 		]
 	},
 	{
 		path: '/product/:id',
-		component: () => import('@/pages/general/GeneralProduct.vue'),
+		component: () => import('@/pages/public/GeneralProduct.vue'),
 		name: 'product',
 		props: true,
 	}

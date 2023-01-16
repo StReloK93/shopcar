@@ -101,10 +101,6 @@ const columnDefs = ref([
     },
     { 
         sortable: true,
-        headerName: "Size name", field: "size_names.name" , width: 120 ,
-    },
-    { 
-        sortable: true,
         headerName: "Category", field: "category.name" , width: 120 
     },
     { 

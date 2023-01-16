@@ -13,23 +13,16 @@
 </template>
 
 <script setup lang="ts">
+import SizesVue from '@/components/Sizes.vue';
 import { ref } from 'vue';
-import SizesVue from '../../components/Sizes.vue';
-
-
 const SizeNames = ref([])
 
+
+axios.get('sizenames').then((res) => SizeNames.value = res.data)
+
 function createSize(){
-    axios.post('sizenames').then((res) => {
-        SizeNames.value.push(res.data)
-    })
+    axios.post('sizenames').then((res) => SizeNames.value.push(res.data))
 }
-
-
-axios.get('sizenames').then((res) => {
-    SizeNames.value = res.data
-})
-
 
 function deleteSizeName(size){
     axios.delete(`/sizenames/${size.id}`).then(() => {

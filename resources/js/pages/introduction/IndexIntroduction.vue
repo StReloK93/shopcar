@@ -41,7 +41,7 @@
                         <span>Size type</span>
                         <Validate :FormData="FormData" keyname="size_names_id" :inputType="'nullable'"></Validate>
                     </label>
-                    <Select :PageData="PageData" :FormData="FormData" :disabled="CategoryIsNull"></Select>
+                    <VueSelect :PageData="PageData" :FormData="FormData" :disabled="CategoryIsNull" />
                 </div>
                 <label class="text-gray-400 mb-1 flex justify-between items-center">
                     <span>Sizes</span>
@@ -60,20 +60,19 @@
             </form>
             <!-- <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview> -->
         </main>
-        <ProductsNames @grid-ready="(gridApi) => childGridApi = gridApi" :PageData="PageData"></ProductsNames>
+        <ProductNames class="ml-3 border-l border-gray-300 pl-3 " @grid-ready="(gridApi) => childGridApi = gridApi" :PageData="PageData"></ProductNames>
     </section>
 </template>
 
 <script setup lang="ts">
 // import Preview from './components/PreviewIntro.vue'
-import ProductsNames from '../../components/Product/ProductsNames.vue'
+import ProductNames from '@/components/Product/ProductNames.vue'
 import { useProductStore } from '../../store/useProductStore'
 import { reactive, computed, ref } from 'vue'
 import TreeItemFree from './components/TreeItemFree.vue'
 import Validate from './components/Validate.vue'
-import Select from './components/Select.vue'
+import VueSelect from './components/Select.vue'
 import Size from './components/Size.vue'
-import axios from '../../modules/axios'
 
 const childGridApi = ref(null)
 const store = useProductStore()

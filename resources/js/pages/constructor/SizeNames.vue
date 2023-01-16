@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import axios from '../../modules/axios';
 import SizesVue from '../../components/Sizes.vue';
 
 

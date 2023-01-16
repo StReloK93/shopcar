@@ -52,9 +52,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import axios from '../modules/axios'
 defineEmits(['deleted'])
-
 
 const { SizeNames } = defineProps({ SizeNames: Object })
 

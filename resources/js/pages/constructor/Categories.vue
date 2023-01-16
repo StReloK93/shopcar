@@ -21,7 +21,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import TreeItem from '@/components/TreeItem.vue';
-import axios from '../../modules/axios'
 
 const categories = reactive({
     children_categories: []
@@ -38,7 +37,6 @@ function deleteCategory(category){
         categories.children_categories = categories.children_categories.filter((categ) => categ.id != category.id)
     })
 }
-
 
 axios.get('/categories').then(res => {
     categories.children_categories = res.data

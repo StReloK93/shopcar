@@ -8,6 +8,21 @@ export const routes:RouteRecordRaw[] = [
         meta: {
 			guard: 'auth',
 		},
+        redirect: {
+			name: 'soldproducts'
+		},
+		children: [
+			{
+				path: 'soldproducts',
+				name: 'soldproducts',
+				component: () => import('@/pages/sale/pages/SoldProducts.vue')
+			},
+			{
+				path: 'existproduct',
+				name: 'existproduct',
+				component: () => import('@/pages/sale/pages/ExistProducts.vue')
+			},
+		]
 	},
     {
 		path: '/introduction',
@@ -22,7 +37,7 @@ export const routes:RouteRecordRaw[] = [
 		component: () => import('@/pages/constructor/IndexConstructor.vue'),
 		name: 'constructor',
         meta: {
-			guard: 'constructor',
+			guard: 'auth',
 		},
         redirect: {
 			name: 'categories'
@@ -45,8 +60,5 @@ export const routes:RouteRecordRaw[] = [
 		component: () => import('@/pages/general/GeneralProduct.vue'),
 		name: 'product',
 		props: true,
-        meta: {
-			guard: 'general',
-		},
 	}
 ]

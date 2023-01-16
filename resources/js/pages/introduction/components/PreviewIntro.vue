@@ -16,7 +16,7 @@
             <div>Price</div>
             <span>{{ FormData.price }}</span>
         </main>
-        <main  class="flex justify-between px-3 py-1 border-b">
+        <main class="flex justify-between px-3 py-1 border-b">
             <div>Size type</div>
             <span v-if="sizeName">{{ sizeName.name }}</span>
         </main>
@@ -29,16 +29,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+const { FormData, PageData, sizesCount } = defineProps(['FormData', 'PageData', 'sizesCount'])
 
 const sizeName = computed(() => {
-    if(PageData.sizeNames.length) {
+    if (PageData.sizeNames.length) {
         return PageData.sizeNames.find((size) => size.id == FormData.size_names_id)
     }
     else return null
-    
+
 })
-
-
-const { FormData , PageData, sizesCount } = defineProps(['FormData','PageData','sizesCount'])
-
 </script>

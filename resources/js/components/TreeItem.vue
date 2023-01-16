@@ -33,8 +33,6 @@
   </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import axios from '../modules/axios'
-
 var { category } = defineProps({category: Object})
 
 category.disabled = true

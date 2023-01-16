@@ -11,10 +11,10 @@
                 <i class="fal fa-bars text-2xl text-white"></i>
             </button>
             <div class="mr-4">
-                <router-link class="underline" :to="{name: 'sale'}">Sale</router-link>
+                <router-link class="underline" :to="{name: 'sale'}">Savdo</router-link>
             </div>
             <div class="mr-4">
-                <router-link class="underline" :to="{name: 'introduction'}">Introduction</router-link>
+                <router-link class="underline" :to="{name: 'introduction'}">Tovar kiritish</router-link>
             </div>
             <div class="mr-4">
                 <router-link class="underline" :to="{name: 'constructor'}">Constructor</router-link>
@@ -26,5 +26,4 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const headerOpen = ref(false)
-
 </script>

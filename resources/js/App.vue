@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import RightMenu from './RightMenu.vue'
-import PrintProduct from './product/PrintProduct.vue'
-import { useProductStore } from '../store/useProductStore';
+import RightMenu from './components/RightMenu.vue'
+import PrintProduct from './components/product/PrintProduct.vue'
+import { useProductStore } from './store/useProductStore';
 const store = useProductStore()
 window.onafterprint =  () => { store.productName = null }
 </script>

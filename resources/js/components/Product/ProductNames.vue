@@ -1,5 +1,5 @@
 <template>
-    <main class="flex-grow ml-3 border-l border-gray-300 pl-3 flex flex-col relative">
+    <main class="flex-grow flex flex-col relative">
         <Transition name="fade">
             <Products 
                 v-if="productName" 
@@ -38,14 +38,11 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
-import { tailwindSwal } from '../../modules/swal'
-import moment from "moment"
 import { useProductStore } from '../../store/useProductStore'
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
 import Products from './Products.vue'
-import axios from "../../modules/axios";
+
 const emit = defineEmits(['gridReady'])
 const { PageData } = defineProps(['PageData'])
 const store = useProductStore()
@@ -70,7 +67,7 @@ function gridReady(GridReady){
 
 
 function deleteProduct(selectedProductName){
-    tailwindSwal.fire({
+    swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',
@@ -88,8 +85,6 @@ function deleteProduct(selectedProductName){
 function cellValueChanged(event) {
     axios.put(`productnames/${event.data.id}`, event.data)
 }
-
-
 
 
 const columnDefs = ref([

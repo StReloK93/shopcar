@@ -41,15 +41,12 @@
 </template>
 
 <script setup lang="ts">
-import { tailwindSwal } from '../../modules/swal'
-import moment from "moment"
 import { GridApi } from "ag-grid-community"
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref , reactive , computed } from "vue"
 import { useProductStore } from '../../store/useProductStore'
 import cellEditor from './countEditor.vue'
 import numberEditor from './numberEditor.vue'
-import axios from '../../modules/axios'
 const { productName, gridApi } = defineProps({
     productName: Object,
     gridApi: GridApi
@@ -117,7 +114,7 @@ function printProduct(product){
 
 
 function deleteProduct(selectProduct){
-    tailwindSwal.fire({
+    swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',

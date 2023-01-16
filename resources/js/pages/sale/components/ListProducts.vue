@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center py-8 outline-none z-50">
+    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center pb-8 outline-none z-[100] pt-16">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between">
             <header class="text-right bg-gray-100 border-b mb-0">
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
@@ -9,12 +9,12 @@
             <main class="flex-grow overflow-hidden overflow-y-auto list-products shadow-inner px-3">
                 <table class="w-full text-center mt-4">
                     <tr>
-                        <td class="py-2 font-semibold">Name</td>
-                        <td class="py-2 font-semibold">Size</td>
-                        <td class="py-2 font-semibold">Price</td>
-                        <td class="py-2 font-semibold">Count</td>
-                        <td class="py-2 font-semibold">Store count</td>
-                        <td class="py-2 font-semibold">Total price</td>
+                        <td class="py-2 font-semibold">Nomi</td>
+                        <td class="py-2 font-semibold">Hajmi</td>
+                        <td class="py-2 font-semibold">Narxi</td>
+                        <td class="py-2 font-semibold">Soni</td>
+                        <td class="py-2 font-semibold">Do'konda tovar soni</td>
+                        <td class="py-2 font-semibold">Umumiy narxi</td>
                         <td class="py-2 font-semibold"></td>
                     </tr>
                     <tr v-for="(product, index) in listProducts" :key="index">
@@ -70,8 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
-import { tailwindSwal } from '../../../modules/swal'
 import { computed, onMounted } from 'vue';
 const { listProducts } = defineProps(['listProducts'])
 const emit = defineEmits(['close','sold'])
@@ -94,14 +92,14 @@ function deleteProduct(index){
 }
 
 function sendForm(){
+    // axios
     axios.post('sells', listProducts).then(({data}) => {
-        tailwindSwal.fire({
+        swal.fire({
             icon: 'success',
             title: 'Sold',
             showConfirmButton: false,
             timer: 1000
         })
-        
         emit('sold',data)
     })
 }

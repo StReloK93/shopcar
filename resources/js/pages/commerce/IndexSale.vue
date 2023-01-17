@@ -72,6 +72,8 @@ function getProductById(productId){
 
 
 function sold(data){
+    console.log(soldProductsComponent.value.SellAgGrid)
+    
     soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
     closeListProducts()
 }

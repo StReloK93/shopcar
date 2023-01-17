@@ -1,16 +1,31 @@
 <template>
 	<PrintProduct class="print absolute top-0 left-0 hidden z-50" v-if="store.productName"></PrintProduct>
-	<RightMenu v-if="$route.name != 'product'"   class="noprint"></RightMenu>
-	<section :class="{'pt-0': $route.name != 'product'}" class="h-screen flex flex-col p-1 noprint bg-gray-200">
-		<h3 v-if="$route.name != 'product'" class="text-xl py-2 text-white px-3 capitalize bg-pink-500">{{$route.name}}</h3>
-		<Router-view class="flex-grow bg-zinc-50 p-3 shadow"></Router-view>
+	<section class="h-screen noprint flex flex-col bg-gray-100">
+		<nav v-if="$route.name != 'product'" class="text-xl text-white bg-blue-500 flex justify-between px-4">
+			<main>
+				<router-link class="border-y-2 border-transparent px-3 py-2 block" :to="{name: 'sale'}">
+					<i class="fal fa-warehouse"></i>
+				</router-link>
+			</main>
+			<main class="flex">
+				<router-link class="border-y-2 border-transparent px-3 py-2 block" :to="{name: 'sale'}">
+					<i class="fal fa-store"></i>
+				</router-link>
+				<router-link class="border-y-2 border-transparent px-3 py-2 block" :to="{name: 'introduction'}">
+					<i class="fal fa-tag"></i>
+				</router-link>
+				<router-link class="border-y-2 border-transparent px-3 py-2 block" :to="{name: 'constructor'}">
+					<i class="fal fa-wrench"></i>
+				</router-link>
+			</main>
+		</nav>
+		<router-view class="flex-grow p-3"></router-view>
 	</section>
 </template>
 
 <script setup lang="ts">
-import RightMenu from './components/RightMenu.vue'
 import PrintProduct from './components/product/PrintProduct.vue'
-import { useProductStore } from './store/useProductStore';
+import { useProductStore } from './store/useProductStore'
 const store = useProductStore()
-window.onafterprint =  () => { store.productName = null }
+onafterprint = () => store.productName = null
 </script>

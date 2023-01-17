@@ -14,7 +14,5 @@ import { onMounted } from 'vue';
 import { useProductStore, } from '../../store/useProductStore'
 import JsBarcodeVue from '../JsBarcode.vue'
 const store = useProductStore()
-onMounted(() => {
-    window.print()
-})
+onMounted(() => window.print())
 </script>

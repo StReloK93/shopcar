@@ -34,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { useProductStore } from '../../store/useProductStore'
-import { GridOptions } from '../../interfaces/AgGridInterfaces'
+import { useProductStore } from '@/store/useProductStore'
+import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
-import Products from './Products.vue'
+import Products from './ProductName.vue'
 
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)

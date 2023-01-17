@@ -5,7 +5,7 @@
 
 @layer components {
 	.router-link-active {
-		@apply text-pink-500;
+		@apply !border-b-white;
 	}
 
 	.size-button{

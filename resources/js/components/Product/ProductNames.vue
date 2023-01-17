@@ -9,12 +9,10 @@
                 @deleteProduct="deleteProduct"
             />
         </Transition>
-
-
         <h3 class="flex items-center justify-between mb-2">
-            <span class="font-bold text-xl text-gray-600">Products</span>
+            <span class="font-bold text-xl text-gray-600">Mahsulotlar</span>
             <div class="flex items-center justify-between border-b px-2">
-                <input @input="(event:any) => agGrid.api.setQuickFilter(event.target.value)" id="searchInput" type="text" class="py-0.5 bg-inherit w-32 outline-none" placeholder="Search">
+                <input @input="(event:any) => agGrid.api.setQuickFilter(event.target.value)" id="searchInput" type="text" class="py-0.5 bg-inherit w-32 outline-none" placeholder="Izlash">
                 <label for="searchInput"></label><i class="fal fa-search text-sm relative top-px"></i>
             </div>
         </h3>
@@ -23,7 +21,7 @@
             <AgGridVue
                 class="h-full ag-theme-alpine"
                 :getRowId="(params) => params.data.id"
-                :rowData="PageData.productNames"
+                :rowData="ProductNames"
                 :columnDefs="columnDefs"
                 :animateRows="true"
                 @cellValueChanged="cellValueChanged"
@@ -32,8 +30,6 @@
                 :undoRedoCellEditingLimit="20"
             ></AgGridVue>
         </section>
-        <!-- @rowDoubleClicked="opening" -->
-
     </main>
 </template>
 
@@ -43,15 +39,16 @@ import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
 import Products from './Products.vue'
 
-const emit = defineEmits(['gridReady'])
-const { PageData } = defineProps(['PageData'])
+const ProductNames = ref(null)
+axios.get('productnames').then(({data}) => ProductNames.value = data)
+
+
+
 const store = useProductStore()
 const productName = ref(null)
 
-const agGrid: GridOptions = reactive({
-    api: null,
-    columnApi: null
-})
+const agGrid: GridOptions = reactive({api: null,columnApi: null})
+defineExpose({agGrid})
 
 function opening(selected){
     productName.value = null
@@ -59,17 +56,15 @@ function opening(selected){
 }
 
 function gridReady(GridReady){
-
     agGrid.api = GridReady.api
     agGrid.columnApi = GridReady.columnApi
-    emit('gridReady', GridReady.api)
 }
 
 
 function deleteProduct(selectedProductName){
     swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: "Aniq o'chirmoqchimisiz?",
+        text: "Jarayonni orqaga qaytarib bo'lmaydi!",
         icon: 'warning',
     }).then((result) => {
         if (result.isConfirmed) {
@@ -89,30 +84,30 @@ function cellValueChanged(event) {
 
 const columnDefs = ref([
     { 
-        headerName: "Name", field: "name" , flex: 1, editable: true, 
+        headerName: "Nomi", field: "name" , flex: 1, editable: true, 
     },
     { 
         sortable: true,
         resizable: true,
-        headerName: "QTY",
+        headerName: "Soni",
         field: "products",
         width: 85,
         cellRenderer: params => params.value.reduce((summa, product) => summa + product.count, 0)
     },
     { 
         sortable: true,
-        headerName: "Category", field: "category.name" , width: 120 
+        headerName: "Turi", field: "category.name" , width: 120 
     },
     { 
         sortable: true,
-        headerName: "Created", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
+        headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
     },
 
     { 
         suppressMovable: true,
         pinned: 'right',
         headerName: "",
-        width: 60,
+        width: 50,
         cellClass: ['hover:bg-white', 'cursor-pointer' ,'text-center'],
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         onCellClicked: (selected) => {
@@ -121,11 +116,10 @@ const columnDefs = ref([
         }
     },
     { 
-
         suppressMovable: true,
         pinned: 'right',
         headerName: "",
-        width: 60,
+        width: 50,
         cellClass: ['hover:bg-white', 'cursor-pointer' ,'text-center'],
         cellRenderer: () => '<i class="fal fa-folder-open text-blue-500"></i>',
         onCellClicked: (selected) => opening(selected),

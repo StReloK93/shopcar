@@ -13,12 +13,12 @@
                         <td class="py-2 font-semibold">Hajmi</td>
                         <td class="py-2 font-semibold">Narxi</td>
                         <td class="py-2 font-semibold">Soni</td>
-                        <td class="py-2 font-semibold">Do'konda tovar soni</td>
+                        <td class="py-2 font-semibold">Do'kondagi soni</td>
                         <td class="py-2 font-semibold">Umumiy narxi</td>
                         <td class="py-2 font-semibold"></td>
                     </tr>
                     <tr v-for="(product, index) in listProducts" :key="index">
-                        <td class="border-y py-3">{{ product.product_names.name }}</td>
+                        <td class="border-y py-3 text-left px-1">{{ product.product_names.name }}</td>
                         <td class="border-y py-3">{{ product.size.name }}</td>
                         <td class="border-y py-3 w-32">
                             <input type="number" class="text-input border py-0 text-center " v-model="product.sold_price">

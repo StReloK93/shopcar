@@ -1,5 +1,5 @@
 <template>
-    <main v-if="FormData.products.length != 0" class="flex min-w-min mb-2 relative z-50 shadow bg-gray-50">
+    <main v-if="FormData.products.length != 0" class="flex min-w-min mb-2 relative z-50 bg-gray-50">
         <div v-for="(size, index) in FormData.products" :key="index" :class="{'mr-0': index == FormData.products.length - 1}" class="flex flex-col mr-1.5">
             <main @click="size.count++" class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside
@@ -14,7 +14,7 @@
             </main>
         </div>
     </main>
-    <main v-else class="flex min-w-min mb-2 relative z-50 bg-gray-50 shadow ">
+    <main v-else class="flex min-w-min mb-2 relative z-50 bg-gray-50 border-y">
         <div v-for="rand in 5" class="flex flex-col mr-1.5 text-gray-300">
             <main class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside class="bg-gray-200 rounded shadow flex flex-col items-center justify-between">

@@ -3,7 +3,7 @@
         <span v-for="product in store.productName.products" >
             <JsBarcodeVue v-for="count in product.count"
                 class="male bg-gray-100"
-                :product="product" 
+                :product="product"
                 :productName="store.productName"
             ></JsBarcodeVue>
         </span>

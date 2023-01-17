@@ -6,6 +6,11 @@
     "importHelpers": true,
     "isolatedModules": false,
     "noEmit": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": [ // / to begin with.
+        "./resources/js/*"
+      ]
+    },
   }
 }

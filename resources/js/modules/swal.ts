@@ -8,6 +8,6 @@ export default Swal.mixin({
     buttonsStyling: false,
     reverseButtons: true,
     showCancelButton: true,
-    confirmButtonText: 'Yes!',
-    cancelButtonText: 'No!',
+    confirmButtonText: 'Ha',
+    cancelButtonText: 'Yoq',
 })

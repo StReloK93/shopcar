@@ -1,16 +1,19 @@
 <template>
     <section class="flex flex-col justify-between">
-        <Transition name="fade">
-            <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
-        </Transition>
-        <main>
-            <div class="mb-3">
-                <RouterLink to="/soldproducts" class="mx-3">Sotilgan tovarlar</RouterLink>
-                <RouterLink to="/existproduct">Mavjud tovarlar</RouterLink>
-                
+
+        <main class="flex justify-between items-center">
+            <div>
+                <RouterLink to="/soldproducts" class="mr-3">Sotilgan mahsulotlar</RouterLink>
+                <RouterLink to="/existproduct">Do'kondagi mahsulotlar</RouterLink>
             </div>
+            <form @submit.prevent="getProductById(PageData.searchInput)">
+                <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Mahsulot ID">
+            </form>
         </main>
-        <main class="flex-grow mt-4">
+        <main class="flex-grow mt-4 relative">
+            <Transition name="fade">
+                <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
+            </Transition>
             <RouterView ref="soldProductsComponent"></RouterView>
         </main>
     </section>
@@ -18,7 +21,7 @@
 <script setup lang="ts">
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProducts.vue'
-import { reactive, watch, computed , onUnmounted, ref, onMounted} from 'vue'
+import { reactive, watch, onUnmounted, ref, onMounted } from 'vue'
 
 const soldProductsComponent = ref()
 const PageData = reactive({
@@ -26,18 +29,21 @@ const PageData = reactive({
     textInBarcode: null,
     listProducts: [],
     blocker: true,
+    searchInput: null,
 })
 
-const textinBarcode = computed(() => PageData.textInBarcode)
-
-watch(textinBarcode, (currentValue) => {
+watch(() => PageData.textInBarcode , (currentValue) => {
 
     if (currentValue == null || PageData.blocker == false) return
     PageData.blocker = false
-
-
     // textdan IDni ajratib olamiz
     const productId = currentValue.replace('product', '')
+    getProductById(productId)
+
+})
+
+function getProductById(productId){
+    PageData.searchInput = null
     const product = PageData.listProducts.find(product => product.id == productId)
 
     // Agar bor bo'lsa
@@ -62,14 +68,13 @@ watch(textinBarcode, (currentValue) => {
             timer: 1000
         })
     })
-})
+}
 
 
 function sold(data){
-    PageData.soldGrid.api.applyTransaction({add: data,addIndex: 0})
+    soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
     closeListProducts()
 }
-
 
 function closeListProducts() {
     PageData.listProducts = []
@@ -87,11 +92,7 @@ function Scancode(sScancode: any)  {
 
 
 // Register event listener
-onMounted(() => {
-    document.addEventListener('scan', Scancode)
-    
-    PageData.soldGrid = soldProductsComponent.value.SellAgGrid
-})
+onMounted(() => document.addEventListener('scan', Scancode))
 onUnmounted(() => document.removeEventListener('scan', Scancode))
 </script>
 <style src="../../assets/ag-grid.css"></style>

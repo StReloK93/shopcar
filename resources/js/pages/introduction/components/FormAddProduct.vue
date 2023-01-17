@@ -1,0 +1,149 @@
+<template>
+    <form @submit.prevent="createProductName" class="w-60">
+        <h3 class="font-bold text-xl mb-2 text-gray-600">
+            Mahsulot kiritish
+        </h3>
+
+        <section @click="setSelectCategory(false)" v-if="PageData.selectCategory" class="full-absolute z-[100] p-8">
+            <main @click.stop class="bg-white min-w-[630px] w-[900px] max-h-full border-t-2 border-pink-500 px-4 py-3 relative">
+                <button @click="setSelectCategory(false)" type="button" class="absolute top-0 right-0 hover:bg-gray-100">
+                    <i class="far fa-times py-3 px-4 text-red-600"></i>
+                </button>
+                <h3 class="font-bold text-xl mb-2 text-gray-600">
+                    Mahsulot turini tanlang
+                </h3>
+                <TreeItemFree v-for="category in PageData.categories" :Categories="PageData.categories" :category="category"
+                    :FormData="FormData">
+                </TreeItemFree>
+            </main>
+        </section>
+
+        <div class="mb-2 cursor-pointer -mx-2">
+            <label class="text-gray-400 mb-1 flex-between-center px-3">
+                <span>Mahsulot turi</span>
+            </label>
+            <main @click="setSelectCategory(true)">
+                <div v-if="FormData.category_name" class="text-input bg-gray-200 flex-between-center">
+                    <span class="font-semibold">{{ FormData.category_name }}</span>
+                    <i class="fal fa-check text-teal-600 relative top-px"></i>
+                </div>
+                <div v-else class="text-input flex-between-center">
+                    Tanlang
+                    <i class="fas fa-exclamation text-red-500"></i>
+                </div>
+            </main>
+        </div>
+        <div class="mb-2">
+            <label class="text-gray-400 mb-1 flex-between-center">
+                <span>Mahsulot nomi</span>
+                <Validate :FormData="FormData" keyname="name" :inputType="'string'"></Validate>
+            </label>
+            <input type="text" v-model="FormData.name" class="text-input" placeholder="Mahsulot nomi" :disabled="CategoryIsNull">
+        </div>
+        <div class="mb-2">
+            <label class="text-gray-400 mb-1 flex-between-center">
+                <span>Tan narxi</span>
+                <Validate :FormData="FormData" keyname="original_price" :inputType="'number'"></Validate>
+            </label>
+            <input type="number" v-model="FormData.original_price" class="text-input" placeholder="Tan narxi" :disabled="CategoryIsNull">
+        </div>
+        <div class="mb-2">
+            <label class="text-gray-400 mb-1 flex-between-center">
+                <span>Sotiladigan narxi</span>
+                <Validate :FormData="FormData" keyname="price" :inputType="'number'"></Validate>
+            </label>
+            <input type="number" v-model="FormData.price" class="text-input" placeholder="Sotiladigan narxi" :disabled="CategoryIsNull">
+        </div>
+        <div class="mb-2">
+            <label class="text-gray-400 mb-1 flex-between-center">
+                <span>Size type</span>
+                <Validate :FormData="FormData" keyname="size_names_id" :inputType="'nullable'"></Validate>
+            </label>
+            <VueSelect :PageData="PageData" :FormData="FormData" :disabled="CategoryIsNull" />
+        </div>
+        <label class="text-gray-400 mb-1 flex-between-center">
+            <span>Sizes</span>
+            <Validate :FormData="FormData" keyname="sizes" :value="sizesCount" :inputType="'array'"></Validate>
+        </label>
+        <Size class="-mx-3 px-3" :FormData="FormData"></Size>
+        <button
+            :class="{ '!bg-gray-200': CategoryIsNull, '!bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
+            :disabled="CategoryIsNull" type="submit"
+            class="px-2 py-0.5 bg-gray-300 rounded-sm w-full shadow active:bg-gray-200">
+            Create
+        </button>
+        <div v-if="needFormComplete" class="text-rose-500 text-center mt-2">
+            It is necessary to fill in all the fields!!
+        </div>
+    </form>
+</template>
+
+<script setup lang="ts">
+import { reactive, computed, ref , watch} from 'vue'
+import { useProductStore } from '@/store/useProductStore'
+import TreeItemFree from './TreeItemFree.vue'
+import Validate from './Validate.vue'
+import VueSelect from './Select.vue'
+import Size from './Size.vue'
+
+
+const emit = defineEmits(['create-product'])
+
+// Component Variables
+const PageData = reactive({
+    categories: [],
+    sizeNames: [],
+    selectCategory: false,
+})
+
+function setSelectCategory(boolean){
+    PageData.selectCategory = boolean
+}
+
+axios.all([axios.get('categories'),axios.get('sizenames')]).then(axios.spread((categories, sizenames) => {
+    PageData.categories = categories.data
+    PageData.sizeNames = sizenames.data
+}))
+
+const initialForm = {
+    name: '',
+    original_price: '',
+    price: '',
+    category_id: null,
+    category_name: null,
+    size_names_id: null,
+    products: []
+}
+
+const needFormComplete = ref(false)
+const FormData = reactive({ ...initialForm })
+
+watch(() => FormData.category_id, (current)=> {
+    PageData.selectCategory = false
+})
+
+const store = useProductStore()
+function createProductName() {
+    if (FormComplete.value == false) {
+        needFormComplete.value = true
+        return setTimeout(() => needFormComplete.value = false, 3000);
+    }
+    axios.post('/productnames', FormData).then(({ data }) => {
+        Object.assign(FormData, initialForm)
+        emit('create-product', data)
+
+        store.productName = null
+        setTimeout(() => store.productName = data)
+    })
+}
+
+
+// all inputs completed
+const FormComplete = computed(() => FormData.name.trim() != "" && FormData.original_price != "" && FormData.price != "" && FormData.size_names_id != null && sizesCount.value != 0)
+
+const CategoryIsNull = computed(() => FormData.category_id == null)
+const sizesCount = computed(() => {
+    if (FormData.products.length == 0) return 0
+    else return FormData.products.reduce((current, size) => current + +size.count, 0)
+})
+</script>

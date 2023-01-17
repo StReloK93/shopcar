@@ -11,7 +11,8 @@
             </header>
             <div class="py-1.5 flex-between-center">
                 <span>
-                    Size type ({{ pageData.size_name }})
+                    O'lcham turi - 
+                    <i class="font-semibold text-pink-500">{{ pageData.size_name }}</i>
                 </span>
                 <div class="flex">
                     <button v-for="size in emptySizes" @click="createProduct(size)" class="bg-gray-200 shadow rounded-sm border-b-2 border-pink-500 w-14 px-2 py-0.5 ml-2 flex-between-center active:bg-gray-200 hover:bg-gray-300">
@@ -33,7 +34,7 @@
             </aside>
             <div class="mt-3 text-right">
                 <button @click="$emit('deleteProduct', productName)" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
-                    <i class="far fa-trash text-pink-500 mr-2"></i> Delete product
+                    <i class="far fa-trash text-pink-500 mr-2"></i> Mahsulotni o'chirish
                 </button>
             </div>
         </main>
@@ -72,26 +73,27 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 
 
 const columnDefs = ref([
-    { headerName: "Size", field: "size.name" , flex: 1  },
-    { headerName: "Original", field: "original_price",  editable: true , width: 115 , cellEditor: numberEditor },
-    { headerName: "Price", field: "price" , editable: true , width: 115, cellEditor: numberEditor },
+    { headerName: "ID", field: "id" , width: 65  },
+    { headerName: "O'lchami", field: "size.name" , flex: 1  },
+    { headerName: "Tan narxi", field: "original_price",  editable: true , width: 115 , cellEditor: numberEditor },
+    { headerName: "Sotuv narxi", field: "price" , editable: true , width: 115, cellEditor: numberEditor },
     { 
-        headerName: "Count",
+        headerName: "Soni",
         field: "count",
         editable: true,
         width: 120, 
         cellEditor: cellEditor,
     },
-    { headerName: "Created", field: "created_at" , editable: true , width: 115, cellRenderer: params => moment(params.value).fromNow() },
+    { headerName: "Kiritilgan sana", field: "created_at" , editable: true , width: 115, cellRenderer: params => moment(params.value).fromNow() },
     { 
-        width: 65,
+        width: 50,
         headerName: "",
         onCellClicked: (selected) => printProduct(selected.data),
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
     { 
-        width: 65,
+        width: 50,
         headerName: "",
         onCellClicked: (selected) => deleteProduct(selected.data),
         cellRenderer: () => '<i class="fal fa-trash text-pink-500"></i>',
@@ -115,8 +117,8 @@ function printProduct(product){
 
 function deleteProduct(selectProduct){
     swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: "Aniq o'chirmoqchimisiz?",
+        text: "Jarayonni orqaga qaytarib bo'lmaydi!",
         icon: 'warning',
     }).then((result) => {
         if (result.isConfirmed) {

@@ -25,13 +25,17 @@
 	}
 
   .full-absolute{
-		@apply flex-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-50;
+		@apply flex-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-30;
 	}
   
 }
 
 @page {
   margin: 0mm 0mm 0mm 0mm;
+}
+
+.bg-theme{
+  background-color: #243350;
 }
 
 .male {

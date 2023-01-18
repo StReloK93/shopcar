@@ -1,8 +1,5 @@
 <template>
     <form @submit.prevent="createProductName" class="w-60">
-        <h3 class="font-bold text-xl mb-2 text-gray-600">
-            Mahsulot kiritish
-        </h3>
 
         <section @click="setSelectCategory(false)" v-if="PageData.selectCategory" class="full-absolute z-[100] p-8">
             <main @click.stop class="bg-white min-w-[630px] w-[900px] max-h-full border-t-2 border-pink-500 px-4 py-3 relative">

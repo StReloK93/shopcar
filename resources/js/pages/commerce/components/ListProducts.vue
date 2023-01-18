@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td class="py-5" colspan="4"></td>
-                        <td class="py-3 font-semibold text-[18px]">Total price</td>
+                        <td class="py-3 font-semibold text-[18px]">Umumiy summa</td>
                         <td class="py-5">{{ totalPrice }}</td>
                         <td class="py-5"></td>
                     </tr>

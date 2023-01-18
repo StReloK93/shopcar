@@ -1,5 +1,5 @@
 <template>
-    <main class="flex-grow flex flex-col relative">
+    <main class="flex-grow flex flex-col">
         <Transition name="fade">
             <Products 
                 v-if="productName" 

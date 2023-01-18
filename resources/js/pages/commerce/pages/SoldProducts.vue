@@ -1,5 +1,5 @@
 <template>
-    <main class="flex flex-col h-full border border-gray-100">
+    <main class="flex flex-col h-full">
         <section class="bg-white py-1 px-2 flex items-center">
             <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
             <input 

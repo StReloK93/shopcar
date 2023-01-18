@@ -3,7 +3,7 @@
         <main class="w-96">
             <h2 class="flex justify-between mb-3">
                 <span>
-                    Categories
+                    Turlar
                 </span>
             </h2>
         </main>

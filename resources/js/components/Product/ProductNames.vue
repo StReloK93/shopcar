@@ -9,14 +9,14 @@
                 @deleteProduct="deleteProduct"
             />
         </Transition>
-        <h3 class="flex items-center justify-between mb-2">
-            <span class="font-bold text-xl text-gray-600">Mahsulotlar</span>
-            <div class="flex items-center justify-between border-b px-2">
-                <input @input="(event:any) => agGrid.api.setQuickFilter(event.target.value)" id="searchInput" type="text" class="py-0.5 bg-inherit w-32 outline-none" placeholder="Izlash">
-                <label for="searchInput"></label><i class="fal fa-search text-sm relative top-px"></i>
-            </div>
-        </h3>
-
+        <section class="bg-white py-1 px-2 flex items-center">
+            <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
+            <input 
+                @input="(event: any) => agGrid.api.setQuickFilter(event.target.value)" 
+                id="searchInput"
+                type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
+            >
+        </section>
         <section class="flex-grow">
             <AgGridVue
                 class="h-full ag-theme-alpine"

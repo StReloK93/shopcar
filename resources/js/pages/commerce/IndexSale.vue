@@ -14,7 +14,10 @@
             <Transition name="fade">
                 <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
             </Transition>
-            <RouterView ref="soldProductsComponent"></RouterView>
+
+            <RouterView v-slot="{ Component }">
+                <component ref="soldProductsComponent" :is="Component" />
+            </RouterView>
         </main>
     </section>
 </template>
@@ -72,8 +75,6 @@ function getProductById(productId){
 
 
 function sold(data){
-    console.log(soldProductsComponent.value.SellAgGrid)
-    
     soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
     closeListProducts()
 }

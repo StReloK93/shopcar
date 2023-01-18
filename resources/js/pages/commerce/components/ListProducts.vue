@@ -62,7 +62,7 @@
             </main>
             <footer class="bg-white p-3 border-t text-right">
                 <button @click="sendForm" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
-                    Sell the product
+                    Sotish
                 </button>
             </footer>
         </main>

@@ -12,7 +12,7 @@ class ProductController extends Controller
     // index
     public function index()
     {
-        return Product::with(['product_names','size'])->where('user_id', 1)->get();
+        return Product::with(['product_names','size'])->where('user_id', 1)->latest()->get();
     }
 
     // create

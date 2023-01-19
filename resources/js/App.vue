@@ -6,8 +6,8 @@
 	<!-- Start the program -->
 	<section class="h-screen noprint flex flex-col bg-gray-100">
 		<HeaderNavigate v-if="$route.name != 'product'"></HeaderNavigate>
-		<main class="container mx-auto p-8 flex-grow">
-			<router-view class="h-full bg-white p-4 shadow-xl shadow-gray-200 rounded-md overflow-hidden relative"></router-view>
+		<main class="container mx-auto p-6 flex-grow">
+			<router-view class="h-full bg-white p-4 shadow-xl shadow-gray-200 rounded-md overflow-hidden relative border border-gray-100"></router-view>
 		</main>
 	</section>
 </template>

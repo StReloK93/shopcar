@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProductsSold.vue'
-import { reactive, watch, onUnmounted, ref, onMounted } from 'vue'
+import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
 
 const soldProductsComponent = ref()
 const PageData = reactive({
@@ -69,6 +69,7 @@ function getProductById(productId){
     })
 }
 
+provide('getProductById', getProductById)
 
 function sold(data){
     soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})

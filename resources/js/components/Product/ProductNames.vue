@@ -1,7 +1,7 @@
 <template>
     <main class="flex-grow flex flex-col">
         <Transition name="fade">
-            <Products 
+            <ProductName 
                 v-if="productName" 
                 :gridApi="agGrid.api" 
                 :productName="productName" 
@@ -9,13 +9,18 @@
                 @deleteProduct="deleteProduct"
             />
         </Transition>
-        <section class="bg-white py-1 px-2 flex items-center">
-            <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
-            <input 
-                @input="(event: any) => agGrid.api.setQuickFilter(event.target.value)" 
-                id="searchInput"
-                type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
-            >
+        <section class="bg-white p-1 flex items-center justify-between">
+            <main class="flex items-center">
+                <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
+                <input 
+                    @input="(event: any) => agGrid.api.setQuickFilter(event.target.value)" 
+                    id="searchInput"
+                    type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
+                >
+            </main>
+            <button @click="$emit('toggle-list')" type="button" class="text-xl text-blue-600">
+                <i class="fa-regular fa-list-ul"></i>
+            </button>
         </section>
         <section class="flex-grow">
             <AgGridVue
@@ -37,7 +42,7 @@
 import { useProductStore } from '@/store/useProductStore'
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
-import Products from './ProductName.vue'
+import ProductName from './ProductName.vue'
 
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)

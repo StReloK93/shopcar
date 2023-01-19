@@ -1,6 +1,6 @@
 <template>
     <nav class="text-xl border-b border-pink-300 bg-white text-gray-600 shadow">
-        <main class="flex-between-center container mx-auto px-8">
+        <main class="flex-between-center container mx-auto px-6">
             <router-link to="/" class="font-light text-pink-500"><i class="fa fa-claw-marks mr-2"></i> Ruzzifer</router-link>
             <aside class="flex text-2xl leading-none">
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'sale' }">

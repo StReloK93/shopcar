@@ -1,27 +1,29 @@
 <template>
     <li class="my-2">
         <form class="flex items-center" @submit.prevent="updateCategory(category)">
-            <div @click="toggle" :class="{'cursor-pointer': isFolder && category.disabled}" class="flex items-center justify-between bg-gray-100 w-72">
+            <div @click="toggle" :class="{'cursor-pointer': isFolder && category.disabled}" class="flex items-center justify-between hover:pl-2 transition-all hover:bg-gray-100 w-72">
                 <input 
-                    :class="{'!border-teal-600 shadow-inner':category.disabled == false , 'cursor-pointer': isFolder && category.disabled }" 
+                    :class="{'!border-teal-600 shadow-inner  px-2':category.disabled == false , 'cursor-pointer': isFolder && category.disabled }" 
                     type="text" v-model="category.name" 
-                    class="border-b border-transparent outline-none py-0.5 px-2 w-32" 
+                    class="border-b border-transparent outline-none py-0.5 w-32 " 
                     :disabled="category.disabled"
                 >
                 <i v-if="isFolder" :class="{'rotate-180': isOpen, 'text-gray-300': category.disabled == false}" class="mx-2 far fa-angle-down"></i>
             </div>
             <main class="ml-3">
-                <button v-if="category.disabled" @click="category.disabled = !category.disabled" type="button" class="text-teal-500 bg-gray-100 px-2 py-0.5 rounded-sm">
-                    <i class="fas fa-marker "></i>
+                <button v-if="category.disabled" @click="category.disabled = !category.disabled" type="button" class="text-teal-500 hover:bg-gray-100 px-2 py-0.5 rounded-sm">
+                    <!-- <i class="fas fa-pen-nib text-sm"></i> -->
+                    <!-- <i class="fa-light fa-pen-nib"></i> -->
+                    <i class="fa-regular fa-pen-nib"></i>
                 </button>
-                <button v-else  type="submit" class="text-teal-500 bg-gray-100 px-2 py-0.5 rounded-sm">
-                    <i class="fas fa-save"></i>
+                <button v-else  type="submit" class="text-teal-500 hover:bg-gray-100 px-2 py-0.5 rounded-sm">
+                    <i class="fa-regular fa-floppy-disk"></i>
                 </button>
-                <button @click="addSubCategories(category)" class="bg-gray-100 px-2 py-0.5 rounded-sm text-teal-600 mx-2">
-                    <i class="far fa-layer-plus "></i>
+                <button @click="addSubCategories(category)" class="hover:bg-gray-100 px-2 py-0.5 rounded-sm text-teal-600 mx-2">
+                    <i class="fa-light fa-rectangle-history-circle-plus"></i>
                 </button>
-                <button v-if="isFolder == false" @click="$emit('delete', category)" type="button" class="text-red-500 bg-gray-100 px-2 py-0.5 rounded-sm">
-                    <i class="fas fa-trash"></i>
+                <button v-if="isFolder == false" @click="$emit('delete', category)" type="button" class="text-red-500 hover:bg-gray-100 px-2 py-0.5 rounded-sm">
+                    <i class="fas fa-times relative left-px"></i>
                 </button>
             </main>
         </form>

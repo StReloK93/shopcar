@@ -1,9 +1,7 @@
 <template>
-    <section class="py-8 relative">
-        <main class="flex bg-white p-4 shadow-xl shadow-gray-200 rounded-md overflow-hidden container mx-auto">
-            <FormAddProduct @create-product="(data) => productNames.agGrid.api.applyTransaction({add: [data],addIndex: 0})" />
-            <ProductNames ref="productNames" class="ml-3 pl-3" />
-        </main>
+    <section class="relative flex items-start" name="indexSale">
+        <FormAddProduct @create-product="(data) => productNames.agGrid.api.applyTransaction({add: [data],addIndex: 0})" />
+        <ProductNames ref="productNames" class="ml-4 pl-4 border-l h-full" />
     </section>
 </template>
 

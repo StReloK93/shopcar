@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center pb-8 outline-none z-[100] pt-16">
+    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-8 outline-none z-[100]">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between">
             <header class="text-right bg-gray-100 border-b mb-0">
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
@@ -18,7 +18,7 @@
                         <td class="py-2 font-semibold"></td>
                     </tr>
                     <tr v-for="(product, index) in listProducts" :key="index">
-                        <td class="border-y py-3 text-left px-1">{{ product.product_names.name }}</td>
+                        <td class="border-y py-3 pl-3 text-left">{{ product.product_names.name }}</td>
                         <td class="border-y py-3">{{ product.size.name }}</td>
                         <td class="border-y py-3 w-32">
                             <input type="number" class="text-input border py-0 text-center " v-model="product.sold_price">

@@ -1,6 +1,6 @@
 <template>
     <vSelect class="selects mb-2" :options="PageData.sizeNames" @update:modelValue="update"
-        :reduce="sizeNames => sizeNames.id" v-model="FormData.size_names_id" label="name" placeholder="Select">
+        :reduce="sizeNames => sizeNames.id" v-model="FormData.size_names_id" label="name" placeholder="Tanlang">
     </vSelect>
 </template>
 

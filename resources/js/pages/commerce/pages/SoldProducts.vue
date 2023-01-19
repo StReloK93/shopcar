@@ -1,21 +1,19 @@
 <template>
-    <main>
-        <aside class="flex flex-col h-full shadow-xl shadow-gray-200 rounded-md overflow-hidden">
-            <section class="bg-white py-1 px-2 flex items-center">
-                <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
-                <input 
-                    @input="(event: any) => SellAgGrid.api.setQuickFilter(event.target.value)" 
-                    id="searchInput"
-                    type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
-                >
-            </section>
-            <section class="flex-grow">
-                <AgGridVue class="h-full ag-theme-alpine w-full " :getRowId="(params) => params.data.id"
-                    :rowData="PageData.sells" :columnDefs="PageData.columnDefs" :animateRows="true" @gridReady="gridReady">
-                </AgGridVue>
-            </section>
-        </aside>
-    </main>
+    <aside class="flex flex-col">
+        <section class="bg-white py-1 px-2 flex items-center">
+            <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
+            <input 
+                @input="(event: any) => SellAgGrid.api.setQuickFilter(event.target.value)" 
+                id="searchInput"
+                type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
+            >
+        </section>
+        <section class="flex-grow">
+            <AgGridVue class="h-full ag-theme-alpine w-full " :getRowId="(params) => params.data.id"
+                :rowData="PageData.sells" :columnDefs="PageData.columnDefs" :animateRows="true" @gridReady="gridReady">
+            </AgGridVue>
+        </section>
+    </aside>
 </template>
 
 <script setup lang="ts">

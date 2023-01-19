@@ -36,7 +36,7 @@
                         <i class="fas fa-save"></i>
                     </button>
                     <button @click="deleteSize(size)" class="text-red-500  px-2 rounded-sm">
-                        <i class="far fa-times"></i>
+                        <i class="far fa-times relative left-px"></i>
                     </button>
                 </aside>
                 <button v-if="SizeNames.user_id != null" @click="openCurrentCloseOther(SizeNames.sizes, size)" class="px-3">

@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('close')" class="full-absolute z-[70] p-6">
+    <section @click="$emit('close')" class="full-absolute z-[70] p-8">
         <main @click.stop class="h-full min-w-[630px] w-[900px] bg-white flex flex-col justify-between p-2">
             <header class="flex-between-center bg-gray-100 border-b -m-2 mb-0">
                 <div class="px-3 font-semibold">

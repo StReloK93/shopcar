@@ -15,16 +15,15 @@
             </main>
         </section>
 
-        <div class="mb-2 cursor-pointer -mx-2">
-            <label class="text-gray-400 mb-1 flex-between-center px-3">
+        <div class="mb-2 cursor-pointer">
+            <label class="text-gray-400 mb-1 flex-between-center">
                 <span>Mahsulot turi</span>
             </label>
             <main @click="setSelectCategory(true)">
-                <div v-if="FormData.category_name" class="text-input bg-gray-200 flex-between-center">
+                <div v-if="FormData.category_name" class="text-input rounde-sm bg-pink-500 text-white">
                     <span class="font-semibold">{{ FormData.category_name }}</span>
-                    <i class="fal fa-check text-teal-600 relative top-px"></i>
                 </div>
-                <div v-else class="text-input flex-between-center">
+                <div v-else class="text-input px-0 flex-between-center">
                     Tanlang
                     <i class="fas fa-exclamation text-red-500"></i>
                 </div>
@@ -53,24 +52,24 @@
         </div>
         <div class="mb-2">
             <label class="text-gray-400 mb-1 flex-between-center">
-                <span>Size type</span>
+                <span>O'lcham turi</span>
                 <Validate :FormData="FormData" keyname="size_names_id" :inputType="'nullable'"></Validate>
             </label>
             <VueSelect :PageData="PageData" :FormData="FormData" :disabled="CategoryIsNull" />
         </div>
         <label class="text-gray-400 mb-1 flex-between-center">
-            <span>Sizes</span>
+            <span>O'lchamlar</span>
             <Validate :FormData="FormData" keyname="sizes" :value="sizesCount" :inputType="'array'"></Validate>
         </label>
-        <Size class="-mx-3 px-3" :FormData="FormData"></Size>
+        <Size class="-mx-4 px-4" :FormData="FormData"></Size>
         <button
             :class="{ '!bg-gray-200': CategoryIsNull, '!bg-pink-500 text-white': FormComplete && CategoryIsNull == false }"
             :disabled="CategoryIsNull" type="submit"
             class="px-2 py-0.5 bg-gray-300 rounded-sm w-full shadow active:bg-gray-200">
-            Create
+            Kiritish
         </button>
         <div v-if="needFormComplete" class="text-rose-500 text-center mt-2">
-            It is necessary to fill in all the fields!!
+            Malumotlar to'liq kiritilmagan
         </div>
     </form>
 </template>

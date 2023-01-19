@@ -1,12 +1,11 @@
 <template>
     <section>
-        <h3>Sizes</h3>
         <main v-if="SizeNames.length">
             <SizesVue v-for="size in SizeNames" :key="size.id" :SizeNames="size" @deleted="deleteSizeName"></SizesVue>
         </main>
         <form @submit.prevent="createSize">
-            <button class="px-2 py-1 bg-gray-200 shadow rounded active:bg-gray-300 active:shadow-sm flex items-center">
-                New Size <i class="fal fa-plus-circle ml-3 relative top-[2px]"></i>
+            <button class="px-4 py-1.5 bg-pink-500 text-white shadow rounded-sm active:bg-gray-300 active:shadow-sm flex items-center">
+                Kiritish <i class="ml-4 fa-light fa-ruler-triangle"></i>
             </button>
         </form>
     </section>

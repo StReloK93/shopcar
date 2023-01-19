@@ -1,30 +1,25 @@
 <template>
-    <section class="flex flex-col justify-between">
-        <main class="bg-theme text-white">
-            <aside class="container flex-between-center mx-auto px-4 py-2">
-                <div>
-                    <RouterLink to="/soldproducts" class="mr-3">Sotilgan mahsulotlar</RouterLink>
-                    <RouterLink to="/existproduct">Do'kondagi mahsulotlar</RouterLink>
-                </div>
-                <form @submit.prevent="getProductById(PageData.searchInput)">
-                    <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Mahsulot ID">
-                </form>
-            </aside>
-        </main>
-        <main class="flex-grow relative py-8">
-            <Transition name="fade">
-                <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
-            </Transition>
-
-            <RouterView v-slot="{ Component }">
-                <component ref="soldProductsComponent" class="container mx-auto px-4 h-full" :is="Component" />
-            </RouterView>
-        </main>
+    <section name="indexSale" class="flex flex-col">
+        <Transition name="fade">
+            <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
+        </Transition>
+        <aside class="flex-between-center">
+            <div>
+                <RouterLink to="/soldproducts" class="mr-3">Sotilgan</RouterLink>
+                <RouterLink to="/existproduct">Do'kondagi</RouterLink>
+            </div>
+            <form @submit.prevent="getProductById(PageData.searchInput)">
+                <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Sotish ID-NNN">
+            </form>
+        </aside>
+        <RouterView v-slot="{ Component }">
+            <component ref="soldProductsComponent" class="h-full" :is="Component" />
+        </RouterView>
     </section>
 </template>
 <script setup lang="ts">
 import onScan from 'onscan.js'
-import ListProducts from './components/ListProducts.vue'
+import ListProducts from './components/ListProductsSold.vue'
 import { reactive, watch, onUnmounted, ref, onMounted } from 'vue'
 
 const soldProductsComponent = ref()
@@ -48,11 +43,11 @@ watch(() => PageData.textInBarcode , (currentValue) => {
 
 function getProductById(productId){
     PageData.searchInput = null
-    const product = PageData.listProducts.find(product => product.id == productId)
+    const productIsset = PageData.listProducts.find(product => product.id == productId)
 
     // Agar bor bo'lsa
-    if (product) {
-        if (product.count > product.totalCount) product.totalCount++
+    if (productIsset) {
+        if (productIsset.count > productIsset.totalCount) productIsset.totalCount++
         return PageData.blocker = true
     }
 

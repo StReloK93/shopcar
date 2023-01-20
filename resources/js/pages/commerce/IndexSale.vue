@@ -5,8 +5,13 @@
         </Transition>
         <aside class="flex-between-center">
             <div>
-                <RouterLink to="/soldproducts" class="mr-3">Sotilgan</RouterLink>
-                <RouterLink to="/existproduct">Do'kondagi</RouterLink>
+                <RouterLink to="/soldproducts" class="mr-3">
+                    <i class="fa-light fa-arrow-up-from-dotted-line text-red-600 mr-4"></i> Sotilgan
+                </RouterLink>
+                <span class="px-3"></span>
+                <RouterLink to="/existproduct">
+                    <i class="fa-light fa-arrow-down-to-dotted-line text-blue-600 mr-4"></i> Do'kondagi
+                </RouterLink>
             </div>
             <form @submit.prevent="getProductById(PageData.searchInput)">
                 <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Sotish ID-NNN">
@@ -21,6 +26,7 @@
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProductsSold.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
+
 
 const soldProductsComponent = ref()
 const PageData = reactive({
@@ -72,7 +78,9 @@ function getProductById(productId){
 provide('getProductById', getProductById)
 
 function sold(data){
-    soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
+    if(soldProductsComponent.value.SellAgGrid) {
+        soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
+    }
     closeListProducts()
 }
 

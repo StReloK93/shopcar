@@ -9,7 +9,7 @@
                     type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
                 >
             </main>
-            <button @click="$emit('toggle-list')" type="button" class="text-xl text-blue-600">
+            <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
                 <i class="fa-light fa-list-tree"></i>
             </button>
         </section>
@@ -31,9 +31,13 @@
 <script setup lang="ts">
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref , reactive , inject} from "vue"
+import { useListTypeStore } from '@/store/useListTypeStore'
 import { useProductStore } from '../../store/useProductStore'
 import cellEditor from './countEditor.vue'
 import numberEditor from './numberEditor.vue'
+
+const listStore = useListTypeStore()
+
 const { editable } = defineProps({
     editable: {
         type: Boolean,

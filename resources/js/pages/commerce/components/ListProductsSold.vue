@@ -17,41 +17,7 @@
                         <td class="py-2 font-semibold">Umumiy narxi</td>
                         <td class="py-2 font-semibold"></td>
                     </tr>
-                    <tr v-for="(product, index) in listProducts" :key="index">
-                        <td class="border-y py-3 pl-3 text-left">{{ product.product_names.name }}</td>
-                        <td class="border-y py-3">{{ product.size.name }}</td>
-                        <td class="border-y py-3 w-32">
-                            <input type="number" class="text-input border py-0 text-center " v-model="product.sold_price">
-                        </td>
-                        <td class="border-y py-3 ">
-                            <div class="flex items-center justify-center">
-                                <button 
-                                    :disabled="product.totalCount == 1" 
-                                    :class="{'text-gray-300 hover:bg-inherit': product.totalCount == 1}" 
-                                    @click="decrement(product)" 
-                                    class="px-3 py-0.5 hover:bg-gray-100 active:bg-gray-200 rounded-sm w-10"
-                                >
-                                    <i class="fal fa-angle-left relative top-px"></i>
-                                </button>
-                                <span class="mx-4">
-                                    {{ product.totalCount }}
-                                </span>
-                                <button 
-                                    :disabled="product.totalCount == product.count" 
-                                    :class="{'text-gray-300 hover:bg-inherit': product.totalCount == product.count}" 
-                                    @click="increment(product)" 
-                                    class="px-3 py-0.5 hover:bg-gray-100 active:bg-gray-200 rounded-sm w-10"
-                                >
-                                    <i class="fal fa-angle-right relative top-px"></i>
-                                </button>
-                            </div>
-                        </td>
-                        <td class="border-y py-3">{{ product.count }}</td>
-                        <td class="border-y py-3">{{ product.sold_price * product.totalCount }}</td>
-                        <td @click="deleteProduct(index)" class="border-y py-3 px-3 text-red-600 cursor-pointer hover:bg-gray-100 active:bg-slate-200">
-                            <i class="fal fa-times"></i>
-                        </td>
-                    </tr>
+                    <TrProduct v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
                     <tr>
                         <td class="py-5" colspan="4"></td>
                         <td class="py-3 font-semibold text-[18px]">Umumiy summa</td>
@@ -60,9 +26,12 @@
                     </tr>
                 </table>
             </main>
-            <footer class="bg-white p-3 border-t text-right">
+            <footer class="bg-white p-3 border-t text-right flex justify-between items-center">
+                <form @submit.prevent="getProductById(searchId)">
+                    <input type="text" class="text-input bg-inherit border" v-model="searchId" placeholder="Sotish ID-NNN">
+                </form>
                 <button @click="sendForm" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
-                    Sotish
+                    To'lovni amalga oshirish
                 </button>
             </footer>
         </main>
@@ -70,26 +39,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted , inject , ref } from 'vue'
+import TrProduct from './TrProduct.vue'
 const { listProducts } = defineProps(['listProducts'])
 const emit = defineEmits(['close','sold'])
 
+
+const searchId = ref()
+const getProductById: Function = inject('getProductById', null)
+
+
 const totalPrice = computed(() => {
-    return listProducts.reduce((summa, product) => summa + product.sold_price * product.totalCount, 0)
+    const summa = listProducts.reduce((sum, product) => sum + product.sold_price * product.totalCount, 0)
+    return Math.trunc(summa*1000)/1000
 })
-
-function decrement(product){
-    if(product.totalCount > 1) product.totalCount--
-}
-
-function increment(product){
-    if(product.totalCount < product.count) product.totalCount++
-}
-
-
-function deleteProduct(index){
-    listProducts.splice(index,1)
-}
 
 function sendForm(){
     // axios
@@ -103,6 +66,12 @@ function sendForm(){
         emit('sold',data)
     })
 }
+
+
+function deleteProduct(index){
+    listProducts.splice(index,1)
+}
+
 
 onMounted(() => {
     const listproductDiv = document.getElementById('ListProducts')

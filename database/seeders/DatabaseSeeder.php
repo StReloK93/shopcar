@@ -57,6 +57,10 @@ class DatabaseSeeder extends Seeder
                 'name'=>'Quantity',
             ],
             [
+                'user_id' => null,
+                'name'=>'Units',
+            ],
+            [
                 'user_id' => 1,
                 'name'=>'Standart',
             ],
@@ -70,6 +74,26 @@ class DatabaseSeeder extends Seeder
             [
                 'size_name_id' => 1,
                 'name'=>'qty',
+            ],
+        ]);
+
+
+        Size::insert([
+            [
+                'size_name_id' => 2,
+                'name'=>'m',
+            ],
+            [
+                'size_name_id' => 2,
+                'name'=>'g',
+            ],
+            [
+                'size_name_id' => 2,
+                'name'=>'t',
+            ],
+            [
+                'size_name_id' => 2,
+                'name'=>'L',
             ],
         ]);
 
@@ -104,39 +128,39 @@ class DatabaseSeeder extends Seeder
 
         Size::insert([
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=> '40',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'42',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'44',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'46',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'48',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'50',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'52',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'54',
             ],
             [
-                'size_name_id' => 2,
+                'size_name_id' => 4,
                 'name'=>'56',
             ],
         ]);

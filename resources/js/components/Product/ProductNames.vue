@@ -18,7 +18,7 @@
                     type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
                 >
             </main>
-            <button @click="$emit('toggle-list')" type="button" class="text-xl text-blue-600">
+            <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
                 <i class="fa-regular fa-list-ul"></i>
             </button>
         </section>
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { useProductStore } from '@/store/useProductStore'
+import { useListTypeStore } from '@/store/useListTypeStore'
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
 import ProductName from './ProductName.vue'
@@ -47,6 +48,7 @@ import ProductName from './ProductName.vue'
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)
 
+const listStore = useListTypeStore()
 
 
 const store = useProductStore()

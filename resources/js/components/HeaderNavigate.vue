@@ -4,13 +4,13 @@
             <router-link to="/" class="font-light text-pink-500"><i class="fa fa-claw-marks mr-2"></i> Ruzzifer</router-link>
             <aside class="flex text-2xl leading-none">
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'sale' }">
-                    <i class="fal fa-shopping-bag"></i>
+                    <i class="fa-light fa-cart-circle-arrow-up"></i>
                 </router-link>
                 <router-link class="border-y-2 border-transparent px-3 py-4 block mx-2" :to="{ name: 'introduction' }">
-                    <i class="fal fa-scroll-old"></i>
+                    <i class="fa-light fa-laptop-arrow-down"></i>
                 </router-link>
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'constructor' }">
-                    <i class="fal fa-cog"></i>
+                    <i class="fa-light fa-screwdriver-wrench"></i>
                 </router-link>
             </aside>
         </main>

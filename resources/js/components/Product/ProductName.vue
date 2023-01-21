@@ -11,10 +11,10 @@
             </header>
             <div class="py-1.5 flex-between-center">
                 <span>
-                    O'lcham turi - 
-                    <i class="font-semibold text-pink-500">{{ pageData.size_name }}</i>
+                    <i class="fa-light fa-ruler-triangle"></i> - 
+                    <span class="font-semibold text-pink-500">{{ pageData.size_name }}</span>
                 </span>
-                <div class="flex">
+                <div v-if="editable" class="flex">
                     <button v-for="size in emptySizes" @click="createProduct(size)" class="bg-gray-200 shadow rounded-sm border-b-2 border-pink-500 w-14 px-2 py-0.5 ml-2 flex-between-center active:bg-gray-200 hover:bg-gray-300">
                         <i class="fal fa-plus text-xs"></i> <span>{{ size.name }}</span> 
                     </button>
@@ -32,7 +32,7 @@
                     :undoRedoCellEditing="true"
                 ></AgGridVue>
             </aside>
-            <div class="mt-3 text-right">
+            <div v-if="editable" class="mt-3 text-right">
                 <button @click="$emit('deleteProduct', productName)" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
                     <i class="far fa-trash text-pink-500 mr-2"></i> Mahsulotni o'chirish
                 </button>
@@ -44,10 +44,12 @@
 <script setup lang="ts">
 import { GridApi } from "ag-grid-community"
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
-import { ref , reactive , computed } from "vue"
+import { ref , reactive , computed, inject } from "vue"
 import { useProductStore } from '../../store/useProductStore'
 import cellEditor from './countEditor.vue'
 import numberEditor from './numberEditor.vue'
+
+const emit = defineEmits(['close'])
 
 const { productName, gridApi , editable } = defineProps({
     productName: Object,
@@ -57,6 +59,9 @@ const { productName, gridApi , editable } = defineProps({
         default: false
     }
 })
+
+
+const getProductById: Function = inject('getProductById', null)
 const store = useProductStore()
 
 const pageData = reactive({
@@ -80,7 +85,7 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 const columnDefs = ref([
     { headerName: "ID", field: "id" , width: 65  },
     { headerName: "O'lchami", field: "size.name" , flex: 1  },
-    { headerName: "Tan narxi", field: "original_price",  editable: true , width: 115 , cellEditor: numberEditor },
+    { headerName: "Tan narxi", field: "original_price", editable: true , width: 115 , cellEditor: numberEditor },
     { headerName: "Sotuv narxi", field: "price" , editable: true , width: 115, cellEditor: numberEditor },
     { 
         headerName: "Soni",
@@ -100,8 +105,23 @@ const columnDefs = ref([
     { 
         width: 50,
         headerName: "",
+        hide: editable == false,
         onCellClicked: (selected) => deleteProduct(selected.data),
         cellRenderer: () => '<i class="fal fa-trash text-pink-500"></i>',
+        cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+    },
+    { 
+        suppressMovable: true,
+        pinned: 'right',
+        width: 50,
+        hide: getProductById == null,
+        headerName: "",
+        onCellClicked: (selected) => {
+            getProductById(selected.data.id)
+            setTimeout(() => emit('close'), 250 )
+            
+        },
+        cellRenderer: () => '<i class="fa-regular fa-bag-shopping text-orange-600"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
 ])

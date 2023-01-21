@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="createProductName" class="w-60">
 
-        <section @click="setSelectCategory(false)" v-if="PageData.selectCategory" class="full-absolute z-[100] p-8">
+        <section @click="setSelectCategory(false)" v-if="PageData.selectCategory" class="full-absolute items-start z-[100] p-8">
             <main @click.stop class="bg-white min-w-[630px] w-[900px] max-h-full border-t-2 border-pink-500 px-4 py-3 relative">
                 <button @click="setSelectCategory(false)" type="button" class="absolute top-0 right-0 hover:bg-gray-100">
                     <i class="far fa-times py-3 px-4 text-red-600"></i>
@@ -25,7 +25,7 @@
                 </div>
                 <div v-else class="text-input px-0 flex-between-center">
                     Tanlang
-                    <i class="fas fa-exclamation text-red-500"></i>
+                    <i class="fas fa-exclamation text-red-500 mr-0.5"></i>
                 </div>
             </main>
         </div>

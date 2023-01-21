@@ -13,12 +13,15 @@
                     <i class="fa-light fa-arrow-down-to-dotted-line text-blue-600 mr-4"></i> Do'kondagi
                 </RouterLink>
             </div>
+            <button @click="sold('ssss')">
+                SDASda
+            </button>
             <form @submit.prevent="getProductById(PageData.searchInput)">
                 <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Sotish ID-NNN">
             </form>
         </aside>
         <RouterView v-slot="{ Component }">
-            <component ref="soldProductsComponent" class="h-full" :is="Component" />
+            <component ref="tables" class="h-full" :is="Component" />
         </RouterView>
     </section>
 </template>
@@ -28,7 +31,7 @@ import ListProducts from './components/ListProductsSold.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
 
 
-const soldProductsComponent = ref()
+const tables = ref()
 const PageData = reactive({
     soldGrid: null,
     textInBarcode: null,
@@ -75,12 +78,48 @@ function getProductById(productId){
     })
 }
 
-provide('getProductById', getProductById)
 
-function sold(data){
-    if(soldProductsComponent.value.SellAgGrid) {
-        soldProductsComponent.value.SellAgGrid.api.applyTransaction({add: data,addIndex: 0})
-    }
+
+function sold(listProducts){
+
+    listProducts.forEach(product => {
+ 
+        if(tables.value.productNames) {
+            const api = tables.value.productNames.agGrid.api
+            const rowNode = api.getRowNode(product.product_names_id)
+            const selectedProduct = rowNode.data.products.find(prod => product.product_id == prod.id)
+
+            const remainder = selectedProduct.count - product.count
+            if(remainder == 0) rowNode.data.products = rowNode.data.products.filter(prod => product.product_id != prod.id)
+            
+            else{
+                rowNode.data.products.forEach(prod => {
+                    if(prod.id == product.product_id) prod.count = remainder
+                })
+            }
+            rowNode.setData(rowNode.data)
+        }
+
+        if(tables.value.products) {
+            const api = tables.value.products.productAgGrid.api
+            const rowNode = api.getRowNode(product.product_id)
+            const remainder = rowNode.data.count - product.count
+
+            if(remainder == 0) api.applyTransaction({remove: [rowNode.data]})
+            else{
+                rowNode.data.count = remainder
+                rowNode.setData(rowNode.data)
+            }
+        }
+
+    })
+    
+
+    
+    
+    
+    if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: listProducts,addIndex: 0})
+    
     closeListProducts()
 }
 
@@ -98,9 +137,9 @@ function Scancode(sScancode: any)  {
     }, 100)  //200 works fine for me but you can adjust it
 }
 
-
 // Register event listener
 onMounted(() => document.addEventListener('scan', Scancode))
 onUnmounted(() => document.removeEventListener('scan', Scancode))
+provide('getProductById', getProductById)
 </script>
 <style src="../../assets/ag-grid.css"></style>

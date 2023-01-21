@@ -50,10 +50,12 @@ defineProps(['editable'])
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)
 
+
+
 const listStore = useListTypeStore()
-
-
 const store = useProductStore()
+
+
 const productName = ref(null)
 
 const agGrid: GridOptions = reactive({api: null,columnApi: null})
@@ -109,7 +111,9 @@ const columnDefs = ref([
     },
     { 
         sortable: true,
-        headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
+        headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => {
+            moment(params.value).fromNow()
+        }
     },
 
     { 

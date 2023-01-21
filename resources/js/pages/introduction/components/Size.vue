@@ -3,7 +3,7 @@
         <div v-for="(size, index) in FormData.products" :key="index" :class="{'mr-0': index == FormData.products.length - 1}" class="flex flex-col mr-1.5">
             <main @click="size.count++" class="size-button mb-1"><i class="far fa-angle-up"></i></main>
             <aside
-                class="bg-gray-200 rounded-sm shadow flex flex-col items-center justify-between uppercase  overflow-hidden">
+                class="bg-gray-200 rounded-sm shadow flex flex-col items-center justify-between overflow-hidden">
                 <span class="w-10 text-center py-1 bg-gray-500 text-gray-100">{{ size.name }}</span>
                 <input :class="{ 'bg-pink-500 text-white': size.count != 0 }"
                     class="w-10 text-center py-1 outline-none px-0" type="number" step="0.001" v-model="size.count">

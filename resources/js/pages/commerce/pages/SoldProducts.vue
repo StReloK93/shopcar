@@ -30,7 +30,17 @@ const PageData = reactive({
         { field: 'price', headerName: 'Narxi', width: 130, },
         { field: 'sold_price', headerName: 'Sotilgan narxi', width: 130, },
         { field: 'count', headerName: 'Soni', width: 80 },
+        { field: 'count', headerName: 'Summa', width: 140 , headerClass: ['bg-gray-100'], cellClass: ['bg-gray-100', 'font-semibold'] , cellRenderer: ({data}) => Math.round(data.sold_price * data.count*1000)/1000 },
         { field: 'created_at', headerName: 'Sotilgan vaqt', width: 140, cellRenderer: params => moment(params.value).fromNow() },
+        { 
+            headerName: '',
+            width: 50,
+            cellRenderer: () => "<i class='fa-brands fa-rev text-xl relative top-px text-blue-500'></i>",
+            // onCellClicked: (selected) => getProductById(selected.data.id),
+            cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+        },
+
+        
     ]
 })
 
@@ -39,7 +49,6 @@ function gridReady(grid) {
     SellAgGrid.api = grid.api
     SellAgGrid.columnApi = grid.columnApi
 }
-
 
 defineExpose({ SellAgGrid })
 </script>

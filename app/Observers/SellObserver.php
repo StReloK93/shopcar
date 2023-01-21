@@ -21,9 +21,9 @@ class SellObserver
 
         $product->decrement('count', $sell->count);
 
-        // if((int)$product->count == 0){
-        //     $product->delete();
-        // }
+        if($product->count == 0 || $product->count < 0){
+            $product->delete();
+        }
     }
 
     /**

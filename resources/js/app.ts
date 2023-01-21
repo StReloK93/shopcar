@@ -27,21 +27,29 @@ import router from './router'
 const pinia = createPinia()
 
 createApp(App)
-.component("AgGridVue", (AgGridVue))
-.component("vSelect", (vSelect))
-.use(router)
-.use(pinia)
-.mount("#app")
+    .component("AgGridVue", (AgGridVue))
+    .component("vSelect", (vSelect))
+    .use(router)
+    .use(pinia)
+    .mount("#app")
 
 
 
-
-
-
-
-
-
-
+moment.locale('uz', {
+    relativeTime: {
+        future: '%s keyin',
+        past: '%s oldin',
+        s: '1 sekund',
+        m: '1 minut',
+        mm: '%d minut',
+        h: '1 soat',
+        hh: '%d soat',
+        d: '1 kun',
+        dd: '%d kun',
+        M: '1 Oy',
+        MM: '%d Oy',
+    }
+})
 
 
 // moment.locale('uz', {

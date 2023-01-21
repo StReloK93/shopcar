@@ -19,10 +19,10 @@
                     </tr>
                     <TrProduct v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
                     <tr>
-                        <td class="py-5" colspan="4"></td>
-                        <td class="py-3 font-semibold text-[18px]">Umumiy summa</td>
-                        <td class="py-5">{{ totalPrice }}</td>
-                        <td class="py-5"></td>
+                        <td class="py-5 sticky bottom-0 bg-white" colspan="4"></td>
+                        <td class="py-3 sticky bottom-0 bg-white font-semibold text-[18px]">Umumiy summa</td>
+                        <td class="py-5 sticky bottom-0 bg-white font-semibold text-[18px]">{{ totalPrice }}</td>
+                        <td class="py-5 sticky bottom-0 bg-white"></td>
                     </tr>
                 </table>
             </main>
@@ -30,8 +30,18 @@
                 <form @submit.prevent="addProduct()">
                     <input type="text" class="text-input bg-inherit border" v-model="searchId" placeholder="Sotish ID-NNN">
                 </form>
-                <button @click="sendForm" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
-                    To'lovni amalga oshirish
+                <button 
+                    :disabled="totalPrice == 0"
+                    @click="sendForm" 
+                    :class="{'!border-gray-300 text-gray-400 cursor-disabled bg-gray-300': totalPrice == 0}" 
+                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300"
+                >
+                    <span v-if="totalPrice == 0">
+                        Mahsulot kiriting
+                    </span>
+                    <span v-else>
+                        To'lovni amalga oshirish
+                    </span>
                 </button>
             </footer>
         </main>
@@ -67,7 +77,7 @@ function sendForm(){
             showConfirmButton: false,
             timer: 1000
         })
-        emit('sold',data)
+        emit('sold', data)
     })
 }
 

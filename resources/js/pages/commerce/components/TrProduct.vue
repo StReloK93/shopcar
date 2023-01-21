@@ -24,7 +24,7 @@
             </div>
         </td>
         <td class="border-y py-3">{{ product.count }}</td>
-        <td class="border-y py-3">{{ Math.trunc(product.sold_price * product.totalCount*1000)/1000}}</td>
+        <td class="border-y py-3">{{ Math.round(product.sold_price * product.totalCount*1000)/1000}}</td>
         <td @click="$emit('delete')"
             class="border-y py-3 px-3 text-red-600 cursor-pointer hover:bg-gray-100 active:bg-slate-200">
             <i class="fal fa-times"></i>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watch, onMounted } from 'vue'
 const { product } = defineProps(['product', 'index'])
 const decrement = (product) => product.totalCount--
 const increment = (product) => product.totalCount++
@@ -45,4 +45,9 @@ watch(() => product, (current) => {
     current.totalCount = Math.round(current.totalCount*1000)/1000
     
 }, { deep: true })
+
+
+onMounted(() => {
+    if(product.totalCount > product.count) product.totalCount =product.count
+})
 </script>

@@ -65,8 +65,8 @@ const columnDefs = ref([
     },
     { headerName: "Nomi", field: "product_names.name" , flex: 1, minWidth: 140},
     { headerName: "O'lchami", field: "size.name" , width: 80 },
-    { headerName: "Tan narxi", field: "original_price",  editable: editable , width: 115 , cellEditor: numberEditor },
-    { headerName: "Sotuv narxi", field: "price" , editable: editable , width: 115, cellEditor: numberEditor },
+    { headerName: "Tan narxi", field: "original_price", hide: editable == false,  editable: editable , width: 115 , cellEditor: numberEditor },
+    { headerName: "Narxi", field: "price" , editable: editable , width: 115, cellEditor: numberEditor },
     { 
         headerName: "Soni",
         field: "count",

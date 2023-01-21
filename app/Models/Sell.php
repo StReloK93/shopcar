@@ -11,7 +11,7 @@ class Sell extends Model
 
 
     protected $fillable = [
-        'user_id',
+        'shop_id',
         'product_names_id',
         'product_id',
         'size_id',

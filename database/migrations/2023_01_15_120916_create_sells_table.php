@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sells', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->bigInteger('shop_id');
             $table->bigInteger('product_names_id');
             $table->bigInteger('product_id');
             $table->bigInteger('size_id');

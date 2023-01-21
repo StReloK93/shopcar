@@ -10,7 +10,7 @@ class ProductNamesController extends Controller
 {
     //get
     public function index(){
-        return ProductNames::where('user_id', 1)->with(['products','category','size_names'])->latest()->get();
+        return ProductNames::where('shop_id', 1)->with(['products','category','size_names'])->latest()->get();
     }
 
 
@@ -22,7 +22,7 @@ class ProductNamesController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'size_names_id' => $request->size_names_id,
-            'user_id' => 1,
+            'shop_id' => 1,
         ]);
 
         return ProductNames::with(['products','category','size_names'])->find($productNames->id);

@@ -12,14 +12,14 @@ class ProductController extends Controller
     // index
     public function index()
     {
-        return Product::with(['product_names','size'])->where('user_id', 1)->latest()->get();
+        return Product::with(['product_names','size'])->where('shop_id', 1)->latest()->get();
     }
 
     // create
     public function store(Request $request)
     {
         $FormData = $request->all();
-        $FormData['user_id'] = 1;
+        $FormData['shop_id'] = 1;
         return Product::create($FormData)->fresh();
     }
 

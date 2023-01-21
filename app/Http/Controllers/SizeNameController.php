@@ -10,14 +10,14 @@ class SizeNameController extends Controller
     public function index()
     {
 
-        return SizeName::where(['user_id' => 1])->orWhereNull('user_id')->with('sizes')->get();
+        return SizeName::where(['shop_id' => 1])->orWhereNull('shop_id')->with('sizes')->get();
         
     }
 
     public function store()
     {
 
-        $sizeName = SizeName::create(['user_id' => 1])->fresh();
+        $sizeName = SizeName::create(['shop_id' => 1])->fresh();
         return SizeName::with('sizes')->find($sizeName->id);
 
     }

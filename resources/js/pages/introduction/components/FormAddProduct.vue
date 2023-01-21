@@ -10,7 +10,7 @@
                     Mahsulot turini tanlang
                 </h3>
                 <TreeItemFree v-for="category in PageData.categories" :Categories="PageData.categories" :category="category"
-                    :FormData="FormData">
+                    :PageData="PageData">
                 </TreeItemFree>
             </main>
         </section>
@@ -20,8 +20,8 @@
                 <span>Mahsulot turi</span>
             </label>
             <main @click="setSelectCategory(true)">
-                <div v-if="FormData.category_name" class="text-input rounde-sm bg-pink-500 text-white">
-                    <span class="font-semibold">{{ FormData.category_name }}</span>
+                <div v-if="PageData.category_name" class="text-input rounde-sm bg-pink-500 text-white">
+                    <span class="font-semibold">{{ PageData.category_name }}</span>
                 </div>
                 <div v-else class="text-input px-0 flex-between-center">
                     Tanlang
@@ -90,6 +90,8 @@ const PageData = reactive({
     categories: [],
     sizeNames: [],
     selectCategory: false,
+    category_id: null,
+    category_name: null,
 })
 
 function setSelectCategory(boolean){
@@ -105,16 +107,15 @@ const initialForm = {
     name: '',
     original_price: '',
     price: '',
-    category_id: null,
-    category_name: null,
     size_names_id: null,
-    products: []
+    products: [],
+    category_id: null,
 }
 
 const needFormComplete = ref(false)
 const FormData = reactive({ ...initialForm })
 
-watch(() => FormData.category_id, (current)=> {
+watch(() => PageData.category_id, (current) => {
     PageData.selectCategory = false
 })
 
@@ -124,6 +125,7 @@ function createProductName() {
         needFormComplete.value = true
         return setTimeout(() => needFormComplete.value = false, 3000);
     }
+    FormData.category_id = PageData.category_id
     axios.post('/productnames', FormData).then(({ data }) => {
         Object.assign(FormData, initialForm)
         emit('create-product', data)
@@ -137,7 +139,7 @@ function createProductName() {
 // all inputs completed
 const FormComplete = computed(() => FormData.name.trim() != "" && FormData.original_price != "" && FormData.price != "" && FormData.size_names_id != null && sizesCount.value != 0)
 
-const CategoryIsNull = computed(() => FormData.category_id == null)
+const CategoryIsNull = computed(() => PageData.category_id == null)
 const sizesCount = computed(() => {
     if (FormData.products.length == 0) return 0
     else return FormData.products.reduce((current, size) => current + +size.count, 0)

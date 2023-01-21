@@ -19,32 +19,32 @@ class DatabaseSeeder extends Seeder
 
         Category::insert([
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Брюки',
                 'category_id' => null
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Обувы',
                 'category_id' => null
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Туфли',
                 'category_id' => 2
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Крассовки',
                 'category_id' => 2
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Джинсы',
                 'category_id' => 1
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Классика',
                 'category_id' => 1
             ],
@@ -53,19 +53,19 @@ class DatabaseSeeder extends Seeder
 
         SizeName::insert([
             [
-                'user_id' => null,
+                'shop_id' => null,
                 'name'=>'Quantity',
             ],
             [
-                'user_id' => null,
+                'shop_id' => null,
                 'name'=>'Units',
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Standart',
             ],
             [
-                'user_id' => 1,
+                'shop_id' => 1,
                 'name'=>'Russian',
             ],
         ]);

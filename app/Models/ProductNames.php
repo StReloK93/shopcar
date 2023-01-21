@@ -11,7 +11,7 @@ class ProductNames extends Model
 
     protected $fillable = [
         'category_id',
-        'user_id',
+        'shop_id',
         'size_names_id',
         'name',
     ];

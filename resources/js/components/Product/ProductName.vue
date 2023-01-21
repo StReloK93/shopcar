@@ -48,9 +48,14 @@ import { ref , reactive , computed } from "vue"
 import { useProductStore } from '../../store/useProductStore'
 import cellEditor from './countEditor.vue'
 import numberEditor from './numberEditor.vue'
-const { productName, gridApi } = defineProps({
+
+const { productName, gridApi , editable } = defineProps({
     productName: Object,
-    gridApi: GridApi
+    gridApi: GridApi,
+    editable: {
+        type: Boolean,
+        default: false
+    }
 })
 const store = useProductStore()
 

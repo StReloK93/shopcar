@@ -8,7 +8,7 @@ class SellController extends Controller
 {
     //get
     public function index(){
-        return Sell::where('user_id', 1)->with(['product_names','size'])->latest()->get();
+        return Sell::where('shop_id', 1)->with(['product_names','size'])->latest()->get();
     }
 
 
@@ -20,7 +20,7 @@ class SellController extends Controller
 
         foreach ($request->all() as $key => $value) {
             $sell = Sell::create([
-                'user_id' => 1,
+                'shop_id' => 1,
                 'product_names_id' => $request[$key]['product_names_id'],
                 'product_id' => $request[$key]['id'],
                 'size_id' => $request[$key]['size_id'],

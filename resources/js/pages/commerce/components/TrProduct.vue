@@ -35,16 +35,8 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 const { product } = defineProps(['product', 'index'])
-
-
-function decrement(product) {
-    product.totalCount -= 1
-}
-
-function increment(product) {
-    product.totalCount++
-}
-
+const decrement = (product) => product.totalCount--
+const increment = (product) => product.totalCount++
 
 watch(() => product, (current) => {
     if(current.totalCount > current.count) current.totalCount = current.count

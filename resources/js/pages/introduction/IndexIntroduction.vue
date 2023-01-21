@@ -1,7 +1,7 @@
 <template>
     <section class="relative flex items-start" name="indexSale">
         <FormAddProduct @create-product="(data) => AnimateAddProducts(data)" />
-        <ProductNames v-if="store.getListType" ref="productNames" class="ml-4 pl-4 border-l h-full" />
+        <ProductNames v-if="store.getListType" :editable="true" ref="productNames" class="ml-4 pl-4 border-l h-full" />
         <Products v-else ref="products" :editable="true" class="ml-4 pl-4 border-l h-full" />
     </section>
 </template>

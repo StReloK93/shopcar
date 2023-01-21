@@ -4,7 +4,8 @@
             <ProductName 
                 v-if="productName" 
                 :gridApi="agGrid.api" 
-                :productName="productName" 
+                :productName="productName"
+                :editable="editable"
                 @close="productName = null"
                 @deleteProduct="deleteProduct"
             />
@@ -44,6 +45,7 @@ import { useListTypeStore } from '@/store/useListTypeStore'
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
 import ProductName from './ProductName.vue'
+defineProps(['editable'])
 
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)

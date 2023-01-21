@@ -27,7 +27,7 @@
                 </table>
             </main>
             <footer class="bg-white p-3 border-t text-right flex justify-between items-center">
-                <form @submit.prevent="getProductById(searchId)">
+                <form @submit.prevent="addProduct()">
                     <input type="text" class="text-input bg-inherit border" v-model="searchId" placeholder="Sotish ID-NNN">
                 </form>
                 <button @click="sendForm" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
@@ -44,9 +44,13 @@ import TrProduct from './TrProduct.vue'
 const { listProducts } = defineProps(['listProducts'])
 const emit = defineEmits(['close','sold'])
 
+const getProductById: Function = inject('getProductById', null)
 
 const searchId = ref()
-const getProductById: Function = inject('getProductById', null)
+function addProduct(){
+    getProductById(searchId.value)
+    searchId.value = null
+}
 
 
 const totalPrice = computed(() => {

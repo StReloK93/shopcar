@@ -25,7 +25,7 @@ axios.get('sells').then(({ data }) => PageData.sells = data)
 const PageData = reactive({
     sells: null,
     columnDefs: [
-        { field: 'product_names.name', headerName: 'Nomi', flex: 1 },
+        { field: 'product_names.name', headerName: 'Nomi', flex: 1 , sortable: true},
         { field: 'size.name', headerName: "O'lchami", width: 80, },
         { field: 'price', headerName: 'Narxi', width: 130, },
         { field: 'sold_price', headerName: 'Sotilgan narxi', width: 130, },

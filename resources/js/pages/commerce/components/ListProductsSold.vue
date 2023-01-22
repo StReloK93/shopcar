@@ -1,13 +1,16 @@
 <template>
-    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-8 outline-none z-[100]">
+    <section @click="$emit('onrollup')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-4 pb-16 outline-none z-[100]">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between">
             <header class="text-right bg-gray-100 border-b mb-0">
+                <button @click="$emit('onrollup')" class="px-4 py-2 hover:bg-gray-200">
+                    <i class="fa-light fa-minus relative top-px"></i>
+                </button>
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
                     <i class="far fa-times text-red-500"></i>
                 </button>
             </header>
             <main class="flex-grow overflow-hidden overflow-y-auto list-products shadow-inner px-3">
-                <table class="w-full text-center mt-4">
+                <table class="w-full text-center mt-1">
                     <tr>
                         <td class="py-2 font-semibold">Nomi</td>
                         <td class="py-2 font-semibold">Hajmi</td>
@@ -19,10 +22,10 @@
                     </tr>
                     <TrProduct v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
                     <tr>
-                        <td class="py-5 sticky bottom-0 bg-white" colspan="4"></td>
+                        <td class="py-4 sticky bottom-0 bg-white" colspan="4"></td>
                         <td class="py-3 sticky bottom-0 bg-white font-semibold text-[18px]">Umumiy summa</td>
-                        <td class="py-5 sticky bottom-0 bg-white font-semibold text-[18px]">{{ totalPrice }}</td>
-                        <td class="py-5 sticky bottom-0 bg-white"></td>
+                        <td class="py-4 sticky bottom-0 bg-white font-semibold text-[18px]">{{ totalPrice }}</td>
+                        <td class="py-4 sticky bottom-0 bg-white"></td>
                     </tr>
                 </table>
             </main>
@@ -52,11 +55,14 @@
 import { computed, onMounted , inject , ref } from 'vue'
 import TrProduct from './TrProduct.vue'
 const { listProducts } = defineProps(['listProducts'])
-const emit = defineEmits(['close','sold'])
-
 const getProductById: Function = inject('getProductById', null)
+const emit = defineEmits(['close','sold','onrollup'])
+
+
+
 
 const searchId = ref()
+
 function addProduct(){
     getProductById(searchId.value)
     searchId.value = null
@@ -82,10 +88,12 @@ function sendForm(){
 }
 
 
-function deleteProduct(index){
+const deleteProduct = (index) => {
     listProducts.splice(index,1)
+    if(listProducts.length == 0){
+        emit('close')
+    }
 }
-
 
 onMounted(() => {
     const listproductDiv = document.getElementById('ListProducts')

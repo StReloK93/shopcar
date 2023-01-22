@@ -49,7 +49,7 @@ import { useProductStore } from '../../store/useProductStore'
 import cellEditor from './countEditor.vue'
 import numberEditor from './numberEditor.vue'
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close','deleteProduct'])
 
 const { productName, gridApi , editable } = defineProps({
     productName: Object,

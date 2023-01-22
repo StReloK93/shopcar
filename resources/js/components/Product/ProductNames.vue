@@ -19,9 +19,25 @@
                     type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
                 >
             </main>
-            <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
-                <i class="fa-regular fa-list-ul"></i>
-            </button>
+            <main class="flex items-center">
+                <div class="mr-10 flex text-white items-center">
+                    <article>
+                        <label for="alls" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'all'}"><i class="fa-solid fa-circle-check text-xl relative top-px"></i></label>
+                        <input hidden id="alls" type="radio" name="filte" @change="filterChanged" v-model="filter" value="all">
+                    </article>
+                    <article class="mx-4">
+                        <label for="emptys" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'empty'}"><i class="fa-solid fa-circle-xmark text-xl relative top-px"></i></label>
+                        <input hidden id="emptys" type="radio" name="filte" @change="filterChanged" v-model="filter" value="empty">
+                    </article>
+                    <article>
+                        <label for="contains" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'contain'}"><i class="fa-solid fa-circle-bolt text-xl relative top-px"></i></label>
+                        <input hidden id="contains" type="radio" name="filte" @change="filterChanged" v-model="filter" value="contain">
+                    </article>
+                </div>
+                <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
+                    <i class="fa-regular fa-list-ul"></i>
+                </button>
+            </main>
         </section>
         <section class="flex-grow">
             <AgGridVue
@@ -34,6 +50,8 @@
                 @gridReady="gridReady"
                 :undoRedoCellEditing="true"
                 :undoRedoCellEditingLimit="20"
+                :doesExternalFilterPass="doesExternalFilterPass"
+                :isExternalFilterPresent="isExternalFilterPresent"
             ></AgGridVue>
         </section>
     </main>
@@ -46,6 +64,8 @@ import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { ref, reactive } from 'vue'
 import ProductName from './ProductName.vue'
 defineProps(['editable'])
+
+const filter = ref('contain')
 
 const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)
@@ -79,7 +99,9 @@ function deleteProduct(selectedProductName){
         icon: 'warning',
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.delete(`productnames/${selectedProductName.id}`).then(() => {
+            axios.put(`productnames/delete/${selectedProductName.id}`, selectedProductName).then(({data}) => {
+                console.log(data);
+                
                 agGrid.api.applyTransaction({remove: [selectedProductName]})
                 productName.value = null
             })
@@ -87,6 +109,29 @@ function deleteProduct(selectedProductName){
     })
 }
 
+
+function filterChanged() {
+    
+    console.log(filter.value);
+    
+    agGrid.api.onFilterChanged()
+}
+
+
+function isExternalFilterPresent(){
+    return filter.value !== 'all'
+}
+
+
+function doesExternalFilterPass(node){
+    
+    const count = node.data.products.reduce((summa, product) => summa + product.count, 0)
+    
+    if (filter.value == 'empty') return count == 0
+    else if(filter.value == 'contain') return count != 0
+    else return true
+    
+}
 
 function cellValueChanged(event) {
     axios.put(`productnames/${event.data.id}`, event.data)
@@ -99,21 +144,25 @@ const columnDefs = ref([
     },
     { 
         sortable: true,
+        headerName: "Sotildi",
+        field: "sells_sum_count",
+        width: 85,
+    },
+    { 
+        sortable: true,
         resizable: true,
         headerName: "Soni",
         field: "products",
         width: 85,
         cellRenderer: params => params.value.reduce((summa, product) => summa + product.count, 0)
     },
-    { 
+    {
         sortable: true,
         headerName: "Turi", field: "category.name" , width: 120 
     },
     { 
         sortable: true,
-        headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => {
-            moment(params.value).fromNow()
-        }
+        headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
     },
 
     { 

@@ -1,12 +1,16 @@
 1 - Sotilganlar jadvalida bor tovarlarni ProductNames Jadvaldan uchirishni taqiqlash
+
 2 - Bir nechta dokonlarni yurgiza bilish
 3 - Registratsoya va login
+
 4 - O'lchov birliklarini Yakka holatdagilarini ham tayyorlash
 5 - Aynan Kasr qismi bor o'lchov birliklarini shtrix kodga tayyorlash
+
 6 - Bugungi savdoni Korsatib turish
 7 - Sotilayotga tovar qaysi usulda sotilayotganini tanlash (Naxt, Plastik , Qarz)
-8 - Bosh sahifada dokondagilar jadvalida sotuv amalga oshsa usha qatorni malumotlarini yangilash
-9 - Localization 3 xil til Lotin Kiril Rus
-10 - Bir nechta odam bilan bir vaqtda savdo qilish
-11 - Tovarni qaytarib olish jarayonini ishlab chiqish
-12 - Footer qismi (Xuynya kakayta)
+9 - Tovarni qaytarib olish jarayonini ishlab chiqish
+
+
+
+
+8 - Localization 3 xil til Lotin Kiril Rus

@@ -27,7 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('categories', CategoryController::class)->except(['show']);
 Route::apiResource('sizenames', SizeNameController::class);
 Route::apiResource('sizes', SizeController::class)->except(['show', 'index']);
-Route::apiResource('productnames', ProductNamesController::class)->except(['show']);
+Route::apiResource('productnames', ProductNamesController::class)->except(['show','destroy']);
+Route::put('productnames/delete/{id}', [ProductNamesController::class, 'destroy']);
+
+
 Route::apiResource('products', ProductController::class);
 
 

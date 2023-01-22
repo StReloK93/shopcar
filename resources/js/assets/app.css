@@ -50,12 +50,16 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: 0.3s ease;
+  transform-origin: left bottom;
 }
+
 .fade-enter-from,
 .fade-leave-to {
+  transform: scale(0);
   opacity: 0;
 }
 

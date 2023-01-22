@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name')->default('product name');
             $table->bigInteger('category_id');
             $table->bigInteger('size_names_id');
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

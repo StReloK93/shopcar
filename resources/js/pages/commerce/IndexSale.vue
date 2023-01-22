@@ -1,21 +1,22 @@
 <template>
     <section name="indexSale" class="flex flex-col">
         <Transition name="fade">
-            <ListProducts v-if="PageData.listProducts.length" @close="closeListProducts" @sold="sold" :listProducts="PageData.listProducts" />
+            <ListProducts 
+                v-if="PageData.activeList != null && PageData.listProducts[PageData.activeList].length" 
+                @close="closeListProducts" @sold="sold" @onrollup="onrollup"
+                :listProducts="PageData.listProducts[PageData.activeList]" 
+            />
         </Transition>
         <aside class="flex-between-center">
             <div>
-                <RouterLink to="/soldproducts" class="mr-3">
+                <RouterLink to="/soldproducts" class="py-1.5 inline-block">
                     <i class="fa-light fa-arrow-up-from-dotted-line text-red-600 mr-4"></i> Sotilgan
                 </RouterLink>
-                <span class="px-3"></span>
-                <RouterLink to="/existproduct">
+                <span class="px-4"></span>
+                <RouterLink to="/existproduct" class="py-1.5 inline-block">
                     <i class="fa-light fa-arrow-down-to-dotted-line text-blue-600 mr-4"></i> Do'kondagi
                 </RouterLink>
             </div>
-            <button @click="sold('ssss')">
-                SDASda
-            </button>
             <form @submit.prevent="getProductById(PageData.searchInput)">
                 <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Sotish ID-NNN">
             </form>
@@ -23,13 +24,23 @@
         <RouterView v-slot="{ Component }">
             <component ref="tables" class="h-full" :is="Component" />
         </RouterView>
+        <main class="-mb-4 -mx-4 px-3 py-2 relative z-[100] bg-white text-gray-500">
+            <button 
+                v-for="(item,index) in PageData.listProducts" 
+                @click="changeActiveList(index)" 
+                :key="index" 
+                :class="{'bg-pink-500 text-white': index == PageData.activeList}"
+                class="px-3 py-1 bg-gray-200 rounded-sm mr-3 border-b border-pink-600 transition-all"
+            >
+                <i class="fa-solid fa-memo mr-1.5"></i> {{index + 1}}
+            </button>
+        </main>
     </section>
 </template>
 <script setup lang="ts">
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProductsSold.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
-
 
 const tables = ref()
 const PageData = reactive({
@@ -38,12 +49,14 @@ const PageData = reactive({
     listProducts: [],
     blocker: true,
     searchInput: null,
+    activeList: null,
 })
 
 watch(() => PageData.textInBarcode , (currentValue) => {
 
     if (currentValue == null || PageData.blocker == false) return
     PageData.blocker = false
+    
     // textdan IDni ajratib olamiz
     const productId = currentValue.replace('product', '')
     getProductById(productId)
@@ -52,8 +65,14 @@ watch(() => PageData.textInBarcode , (currentValue) => {
 
 function getProductById(productId){
     PageData.searchInput = null
-    const productIsset = PageData.listProducts.find(product => product.id == productId)
 
+    if(PageData.activeList == null) {
+       PageData.activeList = PageData.listProducts.push([]) - 1
+    }
+    
+    const productIsset = PageData.listProducts[PageData.activeList].find(product => product.id == productId)
+
+    
     // Agar bor bo'lsa
     if (productIsset) {
         if (productIsset.count > productIsset.totalCount) productIsset.totalCount++
@@ -62,23 +81,52 @@ function getProductById(productId){
 
 
 
-    // yangi tovar bolsa
+    // // yangi tovar bolsa
     axios.get(`products/${productId}`).then(({data}) => {
+
         PageData.blocker = true
+
         if(data.id){
             data.totalCount = 1
             data.sold_price = data.price
-            PageData.listProducts.push(data)
+            PageData.listProducts[PageData.activeList].push(data)
         }
-        else swal.fire({
-            text: 'Mahsulot mavjud emas!',
-            showCancelButton: false,
-            timer: 1000
-        })
+
+        else {
+            
+            if(PageData.listProducts[PageData.activeList].length == 0) {
+                PageData.listProducts.splice(PageData.activeList, 1)
+                PageData.activeList = null
+            }
+            
+            swal.fire({
+                text: 'Mahsulot mavjud emas!',
+                showCancelButton: false,
+                timer: 1000
+            })
+        }
+        
     })
 }
 
+function closeListProducts() {
+    console.log(PageData.activeList)
+    
+    PageData.listProducts.splice(PageData.activeList, 1)
+    PageData.activeList = null
+    PageData.blocker = true
+}
 
+
+function onrollup(){
+    PageData.activeList = null
+    PageData.blocker = true
+}
+
+function changeActiveList(index){
+    PageData.activeList = null
+    setTimeout(() => PageData.activeList = index, 150);
+}
 
 function sold(listProducts){
 
@@ -114,19 +162,13 @@ function sold(listProducts){
 
     })
     
-
-    
-    
-    
     if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: listProducts,addIndex: 0})
     
     closeListProducts()
 }
 
-function closeListProducts() {
-    PageData.listProducts = []
-    PageData.blocker = true
-}
+
+
 
 // @ts-ignore
 if(document.scannerDetectionData == null) onScan.attachTo(document)

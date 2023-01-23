@@ -1,16 +1,18 @@
-1 - Sotilganlar jadvalida bor tovarlarni ProductNames Jadvaldan uchirishni taqiqlash
+1 - Bir nechta dokonlarni yurgiza bilish
+2 - Registratsoya va login
 
-2 - Bir nechta dokonlarni yurgiza bilish
-3 - Registratsoya va login
+3 - O'lchov birliklarini Yakka holatdagilarini ham tayyorlash
+4 - Aynan Kasr qismi bor o'lchov birliklarini shtrix kodga tayyorlash
 
-4 - O'lchov birliklarini Yakka holatdagilarini ham tayyorlash
-5 - Aynan Kasr qismi bor o'lchov birliklarini shtrix kodga tayyorlash
-
-6 - Bugungi savdoni Korsatib turish
-7 - Sotilayotga tovar qaysi usulda sotilayotganini tanlash (Naxt, Plastik , Qarz)
-9 - Tovarni qaytarib olish jarayonini ishlab chiqish
+5 - Bugungi savdoni Korsatib turish
+6 - Sotilayotga tovar qaysi usulda sotilayotganini tanlash (Naxt, Plastik , Qarz)
+7 - Tovarni qaytarib olish jarayonini ishlab chiqish
 
 
 
 
 8 - Localization 3 xil til Lotin Kiril Rus
+9 - DOSTUPLAR 
+
+
+STATISTIKA

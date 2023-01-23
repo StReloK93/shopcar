@@ -1,6 +1,6 @@
 <template>
     <aside class="flex-grow flex flex-col">
-        <section class="bg-white p-1 flex items-center justify-between">
+        <section class="bg-white px-1 py-2 flex items-center justify-between">
             <main class="flex items-center">
                 <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
                 <input 

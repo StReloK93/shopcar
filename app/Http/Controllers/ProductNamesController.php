@@ -10,7 +10,10 @@ class ProductNamesController extends Controller
 {
     //get
     public function index(){
-        return ProductNames::where('shop_id', 1)->with(['products','category','size_names'])->withSum('sells', 'count')->latest()->get();
+        return ProductNames::where('shop_id', 1)
+                ->with(['products','category','size_names'])
+                ->withSum('sells', 'count')
+                ->latest()->get();
     }
 
 
@@ -25,7 +28,9 @@ class ProductNamesController extends Controller
             'shop_id' => 1,
         ]);
 
-        return ProductNames::with(['products','category','size_names'])->withSum('sells', 'count')->find($productNames->id);
+        return ProductNames::with(['products','category','size_names'])
+                ->withSum('sells', 'count')
+                ->find($productNames->id);
     }
 
     // update
@@ -43,7 +48,7 @@ class ProductNamesController extends Controller
     public function destroy(Request $request, $id)
     {
 
-        if($request->sells_count == 0){
+        if($request->sells_sum_count == 0){
             ProductNames::find($id)->delete();
         }
 

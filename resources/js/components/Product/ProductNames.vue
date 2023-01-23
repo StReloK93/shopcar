@@ -10,7 +10,7 @@
                 @deleteProduct="deleteProduct"
             />
         </Transition>
-        <section class="bg-white p-1 flex items-center justify-between">
+        <section class="bg-white px-1 py-2 flex items-center justify-between">
             <main class="flex items-center">
                 <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
                 <input 
@@ -20,18 +20,33 @@
                 >
             </main>
             <main class="flex items-center">
-                <div class="mr-10 flex text-white items-center">
+                <div class="mr-10 flex text-gray-500 items-center">
                     <article>
-                        <label for="alls" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'all'}"><i class="fa-solid fa-circle-check text-xl relative top-px"></i></label>
-                        <input hidden id="alls" type="radio" name="filte" @change="filterChanged" v-model="filter" value="all">
+                        <label for="alls" 
+                            class="flex items-center px-1 border-b border-transparent" 
+                            :class="{'text-pink-500 !border-pink-300': filter == 'all'}"
+                        >
+                            Barchasi
+                        </label>
+                        <input hidden id="alls" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="all">
                     </article>
-                    <article class="mx-4">
-                        <label for="emptys" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'empty'}"><i class="fa-solid fa-circle-xmark text-xl relative top-px"></i></label>
-                        <input hidden id="emptys" type="radio" name="filte" @change="filterChanged" v-model="filter" value="empty">
+                    <article class="mx-2">
+                        <label for="contains" 
+                            class="flex items-center px-1 border-b border-transparent" 
+                            :class="{'text-pink-500 !border-pink-300': filter == 'contain'}"
+                        >
+                            Bor
+                        </label>
+                        <input hidden id="contains" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="contain">
                     </article>
                     <article>
-                        <label for="contains" class="px-3 py-1 bg-gray-400 rounded-sm" :class="{'text-white !bg-pink-500': filter == 'contain'}"><i class="fa-solid fa-circle-bolt text-xl relative top-px"></i></label>
-                        <input hidden id="contains" type="radio" name="filte" @change="filterChanged" v-model="filter" value="contain">
+                        <label for="emptys"
+                            class="flex items-center px-1 border-b border-transparent" 
+                            :class="{'text-pink-500 !border-pink-300': filter == 'empty'}"
+                        >
+                            Qolmagan
+                        </label>
+                        <input hidden id="emptys" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="empty">
                     </article>
                 </div>
                 <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
@@ -51,7 +66,7 @@
                 :undoRedoCellEditing="true"
                 :undoRedoCellEditingLimit="20"
                 :doesExternalFilterPass="doesExternalFilterPass"
-                :isExternalFilterPresent="isExternalFilterPresent"
+                :isExternalFilterPresent="() => filter != 'all'"
             ></AgGridVue>
         </section>
     </main>
@@ -93,35 +108,28 @@ function gridReady(GridReady){
 
 
 function deleteProduct(selectedProductName){
+
+    console.log(selectedProductName);
+    
     swal.fire({
         title: "Aniq o'chirmoqchimisiz?",
         text: "Jarayonni orqaga qaytarib bo'lmaydi!",
         icon: 'warning',
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.put(`productnames/delete/${selectedProductName.id}`, selectedProductName).then(({data}) => {
-                console.log(data);
-                
-                agGrid.api.applyTransaction({remove: [selectedProductName]})
+            axios.put(`productnames/delete/${selectedProductName.id}`, selectedProductName).then(() => {
+                if(selectedProductName.sells_sum_count){
+                    const rowNode = agGrid.api.getRowNode(selectedProductName.id)
+                    selectedProductName.products = []
+                    rowNode.setData(selectedProductName)
+                }
+                else agGrid.api.applyTransaction({remove: [selectedProductName]})
+
                 productName.value = null
             })
         }
     })
 }
-
-
-function filterChanged() {
-    
-    console.log(filter.value);
-    
-    agGrid.api.onFilterChanged()
-}
-
-
-function isExternalFilterPresent(){
-    return filter.value !== 'all'
-}
-
 
 function doesExternalFilterPass(node){
     

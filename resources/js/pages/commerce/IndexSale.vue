@@ -18,7 +18,7 @@
                 </RouterLink>
             </div>
             <form @submit.prevent="getProductById(PageData.searchInput)">
-                <input type="text" class="text-input bg-inherit" v-model="PageData.searchInput" placeholder="Sotish ID-NNN">
+                <input type="text" class="text-input bg-inherit text-center text-gray-600" v-model="PageData.searchInput" placeholder="Sotish ID-XXX">
             </form>
         </aside>
         <RouterView v-slot="{ Component }">
@@ -26,7 +26,7 @@
         </RouterView>
         <main class="-mb-4 -mx-4 px-3 py-2 relative z-[100] bg-white text-gray-500">
             <button 
-                v-for="(item,index) in PageData.listProducts" 
+                v-for="(item, index) in PageData.listProducts" 
                 @click="changeActiveList(index)" 
                 :key="index" 
                 :class="{'bg-pink-500 text-white': index == PageData.activeList}"
@@ -117,7 +117,6 @@ function closeListProducts() {
     PageData.blocker = true
 }
 
-
 function onrollup(){
     PageData.activeList = null
     PageData.blocker = true
@@ -131,7 +130,7 @@ function changeActiveList(index){
 function sold(listProducts){
 
     listProducts.forEach(product => {
- 
+        // Real time yangilash uchun
         if(tables.value.productNames) {
             const api = tables.value.productNames.agGrid.api
             const rowNode = api.getRowNode(product.product_names_id)
@@ -148,6 +147,7 @@ function sold(listProducts){
             rowNode.setData(rowNode.data)
         }
 
+        // Real time yangilash uchun
         if(tables.value.products) {
             const api = tables.value.products.productAgGrid.api
             const rowNode = api.getRowNode(product.product_id)

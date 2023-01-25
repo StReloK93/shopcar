@@ -35,7 +35,7 @@
                             class="flex items-center px-1 border-b border-transparent" 
                             :class="{'text-pink-500 !border-pink-300': filter == 'contain'}"
                         >
-                            Bor
+                            Mavjud
                         </label>
                         <input hidden id="contains" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="contain">
                     </article>

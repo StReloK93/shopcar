@@ -24,9 +24,9 @@
 </template>
 
 <script setup lang="ts">
-import PrintProduct from './components/product/PrintProduct.vue'
 import HeaderNavigate from './components/HeaderNavigate.vue'
-
+// @ts-ignore
+import PrintProduct from './components/product/PrintProduct.vue'
 import { useProductStore } from './store/useProductStore'
 const store = useProductStore()
 onafterprint = () => store.productName = null

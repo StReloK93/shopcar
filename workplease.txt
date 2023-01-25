@@ -1,5 +1,7 @@
 1 - Bir nechta dokonlarni yurgiza bilish
 2 - Registratsoya va login
+9 - DOSTUPLAR
+
 
 3 - O'lchov birliklarini Yakka holatdagilarini ham tayyorlash
 4 - Aynan Kasr qismi bor o'lchov birliklarini shtrix kodga tayyorlash
@@ -10,9 +12,5 @@
 
 
 
-
 8 - Localization 3 xil til Lotin Kiril Rus
-9 - DOSTUPLAR 
-
-
 STATISTIKA

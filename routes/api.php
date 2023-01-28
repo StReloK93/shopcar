@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SmsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SizeNameController;
 use App\Http\Controllers\SizeController;
@@ -18,11 +20,24 @@ use App\Http\Controllers\SellController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/sms/login', [SmsController::class, 'login']);
+Route::post('/sms/sendmessage', [SmsController::class, 'sendmessage']);
+Route::post('/sms/confirm', [SmsController::class, 'confirm']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::get('/user', [UserController::class, 'getUser']);
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::post('/passwordreset', [UserController::class, 'passwordReset']);
+
 });
 
+
+
+
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
 
 Route::apiResource('categories', CategoryController::class)->except(['show']);
 Route::apiResource('sizenames', SizeNameController::class);

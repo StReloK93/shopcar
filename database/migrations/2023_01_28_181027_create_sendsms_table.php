@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('sendsms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->unique();
-            $table->string('isActive')->default('block');
+            $table->string('phone');
             $table->string('password');
-            $table->bigInteger('balans')->default(0);
-            $table->rememberToken();
+            $table->string('type')->default('register');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('sendsms');
     }
 };

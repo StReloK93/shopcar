@@ -1,14 +1,14 @@
 import { RouteRecordRaw } from 'vue-router'
 
-export const routes:RouteRecordRaw[] = [
-    {
+export const routes: RouteRecordRaw[] = [
+	{
 		path: '/',
 		component: () => import('@/pages/commerce/IndexSale.vue'),
 		name: 'sale',
-        meta: {
+		meta: {
 			guard: 'auth',
 		},
-        redirect: {
+		redirect: {
 			name: 'soldproducts'
 		},
 		children: [
@@ -24,11 +24,11 @@ export const routes:RouteRecordRaw[] = [
 			},
 		]
 	},
-    {
+	{
 		path: '/introduction',
 		component: () => import('@/pages/introduction/IndexIntroduction.vue'),
 		name: 'introduction',
-        meta: {
+		meta: {
 			guard: 'auth',
 		},
 	},
@@ -36,10 +36,10 @@ export const routes:RouteRecordRaw[] = [
 		path: '/constructor',
 		component: () => import('@/pages/constructor/IndexConstructor.vue'),
 		name: 'constructor',
-        meta: {
+		meta: {
 			guard: 'auth',
 		},
-        redirect: {
+		redirect: {
 			name: 'categories'
 		},
 		children: [
@@ -60,5 +60,23 @@ export const routes:RouteRecordRaw[] = [
 		component: () => import('@/pages/public/GeneralProduct.vue'),
 		name: 'product',
 		props: true,
-	}
+	},
+	{
+		path: '/login',
+		component: () => import('../pages/auth/Login.vue'),
+		name: 'login',
+		meta: {
+			title: "Kirish",
+			guard: 'guest'
+		}
+	},
+	{
+		path: '/register',
+		component: () => import('../pages/auth/Register.vue'),
+		name: 'register',
+		meta: {
+			title: "Ro'yhatdan o'tish",
+			guard: 'guest'
+		}
+	},
 ]

@@ -12,7 +12,15 @@
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'constructor' }">
                     <i class="fa-light fa-screwdriver-wrench"></i>
                 </router-link>
+
+                <button class="border-y-2 border-transparent px-3 py-4 block" @click="Auth.logout">
+                    <i class="fa-light fa-arrow-right-from-bracket"></i>
+                </button>
             </aside>
         </main>
     </nav>
 </template>
+<script lang="ts" setup>
+import { useAuthStore } from '@/store/useAuthStore'
+const Auth = useAuthStore()
+</script>

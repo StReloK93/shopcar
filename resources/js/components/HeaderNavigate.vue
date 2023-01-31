@@ -12,6 +12,9 @@
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'constructor' }">
                     <i class="fa-light fa-screwdriver-wrench"></i>
                 </router-link>
+                <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'shops' }">
+                    <i class="fa-light fa-tags"></i>
+                </router-link>
 
                 <button class="border-y-2 border-transparent px-3 py-4 block" @click="Auth.logout">
                     <i class="fa-light fa-arrow-right-from-bracket"></i>

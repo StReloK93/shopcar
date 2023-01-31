@@ -23,12 +23,22 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from './router'
+import { useAuthStore } from './store/useAuthStore'
+
 const pinia = createPinia()
 
-createApp(App)
-    .component("AgGridVue", (AgGridVue))
-    .component("vSelect", (vSelect))
-    .use(i18n)
-    .use(router)
-    .use(pinia)
-    .mount("#app")
+
+
+const app = createApp(App)
+app.component("AgGridVue", (AgGridVue))
+app.component("vSelect", (vSelect))
+app.use(i18n)
+app.use(pinia)
+
+const store = useAuthStore()
+
+store.getUser().then(async () => {
+    app.use(router)
+    app.mount("#app")
+})
+

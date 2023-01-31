@@ -62,6 +62,14 @@ export const routes: RouteRecordRaw[] = [
 		props: true,
 	},
 	{
+		path: '/shops',
+		component: () => import('@/pages/Shops.vue'),
+		name: 'shops',
+		meta: {
+			guard: 'auth',
+		},
+	},
+	{
 		path: '/login',
 		component: () => import('../pages/auth/Login.vue'),
 		name: 'login',

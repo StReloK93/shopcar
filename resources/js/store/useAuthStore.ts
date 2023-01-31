@@ -2,10 +2,11 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import router from "@/router"
-
+import { getStorageKey , setStorageKey } from "@/modules/localstorage"
 
 export const useAuthStore = defineStore('Auth', () => {
     const user = ref(null)
+    const shop = ref(null)
 
     async function login(data) {
         const result = await axios.post('login', data)
@@ -19,7 +20,7 @@ export const useAuthStore = defineStore('Auth', () => {
 
 
     async function getUser() {
-        
+
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
         await axios.get('user').then(({ data }) => {
             user.value = data
@@ -44,5 +45,5 @@ export const useAuthStore = defineStore('Auth', () => {
         }
     }
 
-    return { user, getUser, login, register, logout }
+    return { user, shop, getUser, login, register, logout }
 })

@@ -1,4 +1,4 @@
-function getStorageKey(key:any, base:any){
+function getStorageKey(key:any, base?:any){
 
     if(localStorage.getItem(key) != undefined){
         return localStorage.getItem(key)

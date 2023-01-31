@@ -10,6 +10,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductNamesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\ShopController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,7 +24,8 @@ use App\Http\Controllers\SellController;
 Route::get('/sms/login', [SmsController::class, 'login']);
 Route::post('/sms/sendmessage', [SmsController::class, 'sendmessage']);
 Route::post('/sms/confirm', [SmsController::class, 'confirm']);
-
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -31,25 +33,27 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [UserController::class, 'logout']);
     Route::post('/passwordreset', [UserController::class, 'passwordReset']);
 
+    Route::apiResource('categories', CategoryController::class)->except(['show']);
+    Route::post('/categories/sub', [CategoryController::class, 'storeSub']);
+
+    Route::apiResource('sizenames', SizeNameController::class);
+    Route::apiResource('sizes', SizeController::class)->except(['show', 'index']);
+
+    
+
+    Route::apiResource('productnames', ProductNamesController::class)->except(['show','destroy']);
+    Route::put('productnames/delete/{id}', [ProductNamesController::class, 'destroy']);
+    
+    Route::apiResource('products', ProductController::class);
+    
+    Route::apiResource('sells', SellController::class);
+    
+    Route::apiResource('shops', ShopController::class);
+
+
 });
 
 
 
 
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/register', [UserController::class, 'register']);
 
-Route::apiResource('categories', CategoryController::class)->except(['show']);
-Route::apiResource('sizenames', SizeNameController::class);
-Route::apiResource('sizes', SizeController::class)->except(['show', 'index']);
-Route::apiResource('productnames', ProductNamesController::class)->except(['show','destroy']);
-Route::put('productnames/delete/{id}', [ProductNamesController::class, 'destroy']);
-
-
-Route::apiResource('products', ProductController::class);
-
-
-Route::apiResource('sells', SellController::class);
-
-
-Route::post('/categories/sub', [CategoryController::class, 'storeSub']);

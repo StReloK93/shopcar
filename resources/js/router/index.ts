@@ -12,14 +12,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 	const store = useAuthStore()
 	if (store.user) {
-		if (to.matched.some(route => route.meta.guard === 'guest')) next({ name: 'home' })
+		if (to.meta.guard === 'guest') next({ name: 'sale' })
 		else next()
 
 	} else {
-		if (to.matched.some(route => route.meta.guard === 'auth')) next({ name: 'login' })
+		if (to.meta.guard === 'auth') next({ name: 'login' })
 		else next()
 	}
-
 })
 
 export default router

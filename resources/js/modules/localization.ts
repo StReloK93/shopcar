@@ -12,18 +12,22 @@ const messages = {
         loginDesc: "loginDesc",
         password: "password",
         registered: "registered",
+        back: "Назад",
+        confirmPhone: "confirmPhone",
     },
     uz: {
         register: "Ro'yhatdan o'tish",
         inputphone: 'Telefon raqamizni kiriting',
         phone: 'Telefon',
-        next: "Next",
-        enter: "enter",
-        passwordforget: "passwordforget",
-        singup: "singup",
+        next: "Davom ettirish",
+        enter: "Kirish",
+        passwordforget: "Parolni unutdingizmi?",
+        singup: "Akkauntga kirish",
         loginDesc: "loginDesc",
         password: "password",
         registered: "registered",
+        back: "Orqaga",
+        
     },
     uzb: {
         register: "Руйхатдан утиш",
@@ -36,6 +40,7 @@ const messages = {
         loginDesc: "loginDesc",
         password: "password",
         registered: "registered",
+        back: "Оркага",
     }
 }
 

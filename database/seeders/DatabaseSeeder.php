@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\SizeName;
+use App\Models\Shop;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -16,6 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        Shop::create([
+            'user_id' => 1
+        ]);
+
 
         Category::insert([
             [

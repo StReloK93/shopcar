@@ -21,6 +21,6 @@ import { ActiveShop } from './store/ActiveShop'
 const store = useProductStore()
 const shop = ActiveShop()
 
-// shop.setActiveShop(50)
+shop.setActiveShop(100)
 onafterprint = () => store.productName = null
 </script>

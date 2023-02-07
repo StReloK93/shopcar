@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->bigInteger('active_shop')->nullable();
             $table->string('phone')->unique();
             $table->string('isActive')->default('block');
             $table->string('password');

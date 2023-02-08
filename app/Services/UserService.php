@@ -39,6 +39,13 @@ class UserService {
         // return $user;
     }
 
+    public function setShop($shopid){
+        $user = Auth::user();
+
+        $user->active_shop = $shopid;
+        
+        return $user->save();
+    }
 
     public function logout($request): void {
 

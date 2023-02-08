@@ -30,6 +30,7 @@ Route::post('/register', [UserController::class, 'register']);
 Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('/user', [UserController::class, 'getUser']);
+    Route::get('/user/setshop/{id}', [UserController::class, 'setShop']);
     Route::get('/logout', [UserController::class, 'logout']);
     Route::post('/passwordreset', [UserController::class, 'passwordReset']);
 

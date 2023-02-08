@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('active_shop')->nullable();
+            $table->json('shops')->nullable();
             $table->string('phone')->unique();
             $table->string('isActive')->default('block');
             $table->string('password');

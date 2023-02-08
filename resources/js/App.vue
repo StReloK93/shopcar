@@ -17,10 +17,7 @@ import FooterNavigate from './components/FooterNavigate.vue'
 // @ts-ignore
 import PrintProduct from './components/product/PrintProduct.vue'
 import { useProductStore } from './store/useProductStore'
-import { ActiveShop } from './store/ActiveShop'
 const store = useProductStore()
-const shop = ActiveShop()
 
-shop.setActiveShop(100)
 onafterprint = () => store.productName = null
 </script>

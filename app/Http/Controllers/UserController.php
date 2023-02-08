@@ -44,6 +44,11 @@ class UserController extends Controller
 
     }
 
+    public function setShop($shopid){
+ 
+        return $this->service->setShop($shopid);
+
+    }
 
     public function passwordReset(PasswordResetRequest $request){
         return $this->service->passwordReset($request);

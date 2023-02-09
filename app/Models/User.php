@@ -25,6 +25,8 @@ class User extends Authenticatable
         'commerse',
     ];
 
+
+    protected $with = ['active'];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -43,4 +45,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function active()
+    {
+        return $this->hasOne(Shop::class, 'id', 'active_shop');
+    }
 }

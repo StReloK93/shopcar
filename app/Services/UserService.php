@@ -43,8 +43,8 @@ class UserService {
         $user = Auth::user();
 
         $user->active_shop = $shopid;
-        
-        return $user->save();
+        $user->save();
+        return $user->fresh();
     }
 
     public function logout($request): void {

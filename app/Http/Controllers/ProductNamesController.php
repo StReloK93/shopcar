@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductNames;
 use App\Models\Product;
-
+use Auth;
 class ProductNamesController extends Controller
 {
     //get
     public function index(){
-        return ProductNames::where('shop_id', 1)
+        return ProductNames::where('shop_id', Auth::user()->active->id)
                 ->with(['products','category','size_names'])
                 ->withSum('sells', 'count')
                 ->latest()->get();
@@ -25,7 +25,7 @@ class ProductNamesController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'size_names_id' => $request->size_names_id,
-            'shop_id' => 1,
+            'shop_id' => Auth::user()->active->id,
         ]);
 
         return ProductNames::with(['products','category','size_names'])
@@ -37,7 +37,7 @@ class ProductNamesController extends Controller
     public function update(Request $request, $id)
     {
 
-        ProductNames::find($id)->update([
+        ProductNames::where('shop_id',Auth::user()->active->id)->find($id)->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
         ]);

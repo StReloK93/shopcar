@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SizeName;
-
+use Auth;
 class SizeNameController extends Controller
 {
     public function index()
     {
 
-        return SizeName::where(['shop_id' => 1])->orWhereNull('shop_id')->with('sizes')->get();
+        return SizeName::shop()->orWhereNull('shop_id')->with('sizes')->get();
         
     }
 
     public function store()
     {
 
-        $sizeName = SizeName::create(['shop_id' => 1])->fresh();
+        $sizeName = SizeName::create(['shop_id' => Auth::user()->active->id])->fresh();
         return SizeName::with('sizes')->find($sizeName->id);
 
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Auth;
 class Category extends Model
 {
     use HasFactory;
@@ -18,5 +18,10 @@ class Category extends Model
     public function childrenCategories()
     {
         return $this->hasMany(Category::class)->with('childrenCategories');
+    }
+
+    public function scopeShop($query) 
+    { 
+        return $query->where('shop_id' , Auth::user()->active->id); 
     }
 }

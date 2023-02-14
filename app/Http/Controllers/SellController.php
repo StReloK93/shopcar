@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sell;
+use Auth;
 class SellController extends Controller
 {
     //get
     public function index(){
-        return Sell::where('shop_id', 1)->with(['product_names','size'])->latest()->get();
+        return Sell::shop()->with(['product_names','size'])->latest()->get();
     }
 
 
@@ -21,7 +22,7 @@ class SellController extends Controller
         foreach ($request->all() as $key => $value) {
             if($request[$key]['totalCount'] != 0){
                 $sell = Sell::create([
-                    'shop_id' => 1,
+                    'shop_id' => Auth::user()->active->id,
                     'product_names_id' => $request[$key]['product_names_id'],
                     'product_id' => $request[$key]['id'],
                     'size_id' => $request[$key]['size_id'],

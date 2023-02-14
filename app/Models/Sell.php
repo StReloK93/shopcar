@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Sell extends Model
 {
@@ -30,5 +31,10 @@ class Sell extends Model
     public function product_names()
     {
         return $this->belongsTo(ProductNames::class);
+    }
+
+    public function scopeShop($query) 
+    { 
+        return $query->where('shop_id' , Auth::user()->active->id); 
     }
 }

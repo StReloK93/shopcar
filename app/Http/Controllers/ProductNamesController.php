@@ -10,7 +10,7 @@ class ProductNamesController extends Controller
 {
     //get
     public function index(){
-        return ProductNames::where('shop_id', Auth::user()->active->id)
+        return ProductNames::shop()
                 ->with(['products','category','size_names'])
                 ->withSum('sells', 'count')
                 ->latest()->get();
@@ -37,7 +37,7 @@ class ProductNamesController extends Controller
     public function update(Request $request, $id)
     {
 
-        ProductNames::where('shop_id',Auth::user()->active->id)->find($id)->update([
+        ProductNames::shop()->find($id)->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
         ]);

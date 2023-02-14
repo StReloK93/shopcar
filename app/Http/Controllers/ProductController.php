@@ -12,7 +12,7 @@ class ProductController extends Controller
     // index
     public function index()
     {
-        return Product::with(['product_names','size'])->where('shop_id', Auth::user()->active->id)->latest()->get();
+        return Product::with(['product_names','size'])->shop()->latest()->get();
     }
 
     // create
@@ -26,7 +26,7 @@ class ProductController extends Controller
     // Show
     public function show($id)
     {
-        return Product::where('shop_id',Auth::user()->active->id)->with(['product_names','size'])->find($id);
+        return Product::shop()->with(['product_names','size'])->find($id);
     }
 
     // update

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class ProductNames extends Model
 {
@@ -35,6 +36,11 @@ class ProductNames extends Model
     public function sells()
     {
         return $this->hasMany(Sell::class);
+    }
+
+    public function scopeShop($query) 
+    { 
+        return $query->where('shop_id' , Auth::user()->active->id); 
     }
 }
 

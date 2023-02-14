@@ -14,7 +14,7 @@ class ShopController extends Controller
     }
 
     // create
-    public function store(Request $request)
+    public function store()
     {
         return Shop::create([
             'user_id' => Auth::user()->id,

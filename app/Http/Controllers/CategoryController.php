@@ -9,12 +9,19 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Category::whereNull('category_id')->where('shop_id' , Auth::user()->active->id)->with('childrenCategories')->get();
+        return Category::whereNull('category_id')
+        ->Shop()
+        ->with('childrenCategories')
+        ->get();
     }
 
     public function store(Request $request)
     {
-        $category = Category::create(['shop_id' => Auth::user()->active->id,'name' => $request->name]);
+        $category = Category::create([
+            'shop_id' => Auth::user()->active->id,
+            'name' => $request->name
+        ]);
+
         return Category::with('childrenCategories')->find($category->id);
     }
 
@@ -28,7 +35,7 @@ class CategoryController extends Controller
             'category_id' => $request->id,
         ]);
 
-        return Category::where('shop_id' , Auth::user()->active->id)->with('childrenCategories')->find($category->id);
+        return Category::Shop()->with('childrenCategories')->find($category->id);
     }
 
     public function update(Request $request, $id)

@@ -17,6 +17,7 @@ import FooterNavigate from './components/FooterNavigate.vue'
 // @ts-ignore
 import PrintProduct from './components/product/PrintProduct.vue'
 import { useProductStore } from './store/useProductStore'
+
 const store = useProductStore()
 
 onafterprint = () => store.productName = null

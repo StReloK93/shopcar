@@ -76,6 +76,11 @@ input::-webkit-inner-spin-button {
 ::-webkit-scrollbar-thumb {
   background-color: #ccc;
 }
+
+input:disabled {
+  background-color: inherit;
+  color: inherit;
+}
 @media print {
   .print{
     display: block;

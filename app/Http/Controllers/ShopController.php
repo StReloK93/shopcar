@@ -31,12 +31,17 @@ class ShopController extends Controller
     // update
     public function update(Request $request, $id)
     {
-        return Shop::find($id)->update(['name' => $request->name]);
+        return Shop::where('id',$id)->update(['name' => $request->name]);
     }
 
     // delete
     public function destroy($id)
     {
+        $user = Auth::user();
+        if($user->active_shop == $id) {
+            $user->active_shop = null;
+            $user->save();
+        }
         return Shop::destroy($id);
     }
 }

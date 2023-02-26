@@ -114,10 +114,3 @@ function openCurrentCloseOther(sizeArray, currentSize){
     });
 }
 </script>
-
-<style scoped>
-input:disabled {
-    background-color: inherit;
-    color: inherit;
-}
-</style>

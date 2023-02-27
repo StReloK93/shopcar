@@ -13,6 +13,7 @@ router.beforeEach((to, from, next) => {
 	const store = useAuthStore()
 	if (store.user) {
 		if (to.meta.guard === 'guest') next({ name: 'sale' })
+		else if (to.name != 'shops' && store.user.active_shop == null) next({ name: 'shops' })
 		else next()
 
 	} else {

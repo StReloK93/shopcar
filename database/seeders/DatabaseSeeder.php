@@ -5,9 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Size;
 use App\Models\SizeName;
 use App\Models\Shop;
+use Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -17,6 +19,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        User::create([
+            'name' => 'Ruzzifer',
+            'phone' => '998936600960',
+            'password' => Hash::make('strelok'),
+        ]);
 
         Shop::create([
             'user_id' => 1
@@ -170,12 +178,5 @@ class DatabaseSeeder extends Seeder
                 'name'=>'56',
             ],
         ]);
-
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

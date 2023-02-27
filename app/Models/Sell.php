@@ -13,12 +13,8 @@ class Sell extends Model
 
     protected $fillable = [
         'shop_id',
-        'product_names_id',
+        'sale_id',
         'product_id',
-        'size_id',
-        'original_price',
-        'price',
-        'sold_price',
         'count'
     ];
 
@@ -35,6 +31,6 @@ class Sell extends Model
 
     public function scopeShop($query) 
     { 
-        return $query->where('shop_id' , Auth::user()->active->id); 
+        return $query->where('shop_id' , Auth::user()->active_shop); 
     }
 }

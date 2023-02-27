@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\Models\ProductNames;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Auth;
 class ProductNamesObserver
 {
     /**
@@ -21,7 +21,7 @@ class ProductNamesObserver
         foreach ($request->products as $key => $product) {
             if($product['count'] != 0){
                 $array[] = [
-                    'shop_id' => 1,
+                    'shop_id' => Auth::user()->active_shop,
                     'product_names_id' => $productNames->id,
                     'size_id' => $product['id'],
                     'original_price' => $request->original_price,

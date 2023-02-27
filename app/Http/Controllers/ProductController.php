@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $FormData = $request->all();
-        $FormData['shop_id'] = Auth::user()->active->id;
+        $FormData['shop_id'] = Auth::user()->active_shop;
         return Product::create($FormData)->fresh();
     }
 

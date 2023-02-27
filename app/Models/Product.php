@@ -35,6 +35,6 @@ class Product extends Model
 
     public function scopeShop($query) 
     { 
-        return $query->where('shop_id' , Auth::user()->active->id); 
+        return $query->where('shop_id' , Auth::user()->active_shop);
     }
 }

@@ -22,21 +22,15 @@ class SellController extends Controller
         foreach ($request->all() as $key => $value) {
             if($request[$key]['totalCount'] != 0){
                 $sell = Sell::create([
+                    'sale_id' => 1,
                     'shop_id' => Auth::user()->active->id,
-                    'product_names_id' => $request[$key]['product_names_id'],
                     'product_id' => $request[$key]['id'],
-                    'size_id' => $request[$key]['size_id'],
-                    'original_price' => $request[$key]['original_price'],
-                    'price' => $request[$key]['price'],
-                    'sold_price' => $request[$key]['sold_price'],
                     'count' => $request[$key]['totalCount'],
                 ]);
         
                 $selledProducts[] = Sell::with(['product_names','size'])->find($sell->id);
             }
         }
-
-        
 
         return $selledProducts;
     }

@@ -152,12 +152,6 @@ const columnDefs = ref([
     },
     { 
         sortable: true,
-        headerName: "Sotildi",
-        field: "sells_sum_count",
-        width: 85,
-    },
-    { 
-        sortable: true,
         resizable: true,
         headerName: "Soni",
         field: "products",

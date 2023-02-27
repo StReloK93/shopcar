@@ -14,7 +14,9 @@ export const useAuthStore = defineStore('Auth', () => {
         else {
             localStorage.setItem('token', `${result.data.type} ${result.data.token}`) // local
             await getUser()
-            router.push({ name: 'sale' })
+            if(user.value.active_shop) router.push({ name: 'sale' })
+            else router.push({ name: 'shops' })
+            
         }
     }
 

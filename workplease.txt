@@ -1,6 +1,5 @@
-1 - Bir nechta dokonlarni yurgiza bilish
-2 - Registratsoya va login
-9 - DOSTUPLAR
+1 - Registratsoya va login {Disayn qismi va Localization}
+2 - DOSTUPLAR
 
 
 3 - O'lchov birliklarini Yakka holatdagilarini ham tayyorlash
@@ -9,7 +8,6 @@
 5 - Bugungi savdoni Korsatib turish
 6 - Sotilayotga tovar qaysi usulda sotilayotganini tanlash (Naxt, Plastik , Qarz)
 7 - Tovarni qaytarib olish jarayonini ishlab chiqish
-
 
 
 8 - Localization 3 xil til Lotin Kiril Rus

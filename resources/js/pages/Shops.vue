@@ -1,22 +1,31 @@
 <template>
     <section>
-        <h3 class="mb-4 text-xl text-gray-500">
-            Do'konlar ro'yhati
-        </h3>
-        <main class="flex -mx-2 flex-wrap">
+        <main class="flex justify-between items-center mb-4 ">
+            <h3 class="text-xl text-gray-500">
+                Do'konlar ro'yhati
+            </h3>
+            <button class="border-y-2 border-transparent px-3 block text-pink-500" @click="exit">
+                Chiqish <i class="fa-light fa-arrow-right-from-bracket ml-3"></i>
+            </button>
+        </main>
+        <main v-if="store.user" class="flex -mx-2 flex-wrap">
             <div v-for="shop in pageData.shops" class="xl:w-1/5 lg:w-1/4 md:w-1/3 w-full px-3 relative after:content-[''] after:float-left after:pt-[125%] mb-4">
+
                 <header 
-                    :class="{ '!border-pink-300': store.user.active_shop == shop.id }"
+                    :class="{'!border-pink-300': store.user.active_shop == shop.id }"
                     class="relative h-full bg-[url('/images/shop.jpg')] border bg-cover rounded-sm shadow-sm">
+
                     <aside class="absolute top-0 left-0 w-full h-full p-3 pt-0 bg-white bg-opacity-70 flex flex-col justify-between">
+
                         <div class="flex justify-between items-center mb-3 -mr-3">
                             <span class="text-gray-400 text-xs">
                                 {{ moment(shop.created_at).format('D MMMM YYYY') }}
                             </span>
-                            <button @click="setShop(shop.id)">
-                                <i :class="{'!text-pink-500': store.user.active_shop == shop.id}" class="fa-solid fa-circle-check text-gray-200 hover:!text-pink-300 p-3"></i>
+                            <button @click="deleteShop(shop.id)">
+                                <i  class="fa-regular fa-trash  text-pink-500 hover:!text-pink-300 p-3"></i>
                             </button>
                         </div>
+
                         <main class="flex-grow">
                             <p class="text-xs leading-none text-gray-400 mb-2">Do'kon nomi</p>
                             <form @submit.prevent="editShop(shop)" class="text-gray-700 text-xl flex -mx-1">
@@ -32,14 +41,22 @@
                                 </button>
                             </form>
                         </main>
+
                         <main class="mt-3">
-                            <button @click="deleteShop(shop.id)" class="bg-gray-100 py-0.5 w-full outline-none rounded-sm shadow hover:bg-pink-200 active:bg-pink-100 active:shadow-xs">
-                                <i class="fa-regular text-pink-500 fa-trash"></i>
+                            <button @click="setShop(shop.id)"  class="bg-gray-100 text-gray-600 py-0.5 w-full outline-none rounded-sm shadow hover:bg-pink-200 active:bg-pink-100 active:shadow-xs hover:text-pink-600">
+                                Kirish
+                                <i class="fa-light fa-chevron-right ml-3"></i>
                             </button>
                         </main>
+
                     </aside>
+                    
                 </header>
             </div>
+
+
+
+            <!-- New -->
             <div @click="createShop" class="xl:w-1/5 lg:w-1/4 md:w-1/3 w-full px-3 relative after:content-[''] after:float-left after:pt-[125%] mb-4">
                 <header class="group relative h-full bg-[url('/images/shop.jpg')] border border-gray-200 bg-cover rounded-sm cursor-pointer hover:border-pink-300">
                     <aside class="absolute top-0 left-0 w-full h-full p-3 bg-white bg-opacity-70 flex items-center flex-col justify-between">
@@ -61,9 +78,11 @@ import moment from '@/modules/moment'
 import axios from '@/modules/axios'
 import swal from '@/modules/swal'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 
-const store = useAuthStore();
+const store = useAuthStore()
+const route = useRouter()
 
 const pageData = reactive({
     shops: []
@@ -77,7 +96,10 @@ axios.get('/shops').then(({ data }) => {
 })
 
 function setShop(shopid) {
-    axios.get(`/user/setshop/${shopid}`).then(({data}) => store.user = data)
+    axios.get(`/user/setshop/${shopid}`).then(({data}) => {
+        store.user = data
+        route.push('/')
+    })
 }
 
 function createShop(){
@@ -107,6 +129,17 @@ function deleteShop(id){
                 }
                 pageData.shops = pageData.shops.filter((shop) => shop.id != id)
             })
+        }
+    })
+}
+
+function exit(){
+    swal.fire({
+        title: "Aniq chiqmoqchimisz ?",
+        icon: 'info',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            store.logout()
         }
     })
 }

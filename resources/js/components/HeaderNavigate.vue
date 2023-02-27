@@ -12,11 +12,7 @@
                 <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'constructor' }">
                     <i class="fa-light fa-screwdriver-wrench"></i>
                 </router-link>
-                <router-link class="border-y-2 border-transparent px-3 py-4 block" :to="{ name: 'shops' }">
-                    <i class="fa-light fa-tags"></i>
-                </router-link>
-
-                <button class="border-y-2 border-transparent px-3 py-4 block" @click="auth.logout">
+                <button  @click="exitToShop" class="border-y-2 border-transparent px-3 py-4 block">
                     <i class="fa-light fa-arrow-right-from-bracket"></i>
                 </button>
             </aside>
@@ -28,5 +24,19 @@
 </template>
 <script lang="ts" setup>
 import { useAuthStore } from '@/store/useAuthStore'
+import { useRouter } from 'vue-router';
 const auth = useAuthStore()
+const router = useRouter()
+
+function exitToShop(){
+    swal.fire({
+        title: "Aniq chiqmoqchimisz ?",
+        icon: 'info',
+    }).then(({isConfirmed}) => {
+        if (isConfirmed) {
+            router.push('/shops')
+        }
+    })
+}
+
 </script>

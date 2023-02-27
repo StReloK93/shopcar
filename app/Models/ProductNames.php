@@ -33,14 +33,9 @@ class ProductNames extends Model
         return $this->belongsTo(SizeName::class);
     }
 
-    public function sells()
-    {
-        return $this->hasMany(Sell::class);
-    }
-
     public function scopeShop($query) 
     { 
-        return $query->where('shop_id' , Auth::user()->active->id); 
+        return $query->where('shop_id' , Auth::user()->active_shop); 
     }
 }
 

@@ -12,7 +12,6 @@ class ProductNamesController extends Controller
     public function index(){
         return ProductNames::shop()
                 ->with(['products','category','size_names'])
-                ->withSum('sells', 'count')
                 ->latest()->get();
     }
 
@@ -25,12 +24,10 @@ class ProductNamesController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'size_names_id' => $request->size_names_id,
-            'shop_id' => Auth::user()->active->id,
+            'shop_id' => Auth::user()->active_shop,
         ]);
 
-        return ProductNames::with(['products','category','size_names'])
-                ->withSum('sells', 'count')
-                ->find($productNames->id);
+        return ProductNames::with(['products','category','size_names'])->find($productNames->id);
     }
 
     // update

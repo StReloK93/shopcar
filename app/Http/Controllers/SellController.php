@@ -17,22 +17,7 @@ class SellController extends Controller
     public function store(Request $request)
     {
 
-        $selledProducts = [];
 
-        foreach ($request->all() as $key => $value) {
-            if($request[$key]['totalCount'] != 0){
-                $sell = Sell::create([
-                    'sale_id' => 1,
-                    'shop_id' => Auth::user()->active->id,
-                    'product_id' => $request[$key]['id'],
-                    'count' => $request[$key]['totalCount'],
-                ]);
-        
-                $selledProducts[] = Sell::with(['product_names','size'])->find($sell->id);
-            }
-        }
-
-        return $selledProducts;
     }
 
     // update

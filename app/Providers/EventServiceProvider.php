@@ -13,6 +13,9 @@ use App\Observers\ProductNamesObserver;
 use App\Models\Sell;
 use App\Observers\SellObserver;
 
+use App\Models\Sale;
+use App\Observers\SaleObserver;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -29,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     protected $observers = [
         ProductNames::class => [ProductNamesObserver::class],
         Sell::class => [SellObserver::class],
+        Sale::class => [SaleObserver::class],
     ];
     /**
      * Register any events for your application.

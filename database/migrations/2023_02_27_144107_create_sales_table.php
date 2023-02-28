@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('shop_id');
-            $table->double('cash', 10, 3);
-            $table->double('electron', 10, 3);
-            $table->double('debt', 10, 3);
+            $table->double('cash', 10, 3)->nullable();
+            $table->double('electron', 10, 3)->nullable();
+            $table->double('debt', 10, 3)->nullable();
             $table->timestamps();
         });
     }

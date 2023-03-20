@@ -3,7 +3,7 @@
         <td class="border-y py-3 pl-3 text-left">{{ product.product_names.name }}</td>
         <td class="border-y py-3">{{ product.size.name }}</td>
         <td class="border-y py-3 w-32">
-            <input type="number" class="text-input border py-0 text-center" v-model="product.sold_price">
+            <input type="number" class="text-input border py-0 text-center" v-model="product.sold_price" :placeholder="firstPrice">
         </td>
         <td class="border-y py-3 ">
             <div class="flex items-center justify-center">
@@ -33,8 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted } from 'vue'
+import { watch, onMounted, ref } from 'vue'
 const { product } = defineProps(['product', 'index'])
+
+const firstPrice = ref(product.sold_price)
+
 const decrement = (product) => product.totalCount--
 const increment = (product) => product.totalCount++
 

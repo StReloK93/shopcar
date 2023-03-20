@@ -3,7 +3,9 @@
         <Transition name="fade">
             <ListProducts 
                 v-if="PageData.activeList != null && PageData.listProducts[PageData.activeList].length" 
-                @close="closeListProducts" @sold="sold" @onrollup="onrollup"
+                @close="closeListProducts" @sold="sold"
+                @onrollup="onrollup"
+                @onFinished="onFinished"
                 :listProducts="PageData.listProducts[PageData.activeList]" 
             />
         </Transition>
@@ -110,11 +112,10 @@ function getProductById(productId){
 }
 
 function closeListProducts() {
-    console.log(PageData.activeList)
-    
     PageData.listProducts.splice(PageData.activeList, 1)
     PageData.activeList = null
     PageData.blocker = true
+    onFinished(false)
 }
 
 function onrollup(){
@@ -176,12 +177,19 @@ function Scancode(sScancode: any)  {
     setTimeout(() => {
         PageData.textInBarcode = sScancode.detail.scanCode
         setTimeout(() => PageData.textInBarcode = null)
-    }, 100)  //200 works fine for me but you can adjust it
+    }, 50)  //200 works fine for me but you can adjust it
 }
 
 // Register event listener
 onMounted(() => document.addEventListener('scan', Scancode))
 onUnmounted(() => document.removeEventListener('scan', Scancode))
 provide('getProductById', getProductById)
+
+function onFinished(value){
+    console.log(value)
+    
+    if(value) document.removeEventListener('scan', Scancode)
+    else document.addEventListener('scan', Scancode)
+}
 </script>
 <style src="../../assets/ag-grid.css"></style>

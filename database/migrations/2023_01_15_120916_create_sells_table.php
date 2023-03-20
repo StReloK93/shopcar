@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('shop_id');
             $table->bigInteger('sale_id');
             $table->bigInteger('product_id');
+            $table->double('selled_price', 10, 3);
             $table->double('count', 10, 3)->default(1);
             $table->timestamps();
         });

@@ -4,7 +4,7 @@
             <Transition name="scale">
                 <FinishedSold 
                     v-if="finishedSold" 
-                    @close="finishedSold = false"
+                    @close="closeFinished"
                     :listProducts="listProducts"
                     :totalPrice="totalPrice"
                 ></FinishedSold>
@@ -44,7 +44,7 @@
                 </form>
                 <button 
                     :disabled="totalPrice == 0"
-                    @click="sendForm" 
+                    @click="openFinished" 
                     :class="{'!border-gray-300 text-gray-400 cursor-disabled bg-gray-300': totalPrice == 0}" 
                     class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300"
                 >
@@ -66,7 +66,7 @@ import TrProduct from './TrProduct.vue'
 import FinishedSold from './FinishedSold.vue'
 const { listProducts } = defineProps(['listProducts'])
 const getProductById: Function = inject('getProductById', null)
-const emit = defineEmits(['close','sold','onrollup'])
+const emit = defineEmits(['close','sold','onrollup','onFinished'])
 
 
 
@@ -85,25 +85,27 @@ const totalPrice = computed(() => {
     return Math.trunc(summa*1000)/1000
 })
 
-function sendForm(){
+function openFinished(){
     finishedSold.value = true
-
-
+    emit('onFinished', finishedSold.value)
 }
 
+function closeFinished(){
+    finishedSold.value = false
+    emit('onFinished', finishedSold.value)
+}
 
 const deleteProduct = (index) => {
     listProducts.splice(index,1)
-    if(listProducts.length == 0){
-        emit('close')
-    }
+    if(listProducts.length == 0) emit('close')
 }
 
 onMounted(() => {
     const listproductDiv = document.getElementById('ListProducts')
     listproductDiv.focus()
+    
     listproductDiv.onkeyup = (event) => {
-        if(event.which == 13 && event.ctrlKey) sendForm()
+        if(event.which == 13 && event.ctrlKey) openFinished()
         else if(event.which == 27) emit('close')
     }
 })

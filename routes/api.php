@@ -10,6 +10,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductNamesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
     
     Route::apiResource('sells', SellController::class);
+    Route::apiResource('sale', SaleController::class);
+
+    
     
     Route::apiResource('shops', ShopController::class);
 

@@ -67,8 +67,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive , watch , computed} from 'vue'
+import { reactive , watch , computed } from 'vue'
+import { useAuthStore } from '@/store/useAuthStore'
 const { listProducts, totalPrice } = defineProps(['listProducts', 'totalPrice'])
+const store = useAuthStore()
+
+console.log(store.user);
+
 
 function allMoney(type){
     for (const key in formData) {
@@ -113,18 +118,18 @@ watch(() => formData.electron, (current, old) => {
 })
 
 function finishedSold(){
-    
-    console.log({...formData, listProducts});
-    
-    // axios.post('sells', {...formData, listProducts}).then(({data}) => {
-    //     swal.fire({
-    //         icon: 'success',
-    //         title: 'Sold',
-    //         showConfirmButton: false,
-    //         timer: 1000
-    //     })
-    //     emit('sold', data)
-    // })
+    axios.post('sale', {...formData, listProducts, shop_id: store.user.active_shop }).then(({data}) => {
+
+        console.log(data);
+        
+        swal.fire({
+            icon: 'success',
+            title: 'Sold',
+            showConfirmButton: false,
+            timer: 1000
+        })
+        // emit('sold', data)
+    })
 }
 
 const remaining = computed(() => {

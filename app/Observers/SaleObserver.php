@@ -10,23 +10,23 @@ class SaleObserver
 
     public function created(Sale $sale)
     {
-        $request = request();
-        $selledProducts = [];
+        // $request = request();
+        // $selledProducts = [];
 
-        foreach ($request->all() as $key => $value) {
+        // foreach ($request->all() as $key => $value) {
 
-            if($request[$key]['totalCount'] != 0){
-                $sell = Sell::create([
-                    'sale_id' => $sale->id,
-                    'shop_id' => Auth::user()->active->id,
-                    'product_id' => $request[$key]['id'],
-                    'count' => $request[$key]['totalCount'],
-                ]);
+        //     if($request[$key]['totalCount'] != 0){
+        //         $sell = Sell::create([
+        //             'sale_id' => $sale->id,
+        //             'shop_id' => Auth::user()->active->id,
+        //             'product_id' => $request[$key]['id'],
+        //             'count' => $request[$key]['totalCount'],
+        //         ]);
         
-                $selledProducts[] = Sell::with(['product_names','size'])->find($sell->id);
-            }
+        //         $selledProducts[] = Sell::with(['product_names','size'])->find($sell->id);
+        //     }
 
-        }
+        // }
     }
 
     /**

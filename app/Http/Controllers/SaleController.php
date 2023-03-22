@@ -17,6 +17,7 @@ class SaleController extends Controller
     {
 
         return Sale::create([
+            'shop_id' => $request->shop_id,
             'cash' => $request->cash,
             'electron' => $request->electron,
             'debt' => $request->debt,

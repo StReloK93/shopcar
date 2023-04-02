@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 
-class Sell extends Model
+class SaleProducts extends Model
 {
     use HasFactory;
-
 
     protected $fillable = [
         'shop_id',
         'sale_id',
+        'size_id',
+        'product_names_id',
         'product_id',
+        'price',
+        'selled_price',
         'count'
     ];
 

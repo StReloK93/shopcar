@@ -2,11 +2,11 @@
 
 namespace App\Observers;
 
-use App\Models\Sell;
+use App\Models\SaleProducts;
 use App\Models\Product;
 
 
-class SellObserver
+class SaleProductsObserver
 {
     /**
      * Handle the Sell "created" event.
@@ -14,7 +14,7 @@ class SellObserver
      * @param  \App\Models\Sell  $sell
      * @return void
      */
-    public function created(Sell $sell)
+    public function created(SaleProducts $sell)
     {
 
         $product = Product::find($sell->product_id);
@@ -32,7 +32,7 @@ class SellObserver
      * @param  \App\Models\Sell  $sell
      * @return void
      */
-    public function updated(Sell $sell)
+    public function updated(SaleProducts $sell)
     {
         //
     }
@@ -43,7 +43,7 @@ class SellObserver
      * @param  \App\Models\Sell  $sell
      * @return void
      */
-    public function deleted(Sell $sell)
+    public function deleted(SaleProducts $sell)
     {
         //
     }
@@ -54,7 +54,7 @@ class SellObserver
      * @param  \App\Models\Sell  $sell
      * @return void
      */
-    public function restored(Sell $sell)
+    public function restored(SaleProducts $sell)
     {
         //
     }
@@ -65,7 +65,7 @@ class SellObserver
      * @param  \App\Models\Sell  $sell
      * @return void
      */
-    public function forceDeleted(Sell $sell)
+    public function forceDeleted(SaleProducts $sell)
     {
         //
     }

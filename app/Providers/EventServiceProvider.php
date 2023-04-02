@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Event;
 use App\Models\ProductNames;
 use App\Observers\ProductNamesObserver;
 
-use App\Models\Sell;
-use App\Observers\SellObserver;
+use App\Models\SaleProducts;
+use App\Observers\SaleProductsObserver;
 
 use App\Models\Sale;
 use App\Observers\SaleObserver;
@@ -31,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
 
     protected $observers = [
         ProductNames::class => [ProductNamesObserver::class],
-        Sell::class => [SellObserver::class],
+        SaleProducts::class => [SaleProductsObserver::class],
         Sale::class => [SaleObserver::class],
     ];
     /**

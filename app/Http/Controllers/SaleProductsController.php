@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Sell;
+use App\Models\SaleProducts;
 use Auth;
-class SellController extends Controller
+class SaleProductsController extends Controller
 {
     //get
     public function index(){
-        return Sell::shop()->with(['product_names','size'])->latest()->get();
+        return SaleProducts::shop()->with(['product_names','size'])->latest()->get();
     }
 
 

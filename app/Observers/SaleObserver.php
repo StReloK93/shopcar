@@ -2,31 +2,32 @@
 
 namespace App\Observers;
 use App\Models\Sale;
-use App\Models\Sell;
-
+use App\Models\SaleProducts;
+use Auth;
 
 class SaleObserver
 {
 
     public function created(Sale $sale)
     {
-        // $request = request();
-        // $selledProducts = [];
 
-        // foreach ($request->all() as $key => $value) {
+        $request = request()->all();
+        foreach ($request['listProducts'] as $key => $product) {
 
-        //     if($request[$key]['totalCount'] != 0){
-        //         $sell = Sell::create([
-        //             'sale_id' => $sale->id,
-        //             'shop_id' => Auth::user()->active->id,
-        //             'product_id' => $request[$key]['id'],
-        //             'count' => $request[$key]['totalCount'],
-        //         ]);
-        
-        //         $selledProducts[] = Sell::with(['product_names','size'])->find($sell->id);
-        //     }
+            if($product['totalCount'] != 0){
+                $sell = SaleProducts::create([
+                    'shop_id' => Auth::user()->active->id,
+                    'sale_id' => $sale->id,
+                    'size_id' =>  $product['size_id'],
+                    'product_names_id' =>  $product['product_names_id'],
+                    'product_id' => $product['id'],
+                    'price' => $product['price'],
+                    'selled_price' => $product['sold_price'],
+                    'count' => $product['totalCount'],
+                ]);
+            }
 
-        // }
+        }
     }
 
     /**

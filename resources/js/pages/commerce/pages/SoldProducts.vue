@@ -20,7 +20,7 @@
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { reactive } from 'vue'
 
-axios.get('sells').then(({ data }) => PageData.sells = data)
+axios.get('sale-products').then(({ data }) => PageData.sells = data)
 
 const PageData = reactive({
     sells: null,
@@ -28,9 +28,9 @@ const PageData = reactive({
         { field: 'product_names.name', headerName: 'Nomi', flex: 1 , sortable: true},
         { field: 'size.name', headerName: "O'lchami", width: 80, },
         { field: 'price', headerName: 'Narxi', width: 130, },
-        { field: 'sold_price', headerName: 'Sotilgan narxi', width: 130, },
+        { field: 'selled_price', headerName: 'Sotilgan narxi', width: 130, },
         { field: 'count', headerName: 'Soni', width: 80 },
-        { field: 'count', headerName: 'Summa', width: 140 , headerClass: ['bg-gray-100'], cellClass: ['bg-gray-100', 'font-semibold'] , cellRenderer: ({data}) => Math.round(data.sold_price * data.count*1000)/1000 },
+        { field: 'count', headerName: 'Summa', width: 140 , headerClass: ['bg-gray-100'], cellClass: ['bg-gray-100', 'font-semibold'] , cellRenderer: ({data}) => Math.round(data.selled_price * data.count*1000)/1000 },
         { field: 'created_at', headerName: 'Sotilgan vaqt', width: 140, cellRenderer: params => moment(params.value).fromNow() },
         { 
             headerName: '',

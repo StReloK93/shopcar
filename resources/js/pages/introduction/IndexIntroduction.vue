@@ -27,6 +27,3 @@ function AnimateAddProducts(data){
 }
 </script>
 <style scoped src="../../assets/selected.css"></style>
-
-<!-- // import Preview from './components/PreviewIntro.vue' -->
-<!-- <Preview :PageData="PageData" :FormData="FormData" :sizesCount="sizesCount"></Preview> -->

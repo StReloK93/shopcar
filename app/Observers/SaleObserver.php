@@ -22,7 +22,7 @@ class SaleObserver
                     'product_names_id' =>  $product['product_names_id'],
                     'product_id' => $product['id'],
                     'price' => $product['price'],
-                    'selled_price' => $product['sold_price'],
+                    'selled_price' => $product['selled_price'],
                     'count' => $product['totalCount'],
                 ]);
             }

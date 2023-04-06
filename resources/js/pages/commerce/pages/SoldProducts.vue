@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { reactive } from 'vue'
-
+const emit = defineEmits(['editSold'])
 axios.get('sale-products').then(({ data }) => PageData.sells = data)
 
 const PageData = reactive({
@@ -35,14 +35,18 @@ const PageData = reactive({
         { 
             headerName: '',
             width: 50,
-            cellRenderer: () => "<i class='fa-brands fa-rev text-xl relative top-px text-blue-500'></i>",
-            // onCellClicked: (selected) => getProductById(selected.data.id),
-            cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+            cellRenderer: () => "<i class='fa-duotone fa-marker text-pink-600 text-[16px] relative top-px'></i>",
+            onCellClicked: (selected) => editSold(selected.data),
+            cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300', 'bg-gray-100']
         },
 
         
     ]
 })
+
+function editSold(selected){
+    emit('editSold', selected)
+}
 
 const SellAgGrid: GridOptions = reactive({ api: null, columnApi: null })
 function gridReady(grid) {

@@ -1,6 +1,6 @@
 <template>
     <section name="indexSale" class="flex flex-col">
-        <Transition name="fade">
+        <TransitionGroup name="fade">
             <ListProducts 
                 v-if="PageData.activeList != null && PageData.listProducts[PageData.activeList].length" 
                 @close="closeListProducts" @sold="sold"
@@ -8,7 +8,14 @@
                 @onFinished="onFinished"
                 :listProducts="PageData.listProducts[PageData.activeList]" 
             />
-        </Transition>
+
+            <RefundListProducts 
+                v-if="PageData.editSold != null"
+                @close="PageData.editSold = null"
+                :product="PageData.editSold"
+            />
+        </TransitionGroup>
+
         <aside class="flex-between-center">
             <div>
                 <RouterLink to="/soldproducts" class="py-1.5 inline-block">
@@ -23,8 +30,9 @@
                 <input type="text" class="text-input bg-inherit text-center text-gray-600" v-model="PageData.searchInput" placeholder="Sotish ID-XXX">
             </form>
         </aside>
+        
         <RouterView v-slot="{ Component }">
-            <component ref="tables" class="h-full" :is="Component" />
+            <component @editSold="editSold" ref="tables" class="h-full" :is="Component" />
         </RouterView>
         <main class="-mb-4 -mx-4 px-3 py-2 relative z-[100] bg-white text-gray-500">
             <button 
@@ -42,6 +50,7 @@
 <script setup lang="ts">
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProductsSold.vue'
+import RefundListProducts from './components/RefundListProducts.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
 
 const tables = ref()
@@ -52,6 +61,7 @@ const PageData = reactive({
     blocker: true,
     searchInput: null,
     activeList: null,
+    editSold: null,
 })
 
 watch(() => PageData.textInBarcode , (currentValue) => {
@@ -90,7 +100,7 @@ function getProductById(productId){
 
         if(data.id){
             data.totalCount = 1
-            data.sold_price = data.price
+            data.selled_price = data.price
             PageData.listProducts[PageData.activeList].push(data)
         }
 
@@ -127,6 +137,13 @@ function changeActiveList(index){
     PageData.activeList = null
     setTimeout(() => PageData.activeList = index, 150);
 }
+
+
+function editSold(selected){
+    PageData.editSold = selected
+}
+
+
 
 function sold(listProducts){
 
@@ -186,8 +203,6 @@ onUnmounted(() => document.removeEventListener('scan', Scancode))
 provide('getProductById', getProductById)
 
 function onFinished(value){
-    console.log(value)
-    
     if(value) document.removeEventListener('scan', Scancode)
     else document.addEventListener('scan', Scancode)
 }

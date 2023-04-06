@@ -81,7 +81,7 @@ function addProduct(){
 
 
 const totalPrice = computed(() => {
-    const summa = listProducts.reduce((sum, product) => sum + product.sold_price * product.totalCount, 0)
+    const summa = listProducts.reduce((sum, product) => sum + product.selled_price * product.totalCount, 0)
     return Math.trunc(summa*1000)/1000
 })
 

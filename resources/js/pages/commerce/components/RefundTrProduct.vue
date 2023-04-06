@@ -3,10 +3,7 @@
         <td class="border-y py-3 pl-3 text-left">{{ product.product_names.name }}</td>
         <td class="border-y py-3">{{ product.size.name }}</td>
         <td class="border-y py-3 w-32">
-            <span v-if="refund">
-                {{ product.selled_price }}
-            </span>
-            <input v-else type="number" class="text-input border py-0 text-center" v-model="product.selled_price" :placeholder="firstPrice">
+            {{product.selled_price}}
         </td>
         <td class="border-y py-3 ">
             <div class="flex items-center justify-center">
@@ -26,8 +23,7 @@
                 </button>
             </div>
         </td>
-        <td class="border-y py-3">{{ product.count }}</td>
-        <td class="border-y py-3">{{ Math.round(product.selled_price * product.totalCount*1000)/1000}}</td>
+        <td class="border-y py-3">{{ Math.round(product.selled_price * product.count*1000)/1000}}</td>
         <td @click="$emit('delete')"
             class="border-y py-3 px-3 text-red-600 cursor-pointer hover:bg-gray-100 active:bg-slate-200">
             <i class="fal fa-times"></i>
@@ -36,10 +32,8 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted, ref } from 'vue'
-const { product , refund } = defineProps(['product', 'refund'])
-
-const firstPrice = ref(product.selled_price)
+import { watch, onMounted } from 'vue'
+const { product } = defineProps(['product', 'index'])
 
 const decrement = (product) => product.totalCount--
 const increment = (product) => product.totalCount++

@@ -11,6 +11,11 @@ class SaleController extends Controller
         return Sale::shop()->with(['sells'])->latest()->get();
     }
 
+    //show
+    public function show($id){
+        return Sale::with(['sells'])->find($id);
+    }
+
 
     // create
     public function store(Request $request)

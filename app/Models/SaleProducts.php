@@ -10,6 +10,11 @@ class SaleProducts extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'size',
+        'product_names',
+    ];
+
     protected $fillable = [
         'shop_id',
         'sale_id',

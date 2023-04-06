@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('onrollup')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-4 pb-16 outline-none z-[100]">
+    <section @click="$emit('close')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-4 pb-16 outline-none z-[100]">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between relative">
             <Transition name="scale">
                 <FinishedSold 
@@ -9,10 +9,8 @@
                     :totalPrice="totalPrice"
                 ></FinishedSold>
             </Transition>
-            <header class="text-right bg-gray-100 border-b mb-0">
-                <button @click="$emit('onrollup')" class="px-4 py-2 hover:bg-gray-200">
-                    <i class="fa-light fa-minus relative top-px"></i>
-                </button>
+            <header class="flex justify-between items-center bg-gray-100 border-b mb-0">
+                <span class="px-4 text-gray-400"><i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Qaytarib olish</span>
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
                     <i class="far fa-times text-red-500"></i>
                 </button>
@@ -28,8 +26,9 @@
                         <td class="py-2 font-semibold">Do'kondagi soni</td>
                         <td class="py-2 font-semibold">Umumiy narxi</td>
                         <td class="py-2 font-semibold"></td>
+                        <td class="py-2 font-semibold"></td>
                     </tr>
-                    <TrProduct v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
+                    <TrProduct :refund="true" v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
                     <tr>
                         <td class="py-4 sticky bottom-0 bg-white" colspan="4"></td>
                         <td class="py-3 sticky bottom-0 bg-white font-semibold text-[18px]">Umumiy summa</td>
@@ -51,8 +50,8 @@
                     <span v-if="totalPrice == 0">
                         Mahsulot kiriting
                     </span>
-                    <span v-else>
-                        To'lovni amalga oshirish
+                    <span v-else class="text-gray-600">
+                        <i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Saqlash
                     </span>
                 </button>
             </footer>
@@ -64,15 +63,25 @@
 import { computed, onMounted , inject , ref } from 'vue'
 import TrProduct from './TrProduct.vue'
 import FinishedSold from './FinishedSold.vue'
-const { listProducts } = defineProps(['listProducts'])
+const { product } = defineProps(['product'])
 const getProductById: Function = inject('getProductById', null)
-const emit = defineEmits(['close','sold','onrollup','onFinished'])
-
+const emit = defineEmits(['close','sold','onFinished'])
 
 
 
 const searchId = ref()
 const finishedSold = ref(false)
+const listProducts = ref([])
+
+
+
+axios.get(`sale/${product.sale_id}`).then(({data}) => {
+    data.sells.forEach(sell => {
+        sell.totalCount = sell.count
+    });
+
+    listProducts.value = data.sells
+})
 
 function addProduct(){
     getProductById(searchId.value)
@@ -81,7 +90,7 @@ function addProduct(){
 
 
 const totalPrice = computed(() => {
-    const summa = listProducts.reduce((sum, product) => sum + product.sold_price * product.totalCount, 0)
+    const summa = listProducts.value.reduce((sum, product) => sum + product.selled_price * product.count, 0)
     return Math.trunc(summa*1000)/1000
 })
 
@@ -96,8 +105,8 @@ function closeFinished(){
 }
 
 const deleteProduct = (index) => {
-    listProducts.splice(index,1)
-    if(listProducts.length == 0) emit('close')
+    listProducts.value.splice(index,1)
+    if(listProducts.value.length == 0) emit('close')
 }
 
 onMounted(() => {

@@ -1,11 +1,17 @@
 <template>
     <section class="bg-gray-500 bg-opacity-20 w-full h-full absolute z-50 left-0 top-0 flex-center">
         <main @click.stop class="w-96 h-[500px] bg-white shadow-lg flex flex-col">
-            <header class="text-right bg-gray-100 border-b mb-0">
+            <header v-if="sale" class="text-right bg-pink-600 border-b mb-0">
+                <button @click="$emit('close')" class="px-4 py-2 hover:bg-pink-500">
+                    <i class="far fa-times text-white"></i>
+                </button>
+            </header>
+            <header v-else class="text-right bg-gray-100 border-b mb-0">
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
                     <i class="far fa-times text-red-500"></i>
                 </button>
             </header>
+
             <form @submit.prevent="finishedSold" class="p-3 pt-2 flex flex-col justify-between h-full">
                 <main>
                     <div class="mb-1.5" v-for="(value, key) in formData">
@@ -69,7 +75,7 @@
 <script setup lang="ts">
 import { reactive , watch , computed } from 'vue'
 import { useAuthStore } from '@/store/useAuthStore'
-const { listProducts, totalPrice } = defineProps(['listProducts', 'totalPrice'])
+const { listProducts, totalPrice , sale } = defineProps(['listProducts', 'totalPrice', 'sale'])
 const store = useAuthStore()
 
 function allMoney(type){
@@ -115,14 +121,21 @@ watch(() => formData.electron, (current, old) => {
 })
 
 function finishedSold(){
-    axios.post('sale', {...formData, listProducts, shop_id: store.user.active_shop }).then(({data}) => {
+    const mainListProducts = listProducts.filter( (product) => product.totalCount != 0 )
+    
+    if(sale) axios.patch(`sale/${sale.id}`, {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
+        console.log(data)
+        
+    })
+
+    else axios.post('sale', {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
         swal.fire({
             icon: 'success',
             title: 'Sold',
             showConfirmButton: false,
             timer: 1000
         })
-        emit('sold', data)
+        // emit('sold', data)
     })
 }
 

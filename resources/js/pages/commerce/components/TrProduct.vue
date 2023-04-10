@@ -3,10 +3,7 @@
         <td class="border-y py-3 pl-3 text-left">{{ product.product_names.name }}</td>
         <td class="border-y py-3">{{ product.size.name }}</td>
         <td class="border-y py-3 w-32">
-            <span v-if="refund">
-                {{ product.selled_price }}
-            </span>
-            <input v-else type="number" class="text-input border py-0 text-center" v-model="product.selled_price" :placeholder="firstPrice">
+            <input  type="number" class="text-input border py-0 text-center" v-model="product.selled_price" :placeholder="firstPrice">
         </td>
         <td class="border-y py-3 ">
             <div class="flex items-center justify-center">
@@ -28,7 +25,7 @@
         </td>
         <td class="border-y py-3">{{ product.count }}</td>
         <td class="border-y py-3">{{ Math.round(product.selled_price * product.totalCount*1000)/1000}}</td>
-        <td @click="$emit('delete')"
+        <td v-if="!refund" @click="$emit('delete')"
             class="border-y py-3 px-3 text-red-600 cursor-pointer hover:bg-gray-100 active:bg-slate-200">
             <i class="fal fa-times"></i>
         </td>
@@ -54,6 +51,6 @@ watch(() => product, (current) => {
 
 
 onMounted(() => {
-    if(product.totalCount > product.count) product.totalCount =product.count
+    if(product.totalCount > product.count) product.totalCount = product.count
 })
 </script>

@@ -21,9 +21,11 @@ class SaleProducts extends Model
         'size_id',
         'product_names_id',
         'product_id',
+        'original_price',
         'price',
         'selled_price',
-        'count'
+        'count',
+        'created'
     ];
 
 

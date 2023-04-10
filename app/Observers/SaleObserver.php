@@ -4,7 +4,7 @@ namespace App\Observers;
 use App\Models\Sale;
 use App\Models\SaleProducts;
 use Auth;
-
+use Carbon\Carbon;
 class SaleObserver
 {
 
@@ -21,9 +21,11 @@ class SaleObserver
                     'size_id' =>  $product['size_id'],
                     'product_names_id' =>  $product['product_names_id'],
                     'product_id' => $product['id'],
+                    'original_price' => $product['original_price'],
                     'price' => $product['price'],
                     'selled_price' => $product['selled_price'],
                     'count' => $product['totalCount'],
+                    'created' => Carbon::parse($product['created_at'])->timezone('Asia/Tashkent'),
                 ]);
             }
 

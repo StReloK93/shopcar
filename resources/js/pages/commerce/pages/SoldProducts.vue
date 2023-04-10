@@ -20,17 +20,40 @@
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import { reactive } from 'vue'
 const emit = defineEmits(['editSold'])
-axios.get('sale-products').then(({ data }) => PageData.sells = data)
+axios.get('sale').then(({ data }) => PageData.sells = data)
 
 const PageData = reactive({
     sells: null,
     columnDefs: [
-        { field: 'product_names.name', headerName: 'Nomi', flex: 1 , sortable: true},
-        { field: 'size.name', headerName: "O'lchami", width: 80, },
-        { field: 'price', headerName: 'Narxi', width: 130, },
-        { field: 'selled_price', headerName: 'Sotilgan narxi', width: 130, },
-        { field: 'count', headerName: 'Soni', width: 80 },
-        { field: 'count', headerName: 'Summa', width: 140 , headerClass: ['bg-gray-100'], cellClass: ['bg-gray-100', 'font-semibold'] , cellRenderer: ({data}) => Math.round(data.selled_price * data.count*1000)/1000 },
+        {
+            headerName: 'Mahsulotlar',
+            flex: 1 ,
+            sortable: true ,
+            cellRenderer:  params => {
+                var text = ""
+                params.data.sells.forEach(selled_product => {
+                    const tag = `
+                    <div class="inline-block mr-4 ">
+                        <span class="bg-gray-100 px-2 py-0.5 border-b border-pink-500">
+                            <span>${selled_product.product_names.name}</span>
+                            <span class="ml-4 text-gray-400">${selled_product.size.name}</span>
+                        </span>
+                    </div>`
+                    text += tag
+                });
+                return text
+            }
+        },
+        { field: 'cash', headerName: 'Naxt', width: 130, },
+        { field: 'electron', headerName: 'Plastik', width: 130, },
+        { field: 'debt', headerName: 'Qarz', width: 80 },
+        { 
+            field: 'count',
+            headerName: 'Summa',
+            width: 140 ,
+            headerClass: ['bg-gray-100'], cellClass: ['bg-gray-100', 'font-semibold'] ,
+            cellRenderer: ({data}) => data.cash + data.electron + data.debt
+        },
         { field: 'created_at', headerName: 'Sotilgan vaqt', width: 140, cellRenderer: params => moment(params.value).fromNow() },
         { 
             headerName: '',

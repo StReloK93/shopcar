@@ -5,14 +5,15 @@
                 <FinishedSold 
                     v-if="finishedSold" 
                     @close="closeFinished"
-                    :listProducts="listProducts"
+                    :listProducts="removedProducts"
                     :totalPrice="totalPrice"
+                    :sale="product"
                 ></FinishedSold>
             </Transition>
-            <header class="flex justify-between items-center bg-gray-100 border-b mb-0">
-                <span class="px-4 text-gray-400"><i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Qaytarib olish</span>
-                <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
-                    <i class="far fa-times text-red-500"></i>
+            <header class="flex justify-between items-center bg-pink-600 border-b mb-0">
+                <span class="px-4 text-white"><i class='fa-duotone fa-marker text-white relative top-px mr-3'></i> Qaytarib olish </span>
+                <button @click="$emit('close')" class="px-4 py-2 hover:bg-pink-500">
+                    <i class="far fa-times text-white"></i>
                 </button>
             </header>
             <main class="flex-grow overflow-hidden overflow-y-auto list-products shadow-inner px-3">
@@ -25,10 +26,14 @@
                         <td class="py-2 font-semibold">Soni</td>
                         <td class="py-2 font-semibold">Do'kondagi soni</td>
                         <td class="py-2 font-semibold">Umumiy narxi</td>
-                        <td class="py-2 font-semibold"></td>
-                        <td class="py-2 font-semibold"></td>
                     </tr>
-                    <TrProduct :refund="true" v-for="(product, index) in listProducts" :product="product" :key="index" @delete="deleteProduct(index)"/>
+                    <TrProduct
+                        :refund="true"
+                        v-for="(product, index) in listProducts"
+                        :product="product"
+                        :key="index"
+                        @delete="deleteProduct(index)"
+                    />
                     <tr>
                         <td class="py-4 sticky bottom-0 bg-white" colspan="4"></td>
                         <td class="py-3 sticky bottom-0 bg-white font-semibold text-[18px]">Umumiy summa</td>
@@ -42,15 +47,10 @@
                     <input type="text" class="text-input bg-inherit border" v-model="searchId" placeholder="Sotish ID-NNN">
                 </form>
                 <button 
-                    :disabled="totalPrice == 0"
                     @click="openFinished" 
-                    :class="{'!border-gray-300 text-gray-400 cursor-disabled bg-gray-300': totalPrice == 0}" 
-                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300"
+                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50"
                 >
-                    <span v-if="totalPrice == 0">
-                        Mahsulot kiriting
-                    </span>
-                    <span v-else class="text-gray-600">
+                    <span class="text-gray-600">
                         <i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Saqlash
                     </span>
                 </button>
@@ -72,15 +72,17 @@ const emit = defineEmits(['close','sold','onFinished'])
 const searchId = ref()
 const finishedSold = ref(false)
 const listProducts = ref([])
+const copyListProduct = ref([])
 
 
 
-axios.get(`sale/${product.sale_id}`).then(({data}) => {
+axios.get(`sale/${product.id}`).then(({data}) => {
     data.sells.forEach(sell => {
         sell.totalCount = sell.count
     });
 
     listProducts.value = data.sells
+    copyListProduct.value = [...data.sells]
 })
 
 function addProduct(){
@@ -90,9 +92,19 @@ function addProduct(){
 
 
 const totalPrice = computed(() => {
-    const summa = listProducts.value.reduce((sum, product) => sum + product.selled_price * product.count, 0)
+    const summa = listProducts.value.reduce((sum, product) => sum + product.selled_price * product.totalCount, 0)
     return Math.trunc(summa*1000)/1000
 })
+
+
+const removedProducts = computed(() => copyListProduct.value.map(( product ) => {
+    const select = listProducts.value.find( ( (baseProduct) => product.id == baseProduct.id) )
+    
+    const count = product.count - select.totalCount
+    
+    return {...select , totalCount: count}
+}))
+
 
 function openFinished(){
     finishedSold.value = true
@@ -106,7 +118,6 @@ function closeFinished(){
 
 const deleteProduct = (index) => {
     listProducts.value.splice(index,1)
-    if(listProducts.value.length == 0) emit('close')
 }
 
 onMounted(() => {

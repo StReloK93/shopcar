@@ -46,7 +46,7 @@
                     :disabled="totalPrice == 0"
                     @click="openFinished" 
                     :class="{'!border-gray-300 text-gray-400 cursor-disabled bg-gray-300': totalPrice == 0}" 
-                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300"
+                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50"
                 >
                     <span v-if="totalPrice == 0">
                         Mahsulot kiriting

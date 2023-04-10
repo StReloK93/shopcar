@@ -24,10 +24,7 @@ class SaleProductsController extends Controller
     public function update(Request $request, $id)
     {
 
-        ProductNames::find($id)->update([
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-        ]);
+        return $request->all();
 
     }
 
@@ -35,7 +32,6 @@ class SaleProductsController extends Controller
     public function destroy($id)
     {
 
-        ProductNames::find($id)->delete();
 
     }
 }

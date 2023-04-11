@@ -11,7 +11,7 @@
                 ></FinishedSold>
             </Transition>
             <header class="flex justify-between items-center bg-pink-600 border-b mb-0">
-                <span class="px-4 text-white"><i class='fa-duotone fa-marker text-white relative top-px mr-3'></i> Qaytarib olish </span>
+                <span class="px-4 text-white"><i class='fa-duotone fa-pen-nib text-white relative top-px mr-3'></i> Tahrirlash </span>
                 <button @click="$emit('close')" class="px-4 py-2 hover:bg-pink-500">
                     <i class="far fa-times text-white"></i>
                 </button>
@@ -46,14 +46,16 @@
                 <form @submit.prevent="addProduct()">
                     <input type="text" class="text-input bg-inherit border" v-model="searchId" placeholder="Sotish ID-NNN">
                 </form>
-                <button 
-                    @click="openFinished" 
-                    class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50"
-                >
-                    <span class="text-gray-600">
-                        <i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Saqlash
-                    </span>
-                </button>
+                <main>                    
+                    <button
+                        @click="openFinished" 
+                        class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50"
+                    >
+                        <span class="text-gray-600">
+                            <i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Saqlash
+                        </span>
+                    </button>
+                </main>
             </footer>
         </main>
     </section>
@@ -65,7 +67,7 @@ import TrProduct from './TrProduct.vue'
 import FinishedSold from './FinishedSold.vue'
 const { product } = defineProps(['product'])
 const getProductById: Function = inject('getProductById', null)
-const emit = defineEmits(['close','sold','onFinished'])
+const emit = defineEmits(['close','deleted','onFinished'])
 
 
 
@@ -104,7 +106,6 @@ const removedProducts = computed(() => copyListProduct.value.map(( product ) => 
     
     return {...select , totalCount: count}
 }))
-
 
 function openFinished(){
     finishedSold.value = true

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Observers;
-use App\Models\Sale;
-use App\Models\SaleProducts;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Sale;
+use App\Models\SaleProducts;
+use App\Models\Product;
 class SaleObserver
 {
 
@@ -40,7 +41,42 @@ class SaleObserver
      */
     public function updated(Sale $sell)
     {
-        //
+        $request = request()->all();
+        $listProducts = $request['listProducts'];
+        foreach ($listProducts as $key => $product) {
+            $prod = Product::find($product['product_id']);
+            if($prod){
+
+                $prod->count = $prod->count + $product['totalCount'];
+                $prod->save();
+
+            }
+            else{
+
+                Product::create([
+                    'id' => $product['product_id'],
+                    'shop_id' => $product['shop_id'],
+                    'product_names_id' => $product['product_names_id'],
+                    'size_id' => $product['size_id'],
+                    'original_price' => $product['original_price'],
+                    'price' => $product['price'],
+                    'count' => $product['totalCount'],
+                    'created_at' => $product['created'],
+                ]);
+
+            }
+
+            $productsSale = SaleProducts::find($product['id']);
+            $count = (int)$productsSale->count - $product['totalCount'];
+            if($count == 0){
+                $productsSale->delete();
+            }
+            else{
+                $productsSale->count = $count;
+                $productsSale->save();
+            }
+        }
+        
     }
 
     /**
@@ -51,7 +87,7 @@ class SaleObserver
      */
     public function deleted(Sale $sell)
     {
-        //
+        SaleProducts::where('sale_id', $sell->id)->delete();
     }
 
     /**

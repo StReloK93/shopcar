@@ -1,5 +1,13 @@
 <template>
     <aside class="flex flex-col">
+        <TransitionGroup name="fade">
+            <RefundListProducts 
+                v-if="PageData.editSold != null"
+                @close="PageData.editSold = null"
+                @deleted="deleted"
+                :product="PageData.editSold"
+            />
+        </TransitionGroup>
         <section class="bg-white px-1 py-2 flex items-center">
             <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
             <input 
@@ -18,12 +26,14 @@
 
 <script setup lang="ts">
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
+import RefundListProducts from '../components/RefundListProducts.vue'
 import { reactive } from 'vue'
 const emit = defineEmits(['editSold'])
 axios.get('sale').then(({ data }) => PageData.sells = data)
 
 const PageData = reactive({
     sells: null,
+    editSold: null,
     columnDefs: [
         {
             headerName: 'Mahsulotlar',
@@ -58,7 +68,7 @@ const PageData = reactive({
         { 
             headerName: '',
             width: 50,
-            cellRenderer: () => "<i class='fa-duotone fa-marker text-pink-600 text-[16px] relative top-px'></i>",
+            cellRenderer: () => "<i class='fa-duotone fa-pen-nib text-pink-600 text-[16px] relative top-px'></i>",
             onCellClicked: (selected) => editSold(selected.data),
             cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300', 'bg-gray-100']
         },
@@ -68,7 +78,11 @@ const PageData = reactive({
 })
 
 function editSold(selected){
-    emit('editSold', selected)
+    PageData.editSold = selected
+}
+
+function deleted(selectSale){
+    SellAgGrid.api.applyTransaction({remove: [selectSale]})
 }
 
 const SellAgGrid: GridOptions = reactive({ api: null, columnApi: null })

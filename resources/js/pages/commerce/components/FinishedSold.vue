@@ -76,6 +76,7 @@
 import { reactive , watch , computed } from 'vue'
 import { useAuthStore } from '@/store/useAuthStore'
 const { listProducts, totalPrice , sale } = defineProps(['listProducts', 'totalPrice', 'sale'])
+const emit = defineEmits(['sold'])
 const store = useAuthStore()
 
 function allMoney(type){
@@ -135,7 +136,7 @@ function finishedSold(){
             showConfirmButton: false,
             timer: 1000
         })
-        // emit('sold', data)
+        emit('sold', data)
     })
 }
 

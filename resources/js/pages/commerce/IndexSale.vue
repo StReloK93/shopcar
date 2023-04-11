@@ -8,12 +8,6 @@
                 @onFinished="onFinished"
                 :listProducts="PageData.listProducts[PageData.activeList]" 
             />
-
-            <RefundListProducts 
-                v-if="PageData.editSold != null"
-                @close="PageData.editSold = null"
-                :product="PageData.editSold"
-            />
         </TransitionGroup>
 
         <aside class="flex-between-center">
@@ -32,7 +26,7 @@
         </aside>
         
         <RouterView v-slot="{ Component }">
-            <component @editSold="editSold" ref="tables" class="h-full" :is="Component" />
+            <component ref="tables" class="h-full" :is="Component" />
         </RouterView>
         <main class="-mb-4 -mx-4 px-3 py-2 relative z-[100] bg-white text-gray-500">
             <button 
@@ -50,7 +44,6 @@
 <script setup lang="ts">
 import onScan from 'onscan.js'
 import ListProducts from './components/ListProductsSold.vue'
-import RefundListProducts from './components/RefundListProducts.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
 
 const tables = ref()
@@ -61,7 +54,6 @@ const PageData = reactive({
     blocker: true,
     searchInput: null,
     activeList: null,
-    editSold: null,
 })
 
 watch(() => PageData.textInBarcode , (currentValue) => {
@@ -137,13 +129,6 @@ function changeActiveList(index){
     PageData.activeList = null
     setTimeout(() => PageData.activeList = index, 150);
 }
-
-
-function editSold(selected){
-    PageData.editSold = selected
-}
-
-
 
 function sold(listProducts){
 

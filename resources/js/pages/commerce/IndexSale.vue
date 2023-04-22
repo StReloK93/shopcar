@@ -3,7 +3,8 @@
         <TransitionGroup name="fade">
             <ListProducts 
                 v-if="PageData.activeList != null && PageData.listProducts[PageData.activeList].length" 
-                @close="closeListProducts" @sold="sold"
+                @close="closeListProducts"
+                @sold="sold"
                 @onrollup="onrollup"
                 @onFinished="onFinished"
                 :listProducts="PageData.listProducts[PageData.activeList]" 
@@ -130,9 +131,9 @@ function changeActiveList(index){
     setTimeout(() => PageData.activeList = index, 150);
 }
 
-function sold(listProducts){
-
-    listProducts.forEach(product => {
+function sold(sale){
+    
+    sale.sells.forEach(product => {
         // Real time yangilash uchun
         if(tables.value.productNames) {
             const api = tables.value.productNames.agGrid.api

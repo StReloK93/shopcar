@@ -7,6 +7,7 @@
                     @close="closeFinished"
                     :listProducts="listProducts"
                     :totalPrice="totalPrice"
+                    @sold="(sale) => $emit('sold', sale)"
                 ></FinishedSold>
             </Transition>
             <header class="text-right bg-gray-100 border-b mb-0">
@@ -52,7 +53,7 @@
                         Mahsulot kiriting
                     </span>
                     <span v-else>
-                        To'lovni amalga oshirish
+                        Davom ettirish <i class="fa-light fa-arrow-right-long relative top-px ml-3 text-pink-500"></i>
                     </span>
                 </button>
             </footer>

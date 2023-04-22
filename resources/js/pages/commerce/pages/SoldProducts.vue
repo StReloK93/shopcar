@@ -5,6 +5,7 @@
                 v-if="PageData.editSold != null"
                 @close="PageData.editSold = null"
                 @deleted="deleted"
+                @backup="backup"
                 :product="PageData.editSold"
             />
         </TransitionGroup>
@@ -23,7 +24,6 @@
         </section>
     </aside>
 </template>
-
 <script setup lang="ts">
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import RefundListProducts from '../components/RefundListProducts.vue'
@@ -41,12 +41,15 @@ const PageData = reactive({
             sortable: true ,
             cellRenderer:  params => {
                 var text = ""
+
+                
                 params.data.sells.forEach(selled_product => {
+                    var counting = selled_product.count > 1 ? `<span class="text-[10px] text-pink-500 mr-0.5">${selled_product.count}x </span>` : ''
                     const tag = `
                     <div class="inline-block mr-4 ">
                         <span class="bg-gray-100 px-2 py-0.5 border-b border-pink-500">
                             <span>${selled_product.product_names.name}</span>
-                            <span class="ml-4 text-gray-400">${selled_product.size.name}</span>
+                            <span class="ml-4 text-gray-400"> ${counting} ${selled_product.size.name}</span>
                         </span>
                     </div>`
                     text += tag
@@ -76,6 +79,11 @@ const PageData = reactive({
         
     ]
 })
+
+function backup(sale){
+    console.log(sale);
+}
+
 
 function editSold(selected){
     PageData.editSold = selected

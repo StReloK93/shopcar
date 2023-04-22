@@ -64,7 +64,12 @@
                         :disabled="remaining < 0"
                         :class="{'!border-gray-200 text-gray-300 cursor-not-allowed' : remaining < 0}"
                         class="py-1 px-3 bg-gray-200 shadow-md active:shadow-sm border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50 w-full">
-                        To'lovni amalga oshirish 
+                        <span v-if="sale">
+                            <span class="px-4 text-gray-500"> Tahrirlash  <i class='fa-duotone fa-pen-nib text-pink-500 relative top-px ml-3'></i></span>
+                        </span>
+                        <span v-else>
+                            To'lovni amalga oshirish  <i class="fa-light fa-check ml-3 text-pink-500"></i>
+                        </span>
                     </button>
                 </main>
             </form>
@@ -76,7 +81,7 @@
 import { reactive , watch , computed } from 'vue'
 import { useAuthStore } from '@/store/useAuthStore'
 const { listProducts, totalPrice , sale } = defineProps(['listProducts', 'totalPrice', 'sale'])
-const emit = defineEmits(['sold'])
+const emit = defineEmits(['sold','close', 'backup'])
 const store = useAuthStore()
 
 function allMoney(type){
@@ -125,14 +130,21 @@ function finishedSold(){
     const mainListProducts = listProducts.filter( (product) => product.totalCount != 0 )
     
     if(sale) axios.patch(`sale/${sale.id}`, {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
-        console.log(data)
-        
+        // tovar qaytarib olinganda
+        swal.fire({
+            icon: 'success',
+            title: 'Sotildi',
+            showConfirmButton: false,
+            timer: 1000
+        })
+        emit('backup', data)
     })
 
     else axios.post('sale', {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
+        // Tovar sotilganda
         swal.fire({
             icon: 'success',
-            title: 'Sold',
+            title: 'Sotildi',
             showConfirmButton: false,
             timer: 1000
         })

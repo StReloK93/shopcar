@@ -43,6 +43,8 @@ class SaleObserver
     {
         $request = request()->all();
         $listProducts = $request['listProducts'];
+
+        
         foreach ($listProducts as $key => $product) {
             $prod = Product::find($product['product_id']);
             if($prod){

@@ -5,6 +5,7 @@
                 <FinishedSold 
                     v-if="finishedSold" 
                     @close="closeFinished"
+                    @backup="(data) => $emit('backup', data)"
                     :listProducts="removedProducts"
                     :totalPrice="totalPrice"
                     :sale="product"
@@ -52,7 +53,7 @@
                         class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 hover:bg-pink-100 active:bg-pink-50"
                     >
                         <span class="text-gray-600">
-                            <i class='fa-duotone fa-marker text-pink-500 relative top-px mr-3'></i> Saqlash
+                            Davom ettirish <i class="fa-light fa-arrow-right-long relative top-px ml-3 text-pink-500"></i>
                         </span>
                     </button>
                 </main>
@@ -67,7 +68,7 @@ import TrProduct from './TrProduct.vue'
 import FinishedSold from './FinishedSold.vue'
 const { product } = defineProps(['product'])
 const getProductById: Function = inject('getProductById', null)
-const emit = defineEmits(['close','deleted','onFinished'])
+const emit = defineEmits(['close','deleted','onFinished', 'backup'])
 
 
 

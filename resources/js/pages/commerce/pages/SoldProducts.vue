@@ -81,7 +81,15 @@ const PageData = reactive({
 })
 
 function backup(sale){
-    console.log(sale);
+    if(sale == false){
+        SellAgGrid.api.applyTransaction({remove: [PageData.editSold]})
+        PageData.editSold = null
+    }
+    else{
+        const rowNode = SellAgGrid.api.getRowNode(sale.id)
+        rowNode.setData(sale)
+        PageData.editSold = null
+    }
 }
 
 

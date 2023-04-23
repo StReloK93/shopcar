@@ -166,7 +166,7 @@ function sold(sale){
 
     })
     
-    if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: listProducts,addIndex: 0})
+    if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: sale.sells,addIndex: 0})
     
     closeListProducts()
 }

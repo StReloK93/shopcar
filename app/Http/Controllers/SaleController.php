@@ -40,7 +40,14 @@ class SaleController extends Controller
         $sale->updated_at = now()->timezone('Asia/Tashkent');
         $sale->save();
         
-        return Sale::with(['sells'])->find($id);
+        $updatedSale = Sale::with(['sells'])->find($id);
+        if(empty(count($updatedSale->sells))){
+            $updatedSale->delete();
+            return false;
+        }
+        else{
+            return $updatedSale;
+        }
 
     }
 

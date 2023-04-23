@@ -131,23 +131,23 @@ function finishedSold(){
     
     if(sale) axios.patch(`sale/${sale.id}`, {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
         // tovar qaytarib olinganda
-        swal.fire({
-            icon: 'success',
-            title: 'Sotildi',
-            showConfirmButton: false,
-            timer: 1000
-        })
+        // swal.fire({
+        //     icon: 'success',
+        //     title: 'Yangilandi',
+        //     showConfirmButton: false,
+        //     timer: 1000
+        // })
         emit('backup', data)
     })
 
     else axios.post('sale', {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
         // Tovar sotilganda
-        swal.fire({
-            icon: 'success',
-            title: 'Sotildi',
-            showConfirmButton: false,
-            timer: 1000
-        })
+        // swal.fire({
+        //     icon: 'success',
+        //     title: 'Sotildi',
+        //     showConfirmButton: false,
+        //     timer: 1000
+        // })
         emit('sold', data)
     })
 }

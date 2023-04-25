@@ -58,14 +58,20 @@ const PageData = reactive({
 })
 
 watch(() => PageData.textInBarcode , (currentValue) => {
-
+    var productId = null
     if (currentValue == null || PageData.blocker == false) return
     PageData.blocker = false
-    
-    // textdan IDni ajratib olamiz
-    const productId = currentValue.replace('product', '')
-    getProductById(productId)
 
+    if(currentValue.includes(window.location.host)){
+        productId = currentValue.slice(currentValue.lastIndexOf('/') + 1);
+    }
+    else{
+        productId = currentValue.replace('product', '')
+    }
+
+    console.log(productId)
+    
+    getProductById(productId)
 })
 
 function getProductById(productId){
@@ -166,7 +172,7 @@ function sold(sale){
 
     })
     
-    if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: sale.sells,addIndex: 0})
+    if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: [sale],addIndex: 0})
     
     closeListProducts()
 }
@@ -193,4 +199,3 @@ function onFinished(value){
     else document.addEventListener('scan', Scancode)
 }
 </script>
-<style src="../../assets/ag-grid.css"></style>

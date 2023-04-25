@@ -28,8 +28,9 @@
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import RefundListProducts from '../components/RefundListProducts.vue'
 import { reactive } from 'vue'
-const emit = defineEmits(['editSold'])
 axios.get('sale').then(({ data }) => PageData.sells = data)
+
+
 
 const PageData = reactive({
     sells: null,

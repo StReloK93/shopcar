@@ -12,9 +12,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import JsBarcode from 'JsBarcode'
-const { productName, product } = defineProps(['productName','product']) 
+const { productName, product } = defineProps(['productName','product'])
+const textForBarcode = window.location.host + `/product/${product.id}`
+
 const svgId = ref(`product${product.id}`)
 onMounted(() => {
-    JsBarcode(`#${svgId.value}`, svgId.value, {width: 1,height: 50,displayValue: false});
+    JsBarcode(`#${svgId.value}`, textForBarcode, {width: 0.5,height: 50,displayValue: false});
 })
 </script>

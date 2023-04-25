@@ -1,13 +1,16 @@
 <template>
     <section>
+        <div class="mb-4 flex justify-between items-center">
+            <h3 class="text-gray-600 flex items-center">
+                <i class="fa-light fa-timeline text-pink-500 mr-3 text-xl"></i> Turlar
+            </h3>
+            <button @click="createCategory" class="px-4 py-0.5 bg-gray-100 text-pink-500 border-b border-pink-500 shadow hover:bg-gray-50 active:bg-pink-100">
+                <i class="fa-light fa-rectangle-history-circle-plus"></i>
+            </button>
+        </div>
         <ul v-if="categories.children_categories.length">
             <TreeItem v-for="category in categories.children_categories" :key="category.id" :category="category" @delete="deleteCategory"></TreeItem>
         </ul>
-        <form @submit.prevent="createCategory">
-            <button class="px-4 py-1.5 bg-pink-500 text-white shadow rounded-sm active:bg-gray-300 active:shadow-sm flex items-center">
-                Kiritish <i class="ml-4 fa-light fa-rectangle-history-circle-plus"></i>
-            </button>
-        </form>
     </section>
 </template>
 

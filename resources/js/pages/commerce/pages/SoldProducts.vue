@@ -109,3 +109,4 @@ function gridReady(grid) {
 
 defineExpose({ SellAgGrid })
 </script>
+<style src="../../../assets/ag-grid.css" scoped></style>

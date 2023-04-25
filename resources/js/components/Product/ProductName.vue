@@ -201,3 +201,4 @@ function gridReady(grid){
     productAgGrid.columnApi = grid.columnApi
 }
 </script>
+<style src="../../assets/ag-grid.css" scoped></style>

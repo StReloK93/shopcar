@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SizeName;
+use App\Models\Size;
 use Auth;
 class SizeNameController extends Controller
 {
@@ -39,6 +40,7 @@ class SizeNameController extends Controller
 
     public function destroy($id)
     {
+        Size::where('size_name_id', $id)->delete();
         SizeName::destroy($id);
     }
 }

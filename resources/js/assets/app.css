@@ -28,6 +28,14 @@
 		@apply flex-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-30;
 	}
   
+
+  .sizes.router-link-active{
+    @apply bg-gray-50;
+  }
+
+  .mini-button{
+    @apply py-0.5 w-12 text-center bg-gray-100 text-pink-500 border-b border-pink-500 shadow-sm hover:bg-gray-50 active:bg-pink-100
+  }
 }
 
 @page {

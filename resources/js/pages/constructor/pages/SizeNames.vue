@@ -1,18 +1,21 @@
 <template>
     <section>
-        <main v-if="SizeNames.length">
-            <SizesVue v-for="size in SizeNames" :key="size.id" :SizeNames="size" @deleted="deleteSizeName"></SizesVue>
-        </main>
-        <form @submit.prevent="createSize">
-            <button class="px-4 py-1.5 bg-pink-500 text-white shadow rounded-sm active:bg-gray-300 active:shadow-sm flex items-center">
-                Kiritish <i class="ml-4 fa-light fa-ruler-triangle"></i>
+        <div class="mb-4 flex justify-between items-center">
+            <h3 class="text-gray-600 flex items-center">
+                <i class="fa-light fa-cube text-pink-500 mr-3 text-xl"></i> O'lchamlar
+            </h3>
+            <button @click="createSize" class="mini-button">
+                <i class="fa-light fa-rectangle-history-circle-plus"></i>
             </button>
-        </form>
+        </div>
+        <main v-if="SizeNames.length">
+            <Sizes v-for="size in SizeNames" :key="size.id" :SizeNames="size" @deleted="deleteSizeName"></Sizes>
+        </main>
     </section>
 </template>
 
 <script setup lang="ts">
-import SizesVue from '@/components/Sizes.vue';
+import Sizes from '@/components/Sizes.vue';
 import { ref } from 'vue';
 const SizeNames = ref([])
 

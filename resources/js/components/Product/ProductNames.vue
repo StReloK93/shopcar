@@ -190,4 +190,4 @@ const columnDefs = ref([
     },
 ])
 </script>
-<style src="../../assets/ag-grid.css"></style>
+<style src="../../assets/ag-grid.css" scoped></style>

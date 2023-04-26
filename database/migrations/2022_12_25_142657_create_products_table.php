@@ -18,9 +18,9 @@ return new class extends Migration
             $table->bigInteger('shop_id');
             $table->bigInteger('product_names_id');
             $table->bigInteger('size_id');
-            $table->double('original_price', 10, 3);
-            $table->double('price', 10, 3);
-            $table->double('count', 10, 3)->default(1);
+            $table->double('original_price', 20, 3);
+            $table->double('price', 20, 3);
+            $table->double('count', 20, 3)->default(1);
             $table->timestamps();
         });
     }

@@ -108,9 +108,6 @@ function gridReady(GridReady){
 
 
 function deleteProduct(selectedProductName){
-
-    console.log(selectedProductName);
-    
     swal.fire({
         title: "Aniq o'chirmoqchimisiz?",
         text: "Jarayonni orqaga qaytarib bo'lmaydi!",
@@ -166,7 +163,18 @@ const columnDefs = ref([
         sortable: true,
         headerName: "Kiritilgan vaqt", field: "created_at" , width: 120, cellRenderer: params => moment(params.value).fromNow()
     },
-
+    { 
+        suppressMovable: true,
+        pinned: 'right',
+        width: 50,
+        headerName: "",
+        onCellClicked: (selected) => {
+            store.productQrName = null
+            setTimeout(() => store.productQrName = selected.data)
+        },
+        cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
+        cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+    },
     { 
         suppressMovable: true,
         pinned: 'right',

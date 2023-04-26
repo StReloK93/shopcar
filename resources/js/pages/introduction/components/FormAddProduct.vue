@@ -1,6 +1,21 @@
 <template>
     <form @submit.prevent="createProductName" class="w-60">
-
+        <div class="mb-2 flex justify-between text-gray-400">
+            <button
+                @click="qrCodeStore.setQrcode(false)"
+                :class="{'bg-pink-500 text-white': qrCodeStore.getQrcode == false }"
+                type="button"
+                class="bg-gray-100 hover:opacity-60 active:bg-pink-500 active:text-white w-7 shadow-sm rounded-sm">
+                <i class="fa-sharp fa-light fa-qrcode"></i>
+            </button>
+            <button
+                @click="qrCodeStore.setQrcode(true)"
+                :class="{'bg-pink-500 text-white': qrCodeStore.getQrcode }"
+                type="button"
+                class="bg-gray-100 hover:opacity-60 active:bg-pink-500 active:text-white w-7 shadow-sm rounded-sm">
+                <i class="fa-light fa-barcode-read"></i>
+            </button>
+        </div>
         <section @click="setSelectCategory(false)" v-if="PageData.selectCategory" class="full-absolute items-start z-[100] p-8">
             <main @click.stop class="bg-white min-w-[630px] w-[900px] max-h-full border-t-2 border-pink-500 px-4 py-3 relative">
                 <button @click="setSelectCategory(false)" type="button" class="absolute top-0 right-0 hover:bg-gray-100">
@@ -77,11 +92,13 @@
 <script setup lang="ts">
 import { reactive, computed, ref , watch} from 'vue'
 import { useProductStore } from '@/store/useProductStore'
+import { useQrCodeStore } from '@/store/useQrCodeStore'
 import TreeItemFree from './TreeItemFree.vue'
 import Validate from './Validate.vue'
 import VueSelect from './Select.vue'
 import Size from './Size.vue'
-
+const store = useProductStore()
+const qrCodeStore = useQrCodeStore()
 
 const emit = defineEmits(['create-product'])
 
@@ -119,7 +136,6 @@ watch(() => PageData.category_id, (current) => {
     PageData.selectCategory = false
 })
 
-const store = useProductStore()
 function createProductName() {
     if (FormComplete.value == false) {
         needFormComplete.value = true
@@ -130,8 +146,14 @@ function createProductName() {
         Object.assign(FormData, initialForm)
         emit('create-product', data)
 
-        store.productName = null
-        setTimeout(() => store.productName = data)
+        if(qrCodeStore.getQrcode){
+            store.productName = null
+            setTimeout(() => store.productName = data)
+        }
+        else{
+            store.productQrName = null
+            setTimeout(() => store.productQrName = data)
+        }
     })
 }
 

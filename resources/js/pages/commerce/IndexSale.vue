@@ -10,8 +10,43 @@
                 :listProducts="PageData.listProducts[PageData.activeList]" 
             />
         </TransitionGroup>
-
+        <section class="mb-2 flex text-gray-700 justify-end">
+            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32">
+                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
+                    <span>
+                        Naxt
+                    </span>
+                    <i class="fa-light fa-sack-dollar text-teal-600"></i>
+                </p>
+                <div class="leading-none font-semibold">
+                    12450000
+                </div>
+            </div>
+            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32 mx-6">
+                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
+                    <span>
+                        Plastik
+                    </span>
+                    <i class="fa-light fa-money-check-dollar text-sky-600"></i>
+                </p>
+                <div class="leading-none font-semibold">
+                    12450000
+                </div>
+            </div>
+            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32">
+                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
+                    <span>
+                        Qarz
+                    </span>
+                    <i class="fa-light fa-money-check-dollar-pen text-pink-600"></i>
+                </p>
+                <div class="leading-none font-semibold">
+                    12450000
+                </div>
+            </div>
+        </section>
         <aside class="flex-between-center">
+
             <div>
                 <RouterLink to="/soldproducts" class="py-1.5 inline-block">
                     <i class="fa-light fa-arrow-up-from-dotted-line text-red-600 mr-4"></i> Sotilgan

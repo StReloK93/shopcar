@@ -71,10 +71,6 @@ class DatabaseSeeder extends Seeder
                 'name'=>'Quantity',
             ],
             [
-                'shop_id' => null,
-                'name'=>'Units',
-            ],
-            [
                 'shop_id' => 1,
                 'name'=>'Standart',
             ],
@@ -95,46 +91,26 @@ class DatabaseSeeder extends Seeder
         Size::insert([
             [
                 'size_name_id' => 2,
-                'name'=>'m',
-            ],
-            [
-                'size_name_id' => 2,
-                'name'=>'g',
-            ],
-            [
-                'size_name_id' => 2,
-                'name'=>'t',
-            ],
-            [
-                'size_name_id' => 2,
-                'name'=>'L',
-            ],
-        ]);
-
-
-        Size::insert([
-            [
-                'size_name_id' => 3,
                 'name'=>'S',
             ],
             [
-                'size_name_id' => 3,
+                'size_name_id' => 2,
                 'name'=>'M',
             ],
             [
-                'size_name_id' => 3,
+                'size_name_id' => 2,
                 'name'=>'L',
             ],
             [
-                'size_name_id' => 3,
+                'size_name_id' => 2,
                 'name'=>'XL',
             ],
             [
-                'size_name_id' => 3,
+                'size_name_id' => 2,
                 'name'=>'2XL',
             ],
             [
-                'size_name_id' => 3,
+                'size_name_id' => 2,
                 'name'=>'3XL',
             ]
         ]);
@@ -142,39 +118,39 @@ class DatabaseSeeder extends Seeder
 
         Size::insert([
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=> '40',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'42',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'44',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'46',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'48',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'50',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'52',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'54',
             ],
             [
-                'size_name_id' => 4,
+                'size_name_id' => 3,
                 'name'=>'56',
             ],
         ]);

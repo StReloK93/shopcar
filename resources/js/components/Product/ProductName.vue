@@ -11,11 +11,10 @@
             </header>
             <div class="py-1.5 flex-between-center">
                 <span>
-                    <i class="fa-light fa-ruler-triangle"></i> - 
                     <span class="font-semibold text-pink-500">{{ pageData.size_name }}</span>
                 </span>
                 <div v-if="editable" class="flex">
-                    <button v-for="size in emptySizes" @click="createProduct(size)" class="bg-gray-200 shadow rounded-sm border-b-2 border-pink-500 w-14 px-2 py-0.5 ml-2 flex-between-center active:bg-gray-200 hover:bg-gray-300">
+                    <button v-for="size in emptySizes" @click="createProduct(size)" class="mini-button ml-3 text-gray-600">
                         <i class="fal fa-plus text-xs"></i> <span>{{ size.name }}</span> 
                     </button>
                 </div>
@@ -95,6 +94,13 @@ const columnDefs = ref([
         cellEditor: cellEditor,
     },
     { headerName: "Kiritilgan sana", field: "created_at" , editable: true , width: 115, cellRenderer: params => moment(params.value).fromNow() },
+    { 
+        width: 50,
+        headerName: "",
+        onCellClicked: (selected) => printProduct(selected.data),
+        cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
+        cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+    },
     { 
         width: 50,
         headerName: "",

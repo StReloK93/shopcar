@@ -1,12 +1,16 @@
 <template>
-    <div class="relative">
-        <p class="text-[7px] absolute top-0.5 left-0.5 z-50 leading-none text-gray-500">Ruzzifer</p>
+    <div class="relative p-1">
         <svg :id="svgId" class="w-full"></svg>
-        <p class="px-1 flex justify-between items-center text-xs">
+        <p class="flex justify-between items-center text-xs">
             <span>{{ productName.name }}</span> <span>{{ product.size.name }}</span>
         </p>
-        <div class="text-xs text-right px-1">
-            ID-{{ product.id }}
+        <div class="text-[8px] absolute top-0.5 right-0 z-50 leading-none text-gray-500 flex justify-between items-center w-full px-1">
+            <span>
+                ID-{{ product.id }}
+            </span>
+            <span>
+                {{auth.user.active.name}}
+            </span>
         </div>
     </div>
 </template>
@@ -14,10 +18,10 @@
 import { onMounted, ref } from 'vue'
 import JsBarcode from 'JsBarcode'
 const { productName, product } = defineProps(['productName','product'])
-// const textForBarcode = window.location.host + `/product/${product.id}`
-
+import { useAuthStore } from '@/store/useAuthStore'
+const auth = useAuthStore()
 const svgId = ref(`product${product.id}`)
 onMounted(() => {
-    JsBarcode(`#${svgId.value}`, svgId.value, {width: 1,height: 50,displayValue: false});
+    JsBarcode(`#${svgId.value}`, product.id , {width: 2 ,height: 55,displayValue: false});
 })
 </script>

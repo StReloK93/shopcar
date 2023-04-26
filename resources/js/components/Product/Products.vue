@@ -80,6 +80,15 @@ const columnDefs = ref([
         pinned: 'right',
         width: 50,
         headerName: "",
+        // onCellClicked: (selected) => printProduct(selected.data),
+        cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
+        cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
+    },
+    { 
+        suppressMovable: true,
+        pinned: 'right',
+        width: 50,
+        headerName: "",
         onCellClicked: (selected) => printProduct(selected.data),
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']

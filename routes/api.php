@@ -28,6 +28,7 @@ Route::post('/sms/confirm', [SmsController::class, 'confirm']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('/user', [UserController::class, 'getUser']);
@@ -46,11 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('productnames', ProductNamesController::class)->except(['show','destroy']);
     Route::put('productnames/delete/{id}', [ProductNamesController::class, 'destroy']);
     
-    Route::apiResource('products', ProductController::class);
+    Route::apiResource('products', ProductController::class)->except(['show']);
     
     Route::apiResource('sale-products', SaleProductsController::class);
     Route::apiResource('sale', SaleController::class);
-
+    Route::post('/sale/dayinfo', [SaleController::class, 'dayInfo']);
     
     
     Route::apiResource('shops', ShopController::class);
@@ -58,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-
+Route::get('products/{id}', [ProductController::class, 'show']);
 
 
 

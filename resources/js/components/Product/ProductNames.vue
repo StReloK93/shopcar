@@ -57,6 +57,7 @@
         <section class="flex-grow">
             <AgGridVue
                 class="h-full ag-theme-alpine"
+                :headerHeight="30"
                 :getRowId="(params) => params.data.id"
                 :rowData="ProductNames"
                 :columnDefs="columnDefs"

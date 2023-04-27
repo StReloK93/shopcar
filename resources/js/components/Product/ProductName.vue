@@ -22,6 +22,7 @@
             <aside class="flex-grow">
                 <AgGridVue
                     class="h-full ag-theme-alpine"
+                    :headerHeight="30"
                     :getRowId="(params) => params.data.id"
                     :rowData="productName.products"
                     :columnDefs="columnDefs"
@@ -97,7 +98,7 @@ const columnDefs = ref([
     { 
         width: 50,
         headerName: "",
-        onCellClicked: (selected) => printProduct(selected.data),
+        onCellClicked: (selected) => printQrProduct(selected.data),
         cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
@@ -145,6 +146,18 @@ function printProduct(product){
     })
 }
 
+function printQrProduct(product){
+    store.productQrName = null
+
+    const copyProduct = { ...product }
+    copyProduct.count = 1
+    setTimeout(() => {
+        store.productQrName = {
+            name: productName.name,
+            products: [copyProduct] 
+        }
+    })
+}
 
 function deleteProduct(selectProduct){
     swal.fire({

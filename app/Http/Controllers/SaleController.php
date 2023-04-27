@@ -56,4 +56,13 @@ class SaleController extends Controller
     {
         Sale::find($id)->delete();
     }
+
+
+    // 
+    public function dayInfo(Request $request){
+        // dd($request->all());
+        return Sale::shop()
+        ->whereBetween('created_at', [$request->from, $request->to])
+        ->get(); 
+    }
 }

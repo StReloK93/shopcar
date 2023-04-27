@@ -18,7 +18,7 @@
             >
         </section>
         <section class="flex-grow">
-            <AgGridVue class="h-full ag-theme-alpine w-full " :getRowId="(params) => params.data.id"
+            <AgGridVue class="h-full ag-theme-alpine w-full" :headerHeight="30" :getRowId="(params) => params.data.id"
                 :rowData="PageData.sells" :columnDefs="PageData.columnDefs" :animateRows="true" @gridReady="gridReady">
             </AgGridVue>
         </section>
@@ -28,9 +28,11 @@
 import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import RefundListProducts from '../components/RefundListProducts.vue'
 import { reactive } from 'vue'
+import { sumSale } from '@/store/useSumSaleStore'
+const saleStore = sumSale()
+
+
 axios.get('sale').then(({ data }) => PageData.sells = data)
-
-
 
 const PageData = reactive({
     sells: null,
@@ -91,6 +93,7 @@ function backup(sale){
         rowNode.setData(sale)
         PageData.editSold = null
     }
+    saleStore.getDayInfo()
 }
 
 

@@ -26,7 +26,7 @@ class ProductController extends Controller
     // Show
     public function show($id)
     {
-        return Product::shop()->with(['product_names','size'])->find($id);
+        return Product::select('shop_id', 'product_names_id', 'size_id', 'price' , 'count', 'created_at')->with(['product_names','size'])->find($id);
     }
 
     // update

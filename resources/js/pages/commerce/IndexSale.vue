@@ -10,43 +10,8 @@
                 :listProducts="PageData.listProducts[PageData.activeList]" 
             />
         </TransitionGroup>
-        <section class="mb-2 flex text-gray-700 justify-end">
-            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32">
-                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
-                    <span>
-                        Naxt
-                    </span>
-                    <i class="fa-light fa-sack-dollar text-teal-600"></i>
-                </p>
-                <div class="leading-none font-semibold">
-                    12450000
-                </div>
-            </div>
-            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32 mx-6">
-                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
-                    <span>
-                        Plastik
-                    </span>
-                    <i class="fa-light fa-money-check-dollar text-sky-600"></i>
-                </p>
-                <div class="leading-none font-semibold">
-                    12450000
-                </div>
-            </div>
-            <div class="bg-gray-50 px-2 py-1.5 shadow-sm rounded w-32">
-                <p class="text-sm text-gray-400 leading-none mb-2 flex justify-between">
-                    <span>
-                        Qarz
-                    </span>
-                    <i class="fa-light fa-money-check-dollar-pen text-pink-600"></i>
-                </p>
-                <div class="leading-none font-semibold">
-                    12450000
-                </div>
-            </div>
-        </section>
-        <aside class="flex-between-center">
-
+        <SummSale></SummSale>
+        <aside class="flex-between-center mb-3">
             <div>
                 <RouterLink to="/soldproducts" class="py-1.5 inline-block">
                     <i class="fa-light fa-arrow-up-from-dotted-line text-red-600 mr-4"></i> Sotilgan
@@ -78,9 +43,12 @@
     </section>
 </template>
 <script setup lang="ts">
-import onScan from 'onscan.js'
-import ListProducts from './components/ListProductsSold.vue'
 import { reactive, watch, onUnmounted, ref, onMounted, provide } from 'vue'
+import SummSale from '@/components/SummSale.vue'
+import ListProducts from './components/ListProductsSold.vue'
+import { sumSale } from '@/store/useSumSaleStore'
+import onScan from 'onscan.js'
+const saleStore = sumSale()
 
 const tables = ref()
 const PageData = reactive({
@@ -90,6 +58,7 @@ const PageData = reactive({
     blocker: true,
     searchInput: null,
     activeList: null,
+    saleSummed: null
 })
 
 watch(() => PageData.textInBarcode , (currentValue) => {
@@ -97,14 +66,8 @@ watch(() => PageData.textInBarcode , (currentValue) => {
     if (currentValue == null || PageData.blocker == false) return
     PageData.blocker = false
 
-    if(currentValue.includes(window.location.host)){
-        productId = currentValue.slice(currentValue.lastIndexOf('/') + 1);
-    }
-    else{
-        productId = currentValue.replace('product', '')
-    }
-
-    console.log(productId)
+    if(currentValue.includes(window.location.host)) productId = currentValue.slice(currentValue.lastIndexOf('/') + 1);
+    else productId = currentValue.replace('product', '')
     
     getProductById(productId)
 })
@@ -208,7 +171,7 @@ function sold(sale){
     })
     
     if(tables.value.SellAgGrid) tables.value.SellAgGrid.api.applyTransaction({add: [sale],addIndex: 0})
-    
+    saleStore.getDayInfo()
     closeListProducts()
 }
 

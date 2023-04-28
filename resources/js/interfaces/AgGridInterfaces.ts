@@ -1,4 +1,4 @@
-import { GridApi, ColumnApi } from "ag-grid-community";
+import { GridApi, ColumnApi } from "ag-grid-community"
 
 
 export interface GridOptions {

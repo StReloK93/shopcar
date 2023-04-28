@@ -1,0 +1,1 @@
+import{u as o,P as r,a}from"./Products.b499b60e.js";import{d as c,u as n,g as e,a as t}from"./app.eed0d982.js";import"./useGridProductStore.df2f0e79.js";const f=c({__name:"ExistProducts",setup(p){const s=o();return(u,m)=>n(s).getListType?(t(),e(r,{key:0})):(t(),e(a,{key:1}))}});export{f as default};

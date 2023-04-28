@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 
+@font-face {
+  font-family: 'fervojo';
+  src: url('fervojo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer components {
 	.router-link-active {
 		@apply text-pink-500;

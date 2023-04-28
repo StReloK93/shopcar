@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import { ref, Ref } from "vue"
-import moment from '@/modules/moment'
 import { saleSummed } from '@/modules/helpers'
 import { SummSale } from "@/interfaces/AgGridInterfaces"
 export const sumSale = defineStore('sumSale', () => {

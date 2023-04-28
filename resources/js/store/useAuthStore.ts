@@ -2,7 +2,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import router from "@/router"
-import { getStorageKey , setStorageKey } from "@/modules/localstorage"
 
 export const useAuthStore = defineStore('Auth', () => {
     const user = ref(null)

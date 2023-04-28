@@ -1,6 +1,6 @@
 <template>
     <section class="my-2">
-        <form class="flex" @submit.prevent="updateSizeName(SizeNames)">
+        <form class="flex" @submit.prevent="emit('updated', SizeNames)">
             <div @click="toggle" :class="{ 'cursor-pointer': isFolder && SizeNames.disabled }" class="select-none flex items-center justify-between border-b bg-gray-50 shadow-sm flex-grow px-2 py-0.5">
                 <input
                     :class="{ '!border-pink-600 shadow-inner': SizeNames.disabled == false, 'cursor-pointer': isFolder && SizeNames.disabled }"
@@ -21,7 +21,7 @@
                 <button v-if="SizeNames.shop_id != null" @click="createSize(SizeNames)" class="mini-button h-full mr-4 text-pink-500 border-pink-500">
                     <i class="fa-light fa-rectangle-history-circle-plus"></i>
                 </button>
-                <button @click="$emit('deleted', SizeNames)" type="button" class="mini-button h-full">
+                <button @click="emit('deleted', SizeNames)" type="button" class="mini-button h-full">
                     <i class="far fa-times"></i>
                 </button>
             </main>
@@ -52,14 +52,8 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-defineEmits(['deleted'])
-
+const emit = defineEmits(['deleted', 'updated'])
 const { SizeNames } = defineProps({ SizeNames: Object })
-console.log(SizeNames)
-
-SizeNames.disabled = true
-SizeNames.oldname = SizeNames.name
-
 
 SizeNames.sizes.forEach(size => {
     size.disabled = true
@@ -69,21 +63,11 @@ SizeNames.sizes.forEach(size => {
 
 const isOpen = ref(false)
 
-const isFolder = computed(() => {
-    return SizeNames.sizes && SizeNames.sizes.length
-})
+const isFolder = computed(() => SizeNames.sizes?.length)
 
 function toggle() {
     if (SizeNames.disabled == false) return
     isOpen.value = !isOpen.value
-}
-
-function updateSizeName(SizeNames) {
-    if (SizeNames.name == SizeNames.oldname) return SizeNames.disabled = true
-    axios.put(`/sizenames/${SizeNames.id}`, { name: SizeNames.name }).then(() => {
-        SizeNames.disabled = true
-        SizeNames.oldname = SizeNames.name
-    })
 }
 
 function createSize(SizeNames){

@@ -12,7 +12,7 @@
         <section class="bg-white px-1 py-2 flex items-center">
             <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
             <input 
-                @input="(event: any) => SellAgGrid.api.setQuickFilter(event.target.value)" 
+                @input="(event: any) => GridSold.api.setQuickFilter(event.target.value)" 
                 id="searchInput"
                 type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
             >
@@ -25,12 +25,13 @@
     </aside>
 </template>
 <script setup lang="ts">
-import { GridOptions } from '@/interfaces/AgGridInterfaces'
 import RefundListProducts from '../components/RefundListProducts.vue'
-import { reactive } from 'vue'
+import { GridSoldStore } from '@/store/useGridSoldStore'
+import { onUnmounted, reactive } from 'vue'
 import { sumSale } from '@/store/useSumSaleStore'
 const saleStore = sumSale()
 
+const GridSold = GridSoldStore()
 
 axios.get('sale').then(({ data }) => PageData.sells = data)
 
@@ -85,11 +86,11 @@ const PageData = reactive({
 
 function backup(sale){
     if(sale == false){
-        SellAgGrid.api.applyTransaction({remove: [PageData.editSold]})
+        GridSold.api.applyTransaction({remove: [PageData.editSold]})
         PageData.editSold = null
     }
     else{
-        const rowNode = SellAgGrid.api.getRowNode(sale.id)
+        const rowNode = GridSold.api.getRowNode(sale.id)
         rowNode.setData(sale)
         PageData.editSold = null
     }
@@ -102,15 +103,17 @@ function editSold(selected){
 }
 
 function deleted(selectSale){
-    SellAgGrid.api.applyTransaction({remove: [selectSale]})
+    GridSold.api.applyTransaction({remove: [selectSale]})
 }
 
-const SellAgGrid: GridOptions = reactive({ api: null, columnApi: null })
 function gridReady(grid) {
-    SellAgGrid.api = grid.api
-    SellAgGrid.columnApi = grid.columnApi
+    GridSold.api = grid.api
+    GridSold.columnApi = grid.columnApi
 }
 
-defineExpose({ SellAgGrid })
+onUnmounted(() => {
+    GridSold.api = null
+    GridSold.columnApi = null
+})
 </script>
-<style src="../../../assets/ag-grid.css" scoped></style>
+<style src="@/assets/ag-grid.css" scoped></style>

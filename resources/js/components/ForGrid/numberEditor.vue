@@ -8,23 +8,17 @@
 import type { ICellEditorParams } from "ag-grid-community";
 import { ref, onMounted } from "vue";
 type Props = {
-  params: ICellEditorParams;
+    params: ICellEditorParams;
 }
 
 export default {
     setup(props: Props) {
         const value = ref(props.params.value)
-        
-        
         const inputNumber = ref()
         onMounted(() => {
             setTimeout(() => inputNumber.value.focus());
         })
-
-
-
-
-        return {value, inputNumber ,getValue: () => value.value}
+        return { value, inputNumber, getValue: () => value.value }
     }
 };
 </script>

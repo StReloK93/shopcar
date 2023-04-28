@@ -1,1 +1,0 @@
-import{u,P as n,a as p}from"./Products.f8ed9ccb.js";import{d as f,r,u as d,g as t,o}from"./app.93c92701.js";const y=f({__name:"ExistProducts",setup(m,{expose:a}){const c=u(),e=r(),s=r();return a({productNames:e,products:s}),(_,i)=>d(c).getListType?(o(),t(n,{key:0,ref_key:"productNames",ref:e},null,512)):(o(),t(p,{key:1,ref_key:"products",ref:s},null,512))}});export{y as default};

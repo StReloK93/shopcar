@@ -1,7 +1,7 @@
 <template>
     <div class="relative p-1">
         <qrcode-vue :value="textForBarcode" :size="89" level="L"/>
-        <div class="text-[8px] absolute top-0.5 right-0 z-50 leading-none text-gray-500 w-14 px-1 text-right">
+        <div class="text-[8px] absolute -top-0.5 right-0 z-50 leading-none text-gray-500 w-14 px-1 text-right">
             <span class="text-xl">{{ product.size.name }}</span>
         </div>
         <div class="flex justify-between items-end text-[7px] h-4">

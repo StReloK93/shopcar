@@ -1,8 +1,8 @@
 <template>
     <section class="relative flex items-start" name="indexSale">
-        <FormAddProduct @create-product="(data) => AnimateAddProducts(data)" />
-        <ProductNames v-if="store.getListType" :editable="true" ref="productNames" class="ml-4 pl-4 border-l h-full" />
-        <Products v-else ref="products" :editable="true" class="ml-4 pl-4 border-l h-full" />
+        <FormAddProduct @create-product="AnimateAddProducts" />
+        <ProductNames v-if="store.getListType" :editable="true" class="ml-4 pl-4 border-l h-full" />
+        <Products v-else :editable="true" class="ml-4 pl-4 border-l h-full" />
     </section>
 </template>
 
@@ -11,19 +11,16 @@ import ProductNames from '@/components/Product/ProductNames.vue'
 import Products from '@/components/Product/Products.vue'
 import FormAddProduct from './components/FormAddProduct.vue'
 import { useListTypeStore } from '@/store/useListTypeStore'
-import { ref } from 'vue'
+import { GridProductStore } from '@/store/useGridProductStore'
+import { GridProductNamesStore } from '@/store/useGridProductNamesStore'
 const store = useListTypeStore()
-const productNames = ref(null)
-const products = ref(null)
+const GridProduct = GridProductStore()
+const GridProductNames = GridProductNamesStore()
 
-
-function AnimateAddProducts(data){
-
+function AnimateAddProducts(data) {
     data.products.forEach(product => product.product_names = { name: data.name })
-
-    if(store.getListType) productNames.value.agGrid.api.applyTransaction({add: [data],addIndex: 0})
-    else products.value.productAgGrid.api.applyTransaction({add: data.products ,addIndex: 0})
-
+    if (store.getListType) GridProductNames.addRow(data)
+    else GridProduct.addRow(data)
 }
 </script>
-<style scoped src="../../assets/selected.css"></style>
+<style scoped src="@/assets/selected.css"></style>

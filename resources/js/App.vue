@@ -16,10 +16,8 @@
 <script setup lang="ts">
 import HeaderNavigate from './components/HeaderNavigate.vue'
 import FooterNavigate from './components/FooterNavigate.vue'
-// @ts-ignore
-import PrintQrcode from './components/product/PrintQrcode.vue'
-// @ts-ignore
-import PrintBarcode from './components/product/PrintBarcode.vue'
+import PrintQrcode from './components/PrintQrcode.vue'
+import PrintBarcode from './components/PrintBarcode.vue'
 import { useProductStore } from './store/useProductStore'
 
 const store = useProductStore()

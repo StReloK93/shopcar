@@ -9,21 +9,39 @@
             </button>
         </div>
         <main v-if="SizeNames.length">
-            <Sizes v-for="size in SizeNames" :key="size.id" :SizeNames="size" @deleted="deleteSizeName"></Sizes>
+            <Sizes v-for="size in SizeNames"
+                :key="size.id"
+                :SizeNames="size"
+                @updated="updateSizeName"
+                @deleted="deleteSizeName"
+            ></Sizes>
         </main>
     </section>
 </template>
 
 <script setup lang="ts">
-import Sizes from '@/components/Sizes.vue';
-import { ref } from 'vue';
+import Sizes from '@/pages/constructor/components/Sizes.vue'
+import { ref } from 'vue'
 const SizeNames = ref([])
 
-
-axios.get('sizenames').then((res) => SizeNames.value = res.data)
+axios.get('sizenames').then((res) => {
+    res.data.forEach(sizeName => {
+        sizeName.disabled = true
+        sizeName.oldname = sizeName.name
+    })
+    SizeNames.value = res.data
+})
 
 function createSize(){
     axios.post('sizenames').then((res) => SizeNames.value.push(res.data))
+}
+
+function updateSizeName(SizeNames) {
+    if (SizeNames.name == SizeNames.oldname) return SizeNames.disabled = true
+    axios.put(`/sizenames/${SizeNames.id}`, { name: SizeNames.name }).then(() => {
+        SizeNames.disabled = true
+        SizeNames.oldname = SizeNames.name
+    })
 }
 
 function deleteSizeName(size){

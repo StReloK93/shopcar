@@ -80,6 +80,17 @@
 <script setup lang="ts">
 import { reactive , watch , computed } from 'vue'
 import { useAuthStore } from '@/store/useAuthStore'
+import { GridProductNamesStore } from '@/store/useGridProductNamesStore'
+import { GridProductStore } from '@/store/useGridProductStore'
+import { GridSoldStore } from '@/store/useGridSoldStore'
+import { sumSale } from '@/store/useSumSaleStore'
+
+
+const GridProductNames = GridProductNamesStore()
+const GridProduct = GridProductStore()
+const GridSold = GridSoldStore()
+
+const saleStore = sumSale()
 const { listProducts, totalPrice , sale } = defineProps(['listProducts', 'totalPrice', 'sale'])
 const emit = defineEmits(['sold','close', 'backup'])
 const store = useAuthStore()
@@ -131,25 +142,26 @@ function finishedSold(){
     
     if(sale) axios.patch(`sale/${sale.id}`, {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
         // tovar qaytarib olinganda
-        // swal.fire({
-        //     icon: 'success',
-        //     title: 'Yangilandi',
-        //     showConfirmButton: false,
-        //     timer: 1000
-        // })
         emit('backup', data)
     })
 
-    else axios.post('sale', {...formData, listProducts: mainListProducts, shop_id: store.user.active_shop }).then(({data}) => {
-        // Tovar sotilganda
-        // swal.fire({
-        //     icon: 'success',
-        //     title: 'Sotildi',
-        //     showConfirmButton: false,
-        //     timer: 1000
-        // })
-        emit('sold', data)
+    else axios.post('sale', {
+        ...formData,
+        listProducts: mainListProducts,
+        shop_id: store.user.active_shop 
+    }).then(({data}) => sold(data))
+}
+
+function sold(sale){
+    sale.sells.forEach(product => {
+        if(GridProductNames.api) GridProductNames.updateSale(product)
+        if(GridProduct.api) GridProduct.updateSale(product)
     })
+
+    if(GridSold.api) GridSold.addRow(sale)
+    
+    saleStore.getDayInfo()
+    emit('sold')
 }
 
 const remaining = computed(() => {

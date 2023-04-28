@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('onrollup')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-4 pb-16 outline-none z-[100]">
+    <section @click="emit('onrollup')" tabindex="0" id="ListProducts" class="full-absolute flex-center p-4 pb-16 outline-none z-[100]">
         <main @click.stop class="min-w-[630px] w-[900px] bg-white h-full flex flex-col justify-between relative">
             <Transition name="scale">
                 <FinishedSold 
@@ -7,14 +7,14 @@
                     @close="closeFinished"
                     :listProducts="listProducts"
                     :totalPrice="totalPrice"
-                    @sold="(sale) => $emit('sold', sale)"
+                    @sold="emit('close')"
                 ></FinishedSold>
             </Transition>
             <header class="text-right bg-gray-100 border-b mb-0">
-                <button @click="$emit('onrollup')" class="px-4 py-2 hover:bg-gray-200">
+                <button @click="emit('onrollup')" class="px-4 py-2 hover:bg-gray-200">
                     <i class="fa-light fa-minus relative top-px"></i>
                 </button>
-                <button @click="$emit('close')" class="px-4 py-2 hover:bg-gray-200">
+                <button @click="emit('close')" class="px-4 py-2 hover:bg-gray-200">
                     <i class="far fa-times text-red-500"></i>
                 </button>
             </header>

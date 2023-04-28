@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import JsBarcodeVue from '../JsBarcode.vue'
+import JsBarcodeVue from './JsBarcode.vue'
 const { productName } = defineProps(['productName'])
 onMounted(() => window.print())
 </script>

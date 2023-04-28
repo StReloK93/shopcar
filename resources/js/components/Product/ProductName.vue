@@ -1,5 +1,5 @@
 <template>
-    <section @click="$emit('close')" class="full-absolute z-[70] p-8">
+    <section @click="emit('close')" class="full-absolute z-[70] p-8">
         <main @click.stop class="h-full min-w-[630px] w-[900px] bg-white flex flex-col justify-between p-2">
             <header class="flex-between-center bg-gray-100 border-b -m-2 mb-0">
                 <div class="px-3 font-semibold">
@@ -33,7 +33,7 @@
                 ></AgGridVue>
             </aside>
             <div v-if="editable" class="mt-3 text-right">
-                <button @click="$emit('deleteProduct', productName)" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
+                <button @click="emit('deleteProduct', productName)" class="py-1 px-3 bg-gray-200 shadow border-b-2 border-pink-500 active:bg-gray-300">
                     <i class="far fa-trash text-pink-500 mr-2"></i> Mahsulotni o'chirish
                 </button>
             </div>
@@ -42,18 +42,17 @@
 </template>
 
 <script setup lang="ts">
-import { GridApi } from "ag-grid-community"
 import { GridOptions } from '../../interfaces/AgGridInterfaces'
 import { ref , reactive , computed, inject } from "vue"
 import { useProductStore } from '../../store/useProductStore'
-import cellEditor from './countEditor.vue'
-import numberEditor from './numberEditor.vue'
-
+import cellEditor from '@/components/ForGrid/countEditor.vue'
+import numberEditor from '@/components/ForGrid/numberEditor.vue'
+import { GridProductNamesStore } from '@/store/useGridProductNamesStore'
+const GridProductNames = GridProductNamesStore()
 const emit = defineEmits(['close','deleteProduct'])
 
-const { productName, gridApi , editable } = defineProps({
+const { productName , editable } = defineProps({
     productName: Object,
-    gridApi: GridApi,
     editable: {
         type: Boolean,
         default: false
@@ -85,27 +84,27 @@ axios.get(`sizenames/${productName.size_names_id}`).then((res) => {
 const columnDefs = ref([
     { headerName: "ID", field: "id" , width: 65  },
     { headerName: "O'lchami", field: "size.name" , flex: 1  },
-    { headerName: "Tan narxi", field: "original_price", editable: true , width: 115 , cellEditor: numberEditor },
-    { headerName: "Sotuv narxi", field: "price" , editable: true , width: 115, cellEditor: numberEditor },
+    { headerName: "Tan narxi", field: "original_price", editable: editable , width: 115 , cellEditor: numberEditor },
+    { headerName: "Sotuv narxi", field: "price" , editable: editable , width: 115, cellEditor: numberEditor },
     { 
         headerName: "Soni",
         field: "count",
-        editable: true,
+        editable: editable,
         width: 120, 
         cellEditor: cellEditor,
     },
-    { headerName: "Kiritilgan sana", field: "created_at" , editable: true , width: 115, cellRenderer: params => moment(params.value).fromNow() },
+    { headerName: "Kiritilgan sana", field: "created_at" , editable: editable , width: 115, cellRenderer: params => moment(params.value).fromNow() },
     { 
         width: 50,
         headerName: "",
-        onCellClicked: (selected) => printQrProduct(selected.data),
+        onCellClicked: (selected) => printProduct(selected.data, 'productQrName'),
         cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
     { 
         width: 50,
         headerName: "",
-        onCellClicked: (selected) => printProduct(selected.data),
+        onCellClicked: (selected) => printProduct(selected.data, 'productName'),
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
@@ -133,26 +132,13 @@ const columnDefs = ref([
     },
 ])
 
-function printProduct(product){
-    store.productName = null
+function printProduct(product, name){
+    store[name] = null
 
     const copyProduct = { ...product }
     copyProduct.count = 1
     setTimeout(() => {
-        store.productName = {
-            name: productName.name,
-            products: [copyProduct] 
-        }
-    })
-}
-
-function printQrProduct(product){
-    store.productQrName = null
-
-    const copyProduct = { ...product }
-    copyProduct.count = 1
-    setTimeout(() => {
-        store.productQrName = {
+        store[name] = {
             name: productName.name,
             products: [copyProduct] 
         }
@@ -169,8 +155,7 @@ function deleteProduct(selectProduct){
             axios.delete(`products/${selectProduct.id}`).then(() => {
                 productAgGrid.api.applyTransaction({remove: [selectProduct]})
                 productName.products = productName.products.filter((product) => product.id != selectProduct.id)
-
-                refreshBaseTable(productName)
+                GridProductNames.update(productName)
             })
         }
     })
@@ -191,24 +176,16 @@ function createProduct(size){
     axios.post('products', formData).then(({data}) => {
         productName.products.push(data)
         productAgGrid.api.applyTransaction({add: [data]})
-
-
-        refreshBaseTable(productName)
+        GridProductNames.update(productName)
     })
 }
 
 function cellValueChanged(row) {
     const selected = row.data
     axios.put(`products/${selected.id}`, selected).then(() => {
-        refreshBaseTable(productName)
+        GridProductNames.update(productName)
     })
 }
-
-function refreshBaseTable(productName){
-    const rowNode = gridApi.getRowNode(productName.id)
-    rowNode.setData(productName)
-}
-
 
 const productAgGrid: GridOptions = reactive({
     api: null,
@@ -220,4 +197,4 @@ function gridReady(grid){
     productAgGrid.columnApi = grid.columnApi
 }
 </script>
-<style src="../../assets/ag-grid.css" scoped></style>
+<style src="@/assets/ag-grid.css" scoped></style>

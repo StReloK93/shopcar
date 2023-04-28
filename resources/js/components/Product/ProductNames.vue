@@ -3,7 +3,6 @@
         <Transition name="fade">
             <ProductName 
                 v-if="productName" 
-                :gridApi="agGrid.api" 
                 :productName="productName"
                 :editable="editable"
                 @close="productName = null"
@@ -14,7 +13,7 @@
             <main class="flex items-center">
                 <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
                 <input 
-                    @input="(event: any) => agGrid.api.setQuickFilter(event.target.value)" 
+                    @input="(event: any) => GridProductNames.api.setQuickFilter(event.target.value)" 
                     id="searchInput"
                     type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
                 >
@@ -28,7 +27,7 @@
                         >
                             Barchasi
                         </label>
-                        <input hidden id="alls" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="all">
+                        <input hidden id="alls" type="radio" name="filte" @change="GridProductNames.api.onFilterChanged()" v-model="filter" value="all">
                     </article>
                     <article class="mx-2">
                         <label for="contains" 
@@ -37,7 +36,7 @@
                         >
                             Mavjud
                         </label>
-                        <input hidden id="contains" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="contain">
+                        <input hidden id="contains" type="radio" name="filte" @change="GridProductNames.api.onFilterChanged()" v-model="filter" value="contain">
                     </article>
                     <article>
                         <label for="emptys"
@@ -46,7 +45,7 @@
                         >
                             Qolmagan
                         </label>
-                        <input hidden id="emptys" type="radio" name="filte" @change="agGrid.api.onFilterChanged()" v-model="filter" value="empty">
+                        <input hidden id="emptys" type="radio" name="filte" @change="GridProductNames.api.onFilterChanged()" v-model="filter" value="empty">
                     </article>
                 </div>
                 <button @click="listStore.setListType(!listStore.type)" type="button" class="text-xl text-blue-600">
@@ -74,12 +73,14 @@
 </template>
 
 <script setup lang="ts">
+import { GridProductNamesStore } from '@/store/useGridProductNamesStore'
 import { useProductStore } from '@/store/useProductStore'
 import { useListTypeStore } from '@/store/useListTypeStore'
-import { GridOptions } from '@/interfaces/AgGridInterfaces'
-import { ref, reactive } from 'vue'
 import ProductName from './ProductName.vue'
-defineProps(['editable'])
+import { ref , onUnmounted } from 'vue'
+
+
+const { editable} = defineProps(['editable'])
 
 const filter = ref('contain')
 
@@ -87,25 +88,18 @@ const ProductNames = ref(null)
 axios.get('productnames').then(({data}) => ProductNames.value = data)
 
 
-
+const GridProductNames = GridProductNamesStore()
 const listStore = useListTypeStore()
 const store = useProductStore()
 
 
 const productName = ref(null)
 
-const agGrid: GridOptions = reactive({api: null,columnApi: null})
-defineExpose({agGrid})
-
 function opening(selected){
     productName.value = null
     setTimeout(() => productName.value = selected.data)
 }
 
-function gridReady(GridReady){
-    agGrid.api = GridReady.api
-    agGrid.columnApi = GridReady.columnApi
-}
 
 
 function deleteProduct(selectedProductName){
@@ -117,11 +111,11 @@ function deleteProduct(selectedProductName){
         if (result.isConfirmed) {
             axios.put(`productnames/delete/${selectedProductName.id}`, selectedProductName).then(() => {
                 if(selectedProductName.sells_sum_count){
-                    const rowNode = agGrid.api.getRowNode(selectedProductName.id)
+                    const rowNode = GridProductNames.api.getRowNode(selectedProductName.id)
                     selectedProductName.products = []
                     rowNode.setData(selectedProductName)
                 }
-                else agGrid.api.applyTransaction({remove: [selectedProductName]})
+                else GridProductNames.api.applyTransaction({remove: [selectedProductName]})
 
                 productName.value = null
             })
@@ -198,5 +192,15 @@ const columnDefs = ref([
         onCellClicked: (selected) => opening(selected),
     },
 ])
+
+function gridReady(GridReady){
+    GridProductNames.api = GridReady.api
+    GridProductNames.columnApi = GridReady.columnApi
+}
+
+onUnmounted(() => {
+    GridProductNames.api = null
+    GridProductNames.columnApi = null
+})
 </script>
-<style src="../../assets/ag-grid.css" scoped></style>
+<style src="@/assets/ag-grid.css" scoped></style>

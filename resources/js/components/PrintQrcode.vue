@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import JsQrcode from '../JsQrcode.vue'
+import JsQrcode from './JsQrcode.vue'
 const { productQrName } = defineProps(['productQrName'])
 onMounted(() => window.print())
 </script>

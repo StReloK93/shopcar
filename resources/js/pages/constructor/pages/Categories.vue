@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import TreeItem from '@/components/TreeItem.vue';
+import TreeItem from '@/pages/constructor/components/TreeItem.vue'
 
 const categories = reactive({
     children_categories: []

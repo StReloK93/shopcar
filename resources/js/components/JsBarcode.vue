@@ -1,6 +1,6 @@
 <template>
     <div class="relative p-1">
-        <svg :id="svgId" class="w-full"></svg>
+        <svg :id="svgId" class="w-full -mx-1"></svg>
         <p class="flex justify-between items-center text-xs">
             <span>{{ productName.name }}</span> <span>{{ product.size.name }}</span>
         </p>
@@ -22,6 +22,6 @@ import { useAuthStore } from '@/store/useAuthStore'
 const auth = useAuthStore()
 const svgId = ref(`product${product.id}`)
 onMounted(() => {
-    JsBarcode(`#${svgId.value}`, product.id , {width: 2 ,height: 55,displayValue: false});
+    JsBarcode(`#${svgId.value}`, svgId.value , {width:  0.8 ,height: 55,displayValue: false});
 })
 </script>

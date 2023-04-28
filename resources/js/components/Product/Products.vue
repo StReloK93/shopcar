@@ -4,7 +4,7 @@
             <main class="flex items-center">
                 <label for="searchInput"></label><i class="fal fa-search text-sm mr-4 relative top-px"></i>
                 <input 
-                    @input="(event: any) => productAgGrid.api.setQuickFilter(event.target.value)" 
+                    @input="(event: any) => GridProduct.api.setQuickFilter(event.target.value)" 
                     id="searchInput"
                     type="text" class="py-0.5 bg-inherit w-full outline-none" placeholder="Izlash"
                 >
@@ -15,35 +15,32 @@
         </section>
         <section class="flex-grow">
             <AgGridVue
-                    class="h-full ag-theme-alpine"
-                    :headerHeight="30"
-                    :getRowId="(params) => params.data.id"
-                    :rowData="rowData"
-                    :columnDefs="columnDefs"
-                    @cellValueChanged="cellValueChanged"
-                    @gridReady="gridReady"
-                    :animateRows="true"
-                    :undoRedoCellEditing="true"
-                ></AgGridVue>
+                class="h-full ag-theme-alpine"
+                :headerHeight="30"
+                :getRowId="(params) => params.data.id"
+                :rowData="rowData"
+                :columnDefs="columnDefs"
+                @cellValueChanged="cellValueChanged"
+                @gridReady="gridReady"
+                :animateRows="true"
+                :undoRedoCellEditing="true"
+            ></AgGridVue>
         </section>
     </aside>
 </template>
-
 <script setup lang="ts">
-import { GridOptions } from '../../interfaces/AgGridInterfaces'
-import { ref , reactive , inject} from "vue"
+import { ref , inject, onUnmounted} from "vue"
 import { useListTypeStore } from '@/store/useListTypeStore'
 import { useProductStore } from '../../store/useProductStore'
-import cellEditor from './countEditor.vue'
-import numberEditor from './numberEditor.vue'
+import cellEditor from '@/components/ForGrid/countEditor.vue'
+import numberEditor from '@/components/ForGrid/numberEditor.vue'
+import { GridProductStore } from '@/store/useGridProductStore'
 
+const GridProduct = GridProductStore()
 const listStore = useListTypeStore()
 
 const { editable } = defineProps({
-    editable: {
-        type: Boolean,
-        default: false
-    },
+    editable: { type: Boolean, default: false },
 })
 
 const getProductById: Function = inject('getProductById', null)
@@ -81,7 +78,7 @@ const columnDefs = ref([
         pinned: 'right',
         width: 50,
         headerName: "",
-        onCellClicked: (selected) => printQrProduct(selected.data),
+        onCellClicked: (selected) => printProduct(selected.data, 'productQrName'),
         cellRenderer: () => '<i class="fa-sharp fa-light fa-qrcode text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
@@ -90,7 +87,7 @@ const columnDefs = ref([
         pinned: 'right',
         width: 50,
         headerName: "",
-        onCellClicked: (selected) => printProduct(selected.data),
+        onCellClicked: (selected) => printProduct(selected.data, 'productName'),
         cellRenderer: () => '<i class="far fa-barcode-read text-blue-500"></i>',
         cellClass: ['hover:bg-gray-200' , 'text-center', 'active:bg-gray-300']
     },
@@ -116,32 +113,18 @@ const columnDefs = ref([
     },
 ])
 
-function printProduct(product){
-    store.productName = null
+function printProduct(product, name){
+    store[name] = null
 
     const copyProduct = { ...product }
     copyProduct.count = 1
     setTimeout(() => {
-        store.productName = {
+        store[name] = {
             name: product.product_names.name,
             products: [copyProduct] 
         }
     })
 }
-
-function printQrProduct(product){
-    store.productQrName = null
-
-    const copyProduct = { ...product }
-    copyProduct.count = 1
-    setTimeout(() => {
-        store.productQrName = {
-            name: product.product_names.name,
-            products: [copyProduct] 
-        }
-    })
-}
-
 
 function deleteProduct(selectProduct){
     if(editable == false) return
@@ -150,34 +133,25 @@ function deleteProduct(selectProduct){
         text: "Jarayonni orqaga qaytarib bo'lmaydi!",
         icon: 'warning',
     }).then((result) => {
-        if (result.isConfirmed) {
-            axios.delete(`products/${selectProduct.id}`).then(() => {
-                productAgGrid.api.applyTransaction({remove: [selectProduct]})
-            })
-        }
+        if (result.isConfirmed) axios.delete(`products/${selectProduct.id}`).then(() => {
+            GridProduct.deleteRow(selectProduct)
+        })
     })
 }
 
 function cellValueChanged(row) {
     if(editable == false) return
-
     const selected = row.data
-    axios.put(`products/${selected.id}`, selected).then(() => {})
-    
-
+    axios.put(`products/${selected.id}`, selected)
 }
-
-
-const productAgGrid: GridOptions = reactive({
-    api: null,
-    columnApi: null
-})
 
 function gridReady(grid){
-    productAgGrid.api = grid.api
-    productAgGrid.columnApi = grid.columnApi
+    GridProduct.api = grid.api
+    GridProduct.columnApi = grid.columnApi
 }
-
-defineExpose({productAgGrid})
+onUnmounted(() => {
+    GridProduct.api = null
+    GridProduct.columnApi = null
+})
 </script>
-<style src="../../assets/ag-grid.css" scoped></style>
+<style src="@/assets/ag-grid.css" scoped></style>
